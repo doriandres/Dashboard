@@ -1,0 +1,97 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+        <title>Iniciar Sesion | TICS</title>
+        <link href="css/materialize.css" rel="stylesheet" type="text/css">
+        <link href="css/custom.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src="js/jquery-3.1.0.min.js"></script>
+        <script src="js/materialize.js"></script>
+        <script src="js/signIn.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('.modal').modal({
+                      dismissible: false,
+                });
+            });
+        </script>
+    </head>
+    <body class="grey lighten-5 grey-text text-darken-2">
+         <header>
+            <div class="navbar-fixed">
+             <nav class="grey darken-4">
+                <div class="nav-wrapper">
+                  <a href="#" class="brand-logo">
+                       <img class="" style="width:230px; margin-left:15px;" src="img/titulo.png">
+                  </a>
+                </div>
+              </nav>
+            </div>
+        </header>
+        <main>
+            <div class="conatiner">
+                <div class="row">
+                    <div class="col s12 m6 l7 hide-on-med-and-down">
+                        <img width="800px" src="img/signin.jpg">
+                    </div>
+                    <div class="col s12 m6 l4 offset-m3">
+                        <div class="col s12">
+                            <blockquote>
+                                <h4>Iniciar Sesión</h4>
+                            </blockquote>
+                        </div>
+                        <div class="col s12 container card">
+                           <div class="container">
+                                   <br>
+                                   <div class="row">
+                                        <div class="input-field col s12">
+                                            <input id="email" type="email" class="validate">
+                                            <label for="email">Correo Electrónico</label>
+                                        </div>
+                                        <div class="input-field col s12">
+                                            <input id="pass" type="password" class="validate">
+                                            <label for="pass">Contraseña</label>
+                                        </div>
+                                        <div class="input-field col s12">
+                                           <button onclick="signIn();" id="signIn-btn" class="btn blue darken-2" type="button">
+                                              <span> <i class="material-icons left">input</i></span>
+                                              Entrar
+                                            </button> 
+                                        </div>
+                                   </div>
+                                   <br>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="loading" class="modal">
+                <div class="modal-content center-align">
+                  <br> 
+                  <div class="preloader-wrapper big active">
+                      <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div><div class="gap-patch">
+                          <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                          <div class="circle"></div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <p class="center-align">Espere un momento...</p>
+                </div>
+            </div>
+        </main>
+        <footer class="page-footer grey darken-2">
+          <div class="footer-copyright">
+            <div class="container">
+            © 2017 Cedes Don Bosco
+            </div>
+          </div>
+        </footer>
+    </body>
+</html>

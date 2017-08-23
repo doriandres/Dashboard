@@ -1,0 +1,458 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+        <title>Dashboard | TICS</title>
+        <link href="css/materialize.css" rel="stylesheet" type="text/css">
+        <link href="css/custom.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src="js/jquery-3.1.0.min.js"></script>
+        <script src="js/materialize.js"></script>
+        <script src="js/dashboard.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('.modal').modal({
+                      dismissible: false,
+                });
+                $('#verAgenda').modal({
+                      dismissible: false,
+                      endingTop: '50%'
+                });
+                initDashboard();
+            });
+        </script>
+    </head>
+    <body class="grey lighten-5 grey-text text-darken-2">
+        <header>
+            <div class="navbar-fixed">
+             <nav class="nav-extended grey darken-4">
+                <div class="nav-wrapper">
+                <!-- Side Nav -->    
+                  <ul id="slide-out" class="side-nav">
+                    <li>
+                      <div class="user-view">
+                          <div class="background">
+                            <img width="300px" src="img/logoblack.png">
+                          </div>
+                      </div>
+                    </li>
+                    <li class="no-padding">
+                        <ul class="collapsible collapsible-accordion">
+                          <li>
+                            <a class="collapsible-header">Dorian Cortés Gonzalez<i class="material-icons">account_circle</i><i class="material-icons right">arrow_drop_down</i></a>
+                            <div class="collapsible-body">
+                              <ul>
+                                <li>
+                                    <a onclick="display_Panel(this)" class="actividad" href="#!">
+                                        <i class="material-icons left">timeline</i> Mi Actividad
+                                    </a>
+                                </li>
+                                <li>
+                                    <a onclick="display_Panel(this)" class="actividad configuraciones" href="#!">
+                                        <i class="material-icons left">settings</i> Configuraciónes
+                                    </a>  
+                                </li>
+                                <li>
+                                    <a href="#!">
+                                        <i class="material-icons left">exit_to_app</i> Cerrar sesión
+                                    </a>  
+                                </li>
+                                <li class="divider"></li>
+                              </ul>
+                            </div>
+                          </li>
+                        </ul>
+                    </li>
+                    <li><a href="#!"><i class="material-icons">announcement</i>Solicitudes<span class="badge gray-text">4</span></a></li>
+                    <li><a href="#!"><i class="material-icons">timeline</i>Actividad</a></li>
+                    <li><div class="divider"></div></li>
+                    <li><a class="subheader">Opciones</a></li>
+                  </ul>
+                  <a href="#" data-activates="slide-out" class="button-collapse">
+                      <i class="material-icons">menu</i>
+                  </a>
+                  <a href="#" class="brand-logo">
+                       <img class="" style="width:230px; margin-left:15px;" src="img/titulo.png">
+                  </a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+                     
+                  </ul>
+                </div>
+                <div class="nav-content">
+                    <!-- Los <a> llevan la clase active-->
+                  <ul id="navbarTabs" class="tabs nav-tabs tabs-transparent grey lighten-2">
+                    <li class="tab">
+                        <a class="grey-text text-darken-2" href="#activosPanel">
+                            <i class="material-icons icon-collapse">dashboard</i>
+                            <i class="material-icons left hide">dashboard</i><!--Relleno-->
+                            <span class="hide-on-small-only">Activos</span>
+                        </a>
+                    </li>
+                    <li class="tab">
+                        <a class="grey-text text-darken-2" href="#espaciosPanel">
+                            <i class="material-icons icon-collapse">place</i>
+                            <i class="material-icons left hide">place</i><!--Relleno-->
+                            <span class="hide-on-small-only">Espacios</span>
+                        </a>
+                    </li>
+                    <li class="tab">
+                        <a class="grey-text text-darken-2" href="#soportePanel">
+                            <i class="material-icons icon-collapse">build</i>
+                            <i class="material-icons left hide">build</i><!--Relleno-->
+                            <span class="hide-on-small-only">Soporte</span>
+                        </a>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+            </div>
+        </header>
+        <main>
+            <!-- Paneles principales -->
+            <div id="PanelesTab" class="tabPanels">
+                <!--Panel Activos -->
+                <div id="activosPanel" class="">
+                        <div class="row">
+                            <!-- Menu de la izquierda -->
+                            <div id="activosSideMenu" class="col s12 m3 hide-on-med-and-down">
+                                    <div class="collection">
+                                        <a id="ver-activos-btn" href="#!" onclick="display_uPanel(this); verActivos();" class="activos-sideNav ver collection-item active"><i class="material-icons left">dashboard</i> Activos</a>
+                                        <a id="solicitar-activos-btn" href="#!" onclick="display_uPanel(this)" class="activos-sideNav solicitar collection-item"><i class="material-icons left">announcement</i> Solicitar Activos</a>
+                                    </div>
+                            </div>
+                            <!-- Contenido -->
+                            <div id="activosPaneles" class="col s12 m8">
+                                <!-- INVENTARIO -->
+                                <div id="ver-activos" class="UPanel ver-activos activos-uPanel active-uPanel">
+                                    <!-- Titulo del UPanel -->
+                                    <blockquote>
+                                        <div class="row">
+                                            <div class="col s6">
+                                                <h4>Activos</h4>
+                                            </div>
+                                            <div class="col s6">
+                                                <div class="input-field col s12 m6">
+                                                    <select>
+                                                      <option value="Ninguno" selected>Todos</option>
+                                                      <option value="Auxiliar">Auxiliar</option>
+                                                      <option value="Equipo">Equipo</option>
+                                                      <option value="Mobiliario">Mobiliario</option>
+                                                    </select>
+                                                    <label>Tipo</label>
+                                                </div>
+                                                <div class="input-field col s12 m6">
+                                                    <select>
+                                                      <option value="Ninguno" selected>Todos</option>
+                                                    </select>
+                                                    <label>Espacio</label>
+                                                </div>
+                                            </div>
+                                             
+                                        </div>
+
+                                    </blockquote>
+                                    <!-- Cuerpo del Upanel -->
+                                    <div id="displayActivos" class="UpanelBody">
+                                      
+                                    </div>
+                                </div>
+                                <!-- SOLICITAR ACTIVO-->
+                                <div id="solicitar-activos" class="UPanel solicitar-activos activos-uPanel">
+                                    <!-- Titulo del UPanel -->
+                                    <blockquote>
+                                        <h4>Solicitar Activo</h4>
+                                    </blockquote>
+                                    <!-- Cuerpo del Upanel -->
+                                    <div class="UpanelBody col s12 m9">
+                                        <div class="card">
+                                            <br>
+                                            <div style="padding-bottom:30px;" class="container">
+                                                <div class="input-field col s12">
+                                                    <select id="solicitar-activos-lista" multiple>
+                                                        <option disabled selected value="">Seleccione los activos</option>
+                                                    </select>
+                                                    <label>Activos</label>
+                                                </div>
+                                                <div class="input-field col s8">
+                                                    <input id="solicitar-activos-fecha" type="text" class="datepicker picker__input">
+                                                    <label>Fecha</label>
+                                                </div>
+                                                <div class="input-field col s4">
+                                                    <input id="solicitar-activos-dias" type="number" value="1" class="validate">
+                                                    <label for="solcitarActivo-3">Cantidad de días</label>
+                                                </div>
+                                                <div class="input-field col s12">
+                                                    <input id="solicitar-activos-comentario" type="text" class="validate">
+                                                    <label for="solcitarActivo-3">Comentario</label>
+                                                </div>
+                                                <p>
+                                                    <input type="checkbox" class="filled-in checkbox-blue" id="solicitar-activos-boleta"/>
+                                                    <label for="solicitar-activos-boleta">Requiere boleta</label>
+                                                </p>
+                                                <button onclick="nuevaSolicitud(this)" name="Activos" class="btn waves-effect blue darken-2" type="button">
+                                                    <i style="margin-right:5px;" class="material-icons left">send</i>Enviar
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <!-- Panel Espacio-->
+                <div id="espaciosPanel" class="">
+                        <div class="row">
+                            <!-- Menu de la izquierda -->
+                            <div id="espaciosSideMenu" class="col s12 m3 hide-on-med-and-down">
+                                <div class="collection">
+                                    <a id="ver-espacios-btn" href="#!" onclick="display_uPanel(this); verEspacios();" class="espacios-sideNav ver collection-item active"><i class="material-icons left">place</i> Espacios</a>
+                                    <a id="solicitar-espacios-btn" href="#!" onclick="display_uPanel(this)" class="espacios-sideNav solicitar collection-item"><i class="material-icons left">announcement</i> Solicitar Espacios</a>
+                                </div>
+                            </div>
+                            <!-- Contenido -->
+                            <div id="espaciosPaneles" class="col s12 m8">     
+                                <!--ESPACIOS-->
+                                <div id="ver-espacios" class="UPanel ver-espacios espacios-uPanel active-uPanel">
+                                     <!-- Titulo del UPanel -->
+                                    <blockquote>
+                                        <div class="row">
+                                            <div class="col s6">
+                                                <h4>Espacios</h4>
+                                            </div>
+                                             <div class="input-field col s3">
+                                                <select>
+                                                  <option value="1" selected>Ninguno</option>
+                                                  <option value="2">Id</option>
+                                                  <option value="3">Planta</option>
+                                                  <option value="3">Estado</option>
+                                                </select>
+                                                <label>Filtros</label>
+                                             </div>
+                                            <div class="input-field col s3">
+                                              <input id="last_name" type="text" class="validate">
+                                              <label for="last_name">Buscar</label>
+                                            </div>
+                                        </div>
+                                    </blockquote>
+                                    <!-- Cuerpo del Upanel -->
+                                    <div id="displayEspacios" class="UpanelBody">
+                                    </div>
+                                </div>
+                                 <!-- SOLICITAR ESPACIO-->
+                                <div id="solicitar-espacios" class="UPanel solicitar-espacios espacios-uPanel">
+                                    <!-- Titulo del UPanel -->
+                                    <blockquote>
+                                        <h4>Solicitar Espacio</h4>
+                                    </blockquote>
+                                    <!-- Cuerpo del Upanel -->
+                                     <div class="UpanelBody col s12 m9">
+                                        <div class="card">
+                                            <br>
+                                            <div style="padding-bottom:30px;" class="container">
+                                                <div class="input-field col s12">
+                                                    <select id="solicitar-espacios-espacio">
+                                                        <option disabled selected value="">Seleccione el espacio</option>
+                                                    </select>
+                                                    <label>Espacio</label>
+                                                </div>
+                                                <div class="input-field col s6">
+                                                    <input id="solicitar-espacios-fecha" type="text" class="datepicker picker__input">
+                                                    <label>Fecha</label>
+                                                </div>
+                                                <div class="input-field col s6">
+                                                    <select multiple id="solicitar-espacios-bloques">
+                                                        <option disabled selected value="">Elija los bloques</option>
+                                                        <option value="1">Bloque 1 (07:00am-08:00am)</option>
+                                                        <option value="2">Bloque 2 (08:00am-09:00am)</option>
+                                                        <option value="3">Bloque 3 (09:20am-10:20am)</option>
+                                                        <option value="4">Bloque 4 (10:20am-11:20am)</option>
+                                                        <option disabled value="">-Almuerzo-</option>
+                                                        <option value="5">Bloque 5 (12:10pm-01:10pm)</option>
+                                                        <option value="6">Bloque 6 (01:10pm-02:10pm)</option>
+                                                        <option value="7">Bloque 7 (02:30pm-03:30pm)</option>
+                                                        <option value="8">Bloque 8 (03:30pm-04:30pm)</option>
+                                                    </select>
+                                                    <label for="solicitar-espacios-bloques">Bloques</label>
+                                                </div>
+                                                <div class="input-field col s12">
+                                                    <input id="solicitar-espacios-comentario" type="text" class="validate">
+                                                    <label for="solicitar-espacios-comentario">Comentario</label>
+                                                </div>
+                                                <button  onclick="nuevaSolicitud(this)" name="Espacios"  class="btn waves-effect blue darken-2" type="button">
+                                                    <i style="margin-right:5px;" class="material-icons left">send</i>Enviar
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>     
+                <!-- Soporte Panel -->
+                <div id="soportePanel" class="">
+                        <div class="row">
+                            <!-- Menu de la izquierda -->
+                            <div class="col s12 m3 hide-on-med-and-down">
+                                <div class="collection">
+                                    <a href="#!" class="collection-item active"><i class="material-icons left">announcement</i> Solicitar Soporte</a>
+                                </div>
+                            </div>
+                            <!-- Contenido -->
+                            <div class="col s12 m8">
+                                <div class="UPanel soporte-uPanel active-uPanel">
+                                    <!-- Titulo del UPanel -->
+                                    <blockquote>
+                                        <h4>Solicitar Soporte</h4>
+                                    </blockquote>
+
+                                    <!-- Cuerpo del Upanel -->
+                                    <div class="UpanelBody col s12 m9">
+                                         <div class="card">
+                                          <div style="padding-bottom:30px;" class="container">
+                                            <br>
+                                            <div class="input-field col s12">
+                                                <select id="solicitar-soporte-espacio">
+                                                    <option disabled selected value="">Seleccione el espacio</option>
+                                                </select>
+                                                <label>Espacio</label>
+                                            </div>  
+                                            <div class="input-field col s12">
+                                                <textarea id='solicitar-soporte-comentario' type="text" class="materialize-textarea textarea-blue"></textarea>
+                                                <label class="" for="text">Descripción del problema</label>
+                                            </div>
+                                            <button  onclick="nuevaSolicitud(this)" name="Soporte"  class="btn waves-effect blue darken-2" type="button">
+                                                    <i style="margin-right:5px;" class="material-icons left">send</i>Enviar
+                                            </button>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+            </div>
+            <div id="tools">     
+            </div><!-- End of tools -->
+            <div id="loading" class="modal" style="z-index: 999; top:30%;">
+                <div class="modal-content center-align">
+                  <br> 
+                  <div class="preloader-wrapper big active">
+                      <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div><div class="gap-patch">
+                          <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                          <div class="circle"></div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <p class="center-align">Cargando, por favor espere un momento...</p>
+                </div>
+            </div>
+            <div id="aux_modals"></div>
+            
+            <div id="solicitudRespuesta" class="modal" style="z-index: 999; top:30%;">
+                <div class="modal-content">
+                  <h4>Respuesta de solicitud</h4>
+                
+                    <p>Agregue una respuesta</p>
+                    <div class="input-field col s8 offset-s2">
+                        <textarea placeholder="Escribir respuesta..." id="solicitud-respuesta" type="text" name="" class="materialize-textarea textarea-blue"></textarea>
+                    </div> 
+                  
+                </div>
+                <div class="modal-footer">
+                  <a href="#!" onclick="slctdRspst()" class="modal-action modal-close waves-effect btn blue darken-2">Enviar</a>
+                  <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
+                </div>
+            </div>
+            <div id="solicitudRespuestaSup" class="modal" style="z-index: 999; top:30%;">
+                <div class="modal-content">
+                  <h4>Respuesta de solicitud de soporte</h4>
+                    <p>Agregue una respuesta</p>
+                    <textarea placeholder="Escribir respuesta..." id="solicitud-respuestaSup" type="text" name="" class="materialize-textarea textarea-blue"></textarea>
+                    <div class="row">
+                        <div class="input-field col s6">
+                           <p>Asigne un nivel de prioridad</p>
+                           <select id="prioridadSelect">
+                               <option class="red lighten-4" value="Alta" selected>Alta</option>
+                               <option class="yellow lighten-4" value="Media">Media</option>
+                               <option class="green accent-1" value="Baja">Baja</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <a href="#!" onclick="slctdRspstSp()" class="modal-action modal-close waves-effect btn blue darken-2">Enviar</a>
+                  <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
+                </div>
+            </div>
+            <div id="changePrioritySup" class="modal" style="z-index: 999; top:30%;">
+                <div class="modal-content">
+                  <h4>Cambiar prioridad</h4>
+                    <p>Seleccione la prioridad</p>
+                    <div class="row">
+                        <div class="input-field col s6">
+                           <select id="changePrioridadSelect" name="">
+                               <option value="Alta" selected>Alta</option>
+                               <option value="Media">Media</option>
+                               <option value="Baja">Baja</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <a href="#!" onclick="chngePsp()" class="modal-action modal-close waves-effect btn blue darken-2">Enviar</a>
+                  <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
+                </div>
+            </div>
+            <div id="changeStatusSup" class="modal" style="z-index: 999; top:30%;">
+                <div class="modal-content">
+                  <h4>Cambiar estado</h4>
+                    <p>Seleccione un estado</p>
+                    <div class="row">
+                        <div class="input-field col s6">
+                           <select id="statusSelect">
+                               <option value="En ejecución" selected>En ejecución</option>
+                               <option value="En cola">En cola</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <a href="#!" onclick="chngeSsp()" class="modal-action modal-close waves-effect btn blue darken-2">Enviar</a>
+                  <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
+                </div>
+            </div>
+            <div id="verAgenda" class="modal modal-fixed-footer" style="z-index: 999; top:30%;">
+                <div class="modal-content">
+                  <h4>Agenda</h4>
+                    <p>Está es la agenda del espacio <span id="labelAgenda"></span></p>
+                    <table class="responsive-table striped centered">
+                        <thead><tr><th>Fecha</th><th>Bloques</th></tr></thead>
+                        <tbody id="displayAgenda">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                  <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cerrar</a>
+                </div>
+            </div>
+            
+        </main>
+        <footer class="page-footer  grey darken-2">
+          <div class="footer-copyright">
+            <div class="container">
+            © 2017 Cedes Don Bosco
+            </div>
+          </div>
+        </footer>
+    </body>
+</html>

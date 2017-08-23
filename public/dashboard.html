@@ -1,0 +1,1066 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+        <title>Dashboard | TICS</title>
+        <link href="css/materialize.css" rel="stylesheet" type="text/css">
+        <link href="css/custom.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src="js/jquery-3.1.0.min.js"></script>
+        <script src="js/materialize.js"></script>
+        <script src="js/dashboard.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('select').material_select();
+                
+                $('.tabs').tabs({ 
+                    swipeable: true,
+                    onShow: function(){}
+                });
+                $('.nav-tabs').tabs({ 
+                    swipeable: true,
+                    onShow: function(){display_tabPanels()}
+                });
+                $('.dropdown-button').dropdown({
+                      constrainWidth: true, // Does not change width of dropdown to that of the activator
+                      belowOrigin: true, // Displays dropdown below the button
+                      alignment: 'right', // Displays dropdown with edge aligned to the left of button
+                      stopPropagation: true
+                    }
+                );
+                $(".button-collapse").sideNav();
+                
+                $('.modal').modal({
+                      dismissible: false,
+                });
+            });
+        </script>
+    </head>
+    <body class="grey lighten-4 grey-text text-darken-2">
+        <header>
+            <div class="navbar-fixed">
+             <nav class="nav-extended grey darken-4">
+                <div class="nav-wrapper">
+                  <a href="#" class="brand-logo">
+                       <img class="" style="width:230px; margin-left:15px;" src="img/titulo.png">
+                  </a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+                     <li><a onclick="display_Panel(this)" class="solicitudes grey-text text-lighten-2" href="#!"><i class="material-icons left">announcement</i> Solicitudes<span class="badge white-text">4</span></a></li>
+                        <li><a data-constrainwidth="false" data-beloworigin="true" class="dropdown-button grey-text text-lighten-2" href="#!" data-activates="dropdown1"><i class="material-icons left">account_circle</i>Dorian Cortés González</a></li>
+                        <ul id="dropdown1" class="dropdown-content grey lighten-3">
+                            <li><a onclick="display_Panel(this)" class="actividad" href="#!"><i class="material-icons left">timeline</i> Mi Actividad</a></li>
+                            <li><a onclick="display_Panel(this)" class="actividad configuraciones" href="#!"><i class="material-icons left">settings</i> Configuraciónes</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#!"><i class="material-icons left">exit_to_app</i> Cerrar sesión</a></li>
+                        </ul>
+                  </ul>
+                  <ul id="slide-out" class="side-nav">
+                    <li><div class="user-view">
+                      <div class="background">
+                        <img src="images/office.jpg">
+                      </div>
+                      <a href="#!user"><img class="circle" src="images/yuna.jpg"></a>
+                      <a href="#!name"><span class="white-text name">John Doe</span></a>
+                      <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
+                    </div></li>
+                    <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+                    <li><a href="#!">Second Link</a></li>
+                    <li><div class="divider"></div></li>
+                    <li><a class="subheader">Subheader</a></li>
+                    <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+                  </ul>
+                  <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+                </div>
+                <div class="nav-content">
+                    <!-- Los <a> llevan la clase active-->
+                  <ul class="tabs nav-tabs tabs-transparent grey lighten-2">
+                    <li class="tab"><a class="grey-text text-darken-2" href="#activosPanel"><i class="material-icons left">content_paste</i> Activos</a></li>
+                    <li class="tab"><a class="grey-text text-darken-2" href="#espaciosPanel"><i class="material-icons left">place</i> Espacios</a></a></li>
+                    <li class="tab"><a class="grey-text text-darken-2" href="#soportePanel"><i class="material-icons left">build</i> Soporte</a></a></li>
+                    <li class="tab"><a class="grey-text text-darken-2" href="#usuariosPanel"><i class="material-icons left">people</i> Usuarios</a></a></li>
+                  </ul>
+                </div>
+              </nav>
+            </div>
+        </header>
+        <main>
+                <div class="tabPanels">
+                    <!-- Paneles principales -->
+                    <div id="activosPanel" class="">
+                        <div class="row">
+                            <!-- Menu de la izquierda -->
+                            <div class="col s12 l3">
+                                    <div class="collection">
+                                        <a id="ver-activos-btn" href="#!" onclick="display_uPanel(this)" class="activos-sideNav ver collection-item active"><i class="material-icons left">content_paste</i> Activos</a>
+                                        <a id="solicitar-activos-btn" href="#!" onclick="display_uPanel(this)" class="activos-sideNav solicitar collection-item"><i class="material-icons left">announcement</i> Solicitar Activos</a>
+                                    </div>
+                                    <div class="collection">
+                                        <a id="nuevo-activos-btn" href="#!" onclick="display_uPanel(this)" class="activos-sideNav nuevo collection-item"><i class="material-icons left">add_circle_outline</i> Nuevo Activo</a>
+                                        <a id="editar-activos-btn" href="#!" onclick="display_uPanel(this)" class="activos-sideNav editar collection-item"><i class="material-icons left">create</i> Editar Activos</a>
+                                        <a href="#!" class="collection-item"><i class="material-icons left">delete_forever</i> Eliminar Activos</a>
+                                    </div>
+
+                            </div>
+                            <!-- Contenido -->
+                            <div class="col m8">
+                                <!-- INVENTARIO -->
+                                <div id="ver-activos" class="UPanel ver-activos activos-uPanel active-uPanel">
+                                    <!-- Titulo del UPanel -->
+                                    <blockquote>
+                                        <div class="row">
+                                            <div class="col s6">
+                                                <h4>Activos</h4>
+                                            </div>
+                                             <div class="input-field col s3">
+                                                <select>
+                                                  <option value="1" selected>Ninguno</option>
+                                                  <option value="2">Id</option>
+                                                  <option value="3">Tipo</option>
+                                                  <option value="3">Espacio</option>
+                                                </select>
+                                                <label>Filtros</label>
+                                             </div>
+                                            <div class="input-field col s3">
+                                              <input id="last_name" type="text" class="validate">
+                                              <label for="last_name">Id</label>
+                                            </div>
+                                        </div>
+                                    </blockquote>
+                                    <!-- Cuerpo del Upanel -->
+                                    <div class="UpanelBody">
+                                        <div class="row">
+                                            <!--Plantilla de articulo-->
+                                            <div class="col s12 m4">
+                                              <div class="card">
+                                                <!-- ID y CHECK -->  
+                                                <div style="padding-top:0px; padding-bottom:0px; padding-left:10px; padding-right:0px;" class="card-action grey lighten-2">
+                                                  <div class="row" style="margin-bottom:0px;">
+                                                    <div class="col s9">
+                                                      <p style="margin-bottom:10px;"><i style="margin-right:10px;" class="material-icons left">power</i>AX-#</p>
+                                                    </div>
+                                                    <div class="col s3">
+                                                        <p style="margin-bottom:10px;">
+                                                          <input type="checkbox" class="filled-in checkbox-blue" id="filled-in-box">
+                                                          <label for="filled-in-box"></label>
+                                                        </p>
+                                                    </div>  
+                                                  </div>
+                                                </div>
+                                                <!-- Titulo y Estado -->    
+                                                <div style="padding-top:0px; padding-bottom:5px; padding-left:10px; padding-right:15px;"  class="card-action">
+                                                    <h5>Auxiliar<span class="new badge blue darken-2" data-badge-caption="">Estado</span></h5>
+                                                    <h6><i style="margin-right:5px;" class="material-icons left">place</i>  Laboratorio</h6>
+                                                    <h6><i style="margin-right:5px;" class="material-icons left">date_range</i>  Fecha</h6>
+                                                </div>
+                                                <!-- Descripción -->
+                                                <div style="padding-top:5px; padding-bottom:10px; padding-left:15px; padding-right:15px;" class="card-action">
+                                                  <h6><i style="margin-right:5px;" class="material-icons left">info_outline</i><b>Descripción</b></h6>
+                                                   <p style="margin-top:10px; margin-bottom:10px;">Cable-HDMI</p>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <!-- Fin de la plantilla del articulo-->
+                                            <!--Plantilla de articulo-->
+                                            <div class="col s12 m4">
+                                              <div class="card">
+                                                <!-- ID y CHECK -->  
+                                                <div style="padding-top:0px; padding-bottom:0px; padding-left:10px; padding-right:0px;" class="card-action grey lighten-2">
+                                                  <div class="row" style="margin-bottom:0px;">
+                                                    <div class="col s9">
+                                                      <p style="margin-bottom:10px;"><i style="margin-right:10px;" class="material-icons left">laptop_mac</i>EQ-#</p>
+                                                    </div>
+                                                    <div class="col s3">
+                                                        <p style="margin-bottom:10px;">
+                                                          <input type="checkbox" class="filled-in" id="filled-in-box">
+                                                          <label for="filled-in-box"></label>
+                                                        </p>
+                                                    </div>  
+                                                  </div>
+                                                </div>
+                                                <!-- Titulo y Estado -->    
+                                                <div style="padding-top:0px; padding-bottom:5px; padding-left:10px; padding-right:15px;"  class="card-action">
+                                                    <h5>Equipo<span class="new badge blue darken-2" data-badge-caption="">Estado</span></h5>
+                                                    <h6><i style="margin-right:5px;" class="material-icons left">place</i>  Laboratorio</h6>
+                                                    <h6><i style="margin-right:5px;" class="material-icons left">date_range</i>  Fecha</h6>
+                                                </div>
+                                                <!-- Descripción -->
+                                                <div style="padding-top:5px; padding-bottom:10px; padding-left:15px; padding-right:15px;" class="card-action">
+                                                  <h6><i style="margin-right:5px;" class="material-icons left">info_outline</i><b>Descripción</b></h6>
+                                                   <p style="margin-top:10px; margin-bottom:10px;">Monitor-Samsung</p>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <!-- Fin de la plantilla del articulo-->
+                                            <!--Plantilla de articulo-->
+                                            <div class="col s12 m4">
+                                              <div class="card">
+                                                <!-- ID y CHECK -->  
+                                                <div style="padding-top:0px; padding-bottom:0px; padding-left:10px; padding-right:0px;" class="card-action grey lighten-2">
+                                                  <div class="row" style="margin-bottom:0px;">
+                                                    <div class="col s9">
+                                                      <p style="margin-bottom:10px;"><i style="margin-right:10px;" class="material-icons left">weekend</i>MB-#</p>
+                                                    </div>
+                                                    <div class="col s3">
+                                                        <p style="margin-bottom:10px;">
+                                                          <input type="checkbox" class="filled-in" id="filled-in-box">
+                                                          <label for="filled-in-box"></label>
+                                                        </p>
+                                                    </div>  
+                                                  </div>
+                                                </div>
+                                                <!-- Titulo y Estado -->    
+                                                <div style="padding-top:0px; padding-bottom:5px; padding-left:10px; padding-right:15px;"  class="card-action">
+                                                    <h5>Mobiliario<span class="new badge blue darken-2" data-badge-caption="">Estado</span></h5>
+                                                    <h6><i style="margin-right:5px;" class="material-icons left">place</i>  Laboratorio</h6>
+                                                    <h6><i style="margin-right:5px;" class="material-icons left">date_range</i>  Fecha</h6>
+                                                </div>
+                                                <!-- Descripción -->
+                                                <div style="padding-top:5px; padding-bottom:10px; padding-left:15px; padding-right:15px;" class="card-action">
+                                                  <h6><i style="margin-right:5px;" class="material-icons left">info_outline</i><b>Descripción</b></h6>
+                                                   <p style="margin-top:10px; margin-bottom:10px;">Escritorio-Café</p>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <!-- Fin de la plantilla del articulo-->
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- SOLICITAR ACTIVO-->
+                                <div id="solicitar-activos" class="UPanel solicitar-activos activos-uPanel">
+                                    <!-- Titulo del UPanel -->
+                                    <blockquote>
+                                        <h4>Solicitar Activo</h4>
+                                    </blockquote>
+                                    <!-- Cuerpo del Upanel -->
+                                    <div class="UpanelBody">
+                                        Solicitar Activo
+                                    </div>
+                                </div>
+
+                                <!-- NUEVO ACTIVO-->
+                                <div id="nuevo-activos" class="UPanel nuevo-activos activos-uPanel">
+                                    <!-- Titulo del UPanel -->
+                                    <blockquote>
+                                        <h4>Nuevo Activo</h4>
+                                    </blockquote>
+                                    <!-- Cuerpo del Upanel -->
+                                    <div class="UpanelBody container">
+                                        <div class="card">
+                                            <div style="padding-bottom:30px;" class="container">
+                                              <br>
+                                              <div class="input-field col s12">
+                                                <select>
+                                                  <option value="" disabled selected>Elija una opción</option>
+                                                  <option value="1">Auxiliar</option>
+                                                  <option value="2">Equipo</option>
+                                                  <option value="3">Mobiliario</option>
+                                                </select>
+                                                <label>Tipo de Activo</label>
+                                              </div>
+
+                                            <div class="input-field col s12">
+                                                <input id="text" type="text" class="validate">
+                                                <label for="text">Descripción</label>
+                                            </div>
+
+                                              <div class="input-field col s12">
+                                                <select>
+                                                  <option value="" disabled selected>Elija una opción</option>
+                                                  <option value="1">Disponible</option>
+                                                  <option value="2">Ocupado</option>
+                                                  <option value="3">Dañado</option>
+                                                </select>
+                                                <label>Estado del activo</label>
+                                              </div>
+                                              <div class="input-field col s12">
+                                                <select>
+                                                  <optgroup label="Planta 1">
+                                                    <option value="1">Option 1</option>
+                                                    <option value="2">Option 2</option>
+                                                  </optgroup>
+                                                  <optgroup label="Planta 2">
+                                                    <option value="3">Option 3</option>
+                                                    <option value="4">Option 4</option>
+                                                  </optgroup>
+                                                </select>
+                                                <label>Espacio del activo</label>
+                                              </div>
+                                              <button class="btn blue darken-2" type="submit" name="action">
+                                                Guardar
+                                              </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                 <!-- EDITAR ACTIVOS-->
+                                <div id="editar-activos" class="UPanel editar-activos activos-uPanel">
+                                    <!-- Titulo del UPanel -->
+                                    <blockquote>
+                                        <h4>Editar Activos</h4>
+                                    </blockquote>
+                                    <!-- Cuerpo del Upanel -->
+                                    <div class="UpanelBody container">
+                                        <div class="card">
+                                          <ul id="tabs-swipe-demo" class="tabs">
+                                            <li class="tab col s3"><a class="active" href="#test-swipe-1">ID-#</a></li>
+                                            <li class="tab col s3"><a class="active" href="#test-swipe-2">Nuevo</a></li>
+                                          </ul>
+                                        </div>
+                                        <div id="test-swipe-1" class="col s12 card">
+                                            <i style="margin-top:15px; cursor:pointer;" class="material-icons right">clear</i>
+                                            <div style="padding-bottom:30px;" class="container">
+                                                  <br>
+                                                  <div class="input-field col s12">
+                                                    <select>
+                                                      <option value="" disabled selected>Elija una opción</option>
+                                                      <option value="1">Auxiliar</option>
+                                                      <option value="2">Equipo</option>
+                                                      <option value="3">Mobiliario</option>
+                                                    </select>
+                                                    <label>Tipo de Activo</label>
+                                                  </div>
+
+                                                <div class="input-field col s12">
+                                                    <input id="text" type="text" class="validate">
+                                                    <label for="text">Descripción</label>
+                                                </div>
+
+                                                  <div class="input-field col s12">
+                                                    <select>
+                                                      <option value="" disabled selected>Elija una opción</option>
+                                                      <option value="1">Disponible</option>
+                                                      <option value="2">Ocupado</option>
+                                                      <option value="3">Dañado</option>
+                                                    </select>
+                                                    <label>Estado del activo</label>
+                                                  </div>
+                                                  <div class="input-field col s12">
+                                                    <select>
+                                                      <optgroup label="Planta 1">
+                                                        <option value="1">Option 1</option>
+                                                        <option value="2">Option 2</option>
+                                                      </optgroup>
+                                                      <optgroup label="Planta 2">
+                                                        <option value="3">Option 3</option>
+                                                        <option value="4">Option 4</option>
+                                                      </optgroup>
+                                                    </select>
+                                                    <label>Espacio del activo</label>
+                                                  </div>
+                                                  <button class="btn blue darken-2" type="submit" name="action">
+                                                    Guardar
+                                                  </button>
+                                                </div>
+                                        </div>
+                                        <div id="test-swipe-2" class="col s12 card">
+                                            <div style="padding-bottom:30px;" class="container">
+                                                <br>
+                                                <div class="input-field col s12">
+                                                    <input id="text" type="text" class="validate">
+                                                    <label for="text">Id del Activo</label>
+                                                </div>
+
+                                                <div class="input-field col s12">
+                                                    <input id="text" type="text" class="validate">
+                                                    <label for="text">Descripción</label>
+                                                </div>
+
+                                                  <div class="input-field col s12">
+                                                    <select>
+                                                      <option value="" disabled selected>Elija una opción</option>
+                                                      <option value="1">Disponible</option>
+                                                      <option value="2">Ocupado</option>
+                                                      <option value="3">Dañado</option>
+                                                    </select>
+                                                    <label>Estado del activo</label>
+                                                  </div>
+                                                  <div class="input-field col s12">
+                                                    <select>
+                                                      <optgroup label="Planta 1">
+                                                        <option value="1">Option 1</option>
+                                                        <option value="2">Option 2</option>
+                                                      </optgroup>
+                                                      <optgroup label="Planta 2">
+                                                        <option value="3">Option 3</option>
+                                                        <option value="4">Option 4</option>
+                                                      </optgroup>
+                                                    </select>
+                                                    <label>Espacio del activo</label>
+                                                  </div>
+                                                  <button class="btn blue darken-2" type="submit" name="action">
+                                                    Guardar
+                                                  </button>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel Espacio-->
+                     <div id="espaciosPanel" class="">
+                        <div class="row">
+                            <!-- Menu de la izquierda -->
+                            <div class="col m3">
+                                <div class="collection">
+                                    <a id="ver-espacios-btn" href="#!" onclick="display_uPanel(this)" class="espacios-sideNav ver collection-item active"><i class="material-icons left">place</i> Espacios</a>
+                                    <a id="solicitar-espacios-btn" href="#!" onclick="display_uPanel(this)" class="espacios-sideNav solicitar collection-item"><i class="material-icons left">announcement</i> Solicitar Espacios</a>
+                                </div>
+                                <div class="collection">
+                                    <a id="nuevo-espacios-btn" href="#!" onclick="display_uPanel(this)" class="espacios-sideNav nuevo collection-item"><i class="material-icons left">add_circle_outline</i> Nuevo Espacio</a>
+                                    <a id="editar-espacios-btn" href="#!" onclick="display_uPanel(this)" class="espacios-sideNav editar collection-item"><i class="material-icons left">create</i> Editar Espacio</a>
+                                    <a href="#!" class="collection-item"><i class="material-icons left">delete_forever</i> Eliminar Espacio</a>
+                                </div>
+                            </div>
+                            <!-- Contenido -->
+                            <div class="col m9">     
+                                <!--ESPACIOS-->
+                                <div id="ver-espacios" class="UPanel ver-espacios espacios-uPanel active-uPanel">
+                                    <!-- Titulo del UPanel -->
+                                    <blockquote>
+                                        <div class="row">
+                                            <div class="col s6">
+                                                <h4>Espacios</h4>
+                                            </div>
+                                             <div class="input-field col s3">
+                                                <select>
+                                                  <option value="1" selected>Ninguno</option>
+                                                  <option value="2">Id</option>
+                                                  <option value="3">Planta</option>
+                                                  <option value="3">Estado</option>
+                                                </select>
+                                                <label>Filtros</label>
+                                             </div>
+                                            <div class="input-field col s3">
+                                              <input id="last_name" type="text" class="validate">
+                                              <label for="last_name">Buscar</label>
+                                            </div>
+                                        </div>
+                                    </blockquote>
+                                    <!-- Cuerpo del Upanel -->
+                                    <div class="UpanelBody">
+                                        <div class="row">
+                                            <!--Plantilla de articulo-->
+                                            <div class="col s12 m4">
+                                              <div class="card">
+                                                <!-- ID y CHECK -->  
+                                                <div style="padding-top:0px; padding-bottom:0px; padding-left:10px; padding-right:0px;" class="card-action grey lighten-2">
+                                                  <div class="row" style="margin-bottom:0px;">
+                                                    <div class="col s9">
+                                                      <p style="margin-bottom:10px;"><i style="margin-right:10px;" class="material-icons left">place</i></p>
+                                                    </div>
+                                                    <div class="col s3">
+                                                        <p style="margin-bottom:10px;">
+                                                          <input type="checkbox" class="filled-in checkbox-blue" id="filled-in-box">
+                                                          <label for="filled-in-box"></label>
+                                                        </p>
+                                                    </div>  
+                                                  </div>
+                                                </div>
+                                                <!-- Titulo y Estado -->    
+                                                <div style="padding-top:0px; padding-bottom:5px; padding-left:10px; padding-right:15px;"  class="card-action">
+                                                    <h5>TICS-##<span class="new badge blue darken-2" data-badge-caption="">Estado</span></h5>
+                                                    <h6><i style="margin-right:5px;" class="material-icons left">ac_unit</i>  Si</h6>
+                                                    <h6><a><i style="margin-right:5px;" class="material-icons left">today</i>  Agenda</a></h6>
+                                                </div>
+                                                <!-- Descripción -->
+                                                <div style="padding-top:5px; padding-bottom:10px; padding-left:15px; padding-right:15px;" class="card-action">
+                                                  <h6><i style="margin-right:5px;" class="material-icons left">info_outline</i><b>Descripción</b></h6>
+                                                   <p style="margin-top:10px; margin-bottom:10px;">Cable-HDMI</p>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <!-- Fin de la plantilla del articulo-->
+                                        </div>
+                                    </div>
+                                </div>
+                                 <!-- SOLICITAR ESPACIO-->
+                                <div id="solicitar-espacios" class="UPanel solicitar-espacios espacios-uPanel">
+                                    <!-- Titulo del UPanel -->
+                                    <blockquote>
+                                        <h4>Solicitar Espacio</h4>
+                                    </blockquote>
+                                    <!-- Cuerpo del Upanel -->
+                                    <div class="UpanelBody">
+                                    solicitar espacio
+                                    </div>
+                                </div>
+                                 <!-- NUEVO ESPACIO-->
+                                <div id="nuevo-espacios" class="UPanel nuevo-espacios espacios-uPanel">
+                                    <!-- Titulo del UPanel -->
+                                    <blockquote>
+                                        <h4>Nuevo Espacio</h4>
+                                    </blockquote>
+                                    <!-- Cuerpo del Upanel -->
+                                    <div class="UpanelBody container">
+                                        <div class="card">
+                                            <div style="padding-bottom:30px;" class="container">
+                                              <br>
+                                            <div class="input-field col s12">
+                                                <input id="nuevoEspacio-codigo" type="text" class="validate">
+                                                <label for="nuevoEspacio-codigo">Código del Espacio</label>
+                                            </div>
+                                            <div class="input-field col s12">
+                                                <select id="nuevoEspacio-planta">
+                                                  <option value="" disabled selected>Elija una opción</option>
+                                                  <option value="1">1° Planta</option>
+                                                  <option value="2">2° Planta</option>
+                                                </select>
+                                                <label>Planta</label>
+                                            </div>
+
+                                            <div class="input-field col s12">
+                                                <input id="nuevoEspacio-descripcion" type="text" class="validate">
+                                                <label for="nuevoEspacio-descripcion">Descripción</label>
+                                            </div>
+                                            
+                                            <p>
+                                              <input type="checkbox" class="filled-in checkbox-blue" id="nuevoEspacio-aireAcondicionado"/>
+                                              <label for="nuevoEspacio-aireAcondicionado">Aire acondicionado</label>
+                                            </p>        
+                                              <button onclick="nuevoEspacio()" class="btn waves-effect blue darken-2" type="button">
+                                                <i style="margin-right:5px;" class="material-icons left">save</i>Guardar
+                                              </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                  <!-- EDITAR ESPACIO-->
+                                <div id="editar-espacios" class="UPanel editar-espacios espacios-uPanel">
+                                    <!-- Titulo del UPanel -->
+                                    <blockquote>
+                                        <h4>Editar Espacios</h4>
+                                    </blockquote>
+                                    <!-- Cuerpo del Upanel -->
+                                    <div class="UpanelBody container">
+                                        <div class="card">
+                                          <ul id="tabs-swipe-demo" class="tabs">
+                                            <li class="tab col s3"><a class="active" href="#test-swipe-a">LAB-#</a></li>
+                                            <li class="tab col s3"><a class="active" href="#test-swipe-b">Nuevo</a></li>
+                                          </ul>
+                                        </div>
+                                        <div id="test-swipe-a" class="col s12 card">
+                                            <i style="margin-top:15px; cursor:pointer;" class="material-icons right">clear</i>
+                                            <div style="padding-bottom:30px;" class="container">
+                                                  <br>
+                                                  <div class="input-field col s12">
+                                                    <select>
+                                                      <option value="" disabled selected>Elija una opción</option>
+                                                      <option value="1">1° Planta</option>
+                                                      <option value="2">2° Planta</option>
+                                                    </select>
+                                                    <label>Planta</label>
+                                                  </div>
+
+                                                <div class="input-field col s12">
+                                                    <input id="text" type="text" class="validate">
+                                                    <label for="text">Descripción</label>
+                                                </div>
+
+                                                  <button class="btn blue darken-2" type="submit" name="action">
+                                                    Guardar
+                                                  </button>
+                                            </div>
+                                        </div>
+                                        <div id="test-swipe-b" class="col s12 card">
+                                            <div style="padding-bottom:30px;" class="container">
+                                                <br>
+                                                <div class="input-field col s12">
+                                                    <input id="text" type="text" class="validate">
+                                                    <label for="text">Código del Espacio</label>
+                                                </div>
+
+                                                <div class="input-field col s12">
+                                                    <select>
+                                                      <option value="" disabled selected>Elija una opción</option>
+                                                      <option value="1">1° Planta</option>
+                                                      <option value="2">2° Planta</option>
+                                                    </select>
+                                                    <label>Planta</label>
+                                                  </div>
+
+                                                <div class="input-field col s12">
+                                                    <input id="text" type="text" class="validate">
+                                                    <label for="text">Descripción</label>
+                                                </div>
+
+                                                  <button class="btn blue darken-2" type="submit" name="action">
+                                                    Guardar
+                                                  </button>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Usuarios Panel -->
+                    <div id="usuariosPanel" class="">
+                        <div class="row">
+                            <!-- Menu de la izquierda -->
+                            <div class="col m3">
+                                <div class="collection">
+                                    <a id="ver-usuarios-btn" href="#!" onclick="display_uPanel(this)" class="usuarios-sideNav ver collection-item active"><i class="material-icons left">people</i> Usuarios</a>
+                                </div>
+                                <div class="collection">
+                                    <a id="nuevo-usuarios-btn" href="#!" onclick="display_uPanel(this)" class="usuarios-sideNav nuevo collection-item"><i class="material-icons left">add_circle_outline</i> Nuevo Usuario</a>
+                                    <a id="editar-usuarios-btn" href="#!" onclick="display_uPanel(this)" class="usuarios-sideNav editar collection-item"><i class="material-icons left">create</i> Editar Usuarios</a>
+                                    <a href="#!" class="collection-item"><i class="material-icons left">delete_forever</i> Eliminar Usuarios</a>
+                                </div>
+                            </div>
+                            <!-- Contenido -->
+                            <div class="col m8">
+                                <!-- Usuarios -->
+                                <div id="ver-usuarios" class="UPanel ver-usuarios usuarios-uPanel active-uPanel">
+                                    <!-- Titulo del UPanel -->
+                                    <blockquote>
+                                        <h4>Usuarios</h4>
+                                    </blockquote>
+
+                                    <!-- Cuerpo del Upanel -->
+                                    <div class="UpanelBody">
+                                          <table class="card bordered striped centered responsive-table">
+                                            <thead>
+                                              <tr>
+                                                  <th><i style="margin-left:30px;" class="material-icons left">indeterminate_check_box</i></th>
+                                                  <th>Correo Electrónico</th>
+                                                  <th>Nombre</th>
+                                                  <th>1° Apellido</th>
+                                                  <th>2° Apellido</th>
+                                                  <th>Tipo</th>
+                                              </tr>
+                                            </thead>
+
+                                            <tbody>
+                                              <tr>
+                                                <td> 
+                                                    <input type="checkbox" class="filled-in" id="filled"/>
+                                                    <label for="filled"></label>
+                                                </td>  
+                                                <td>direccion@correo.com</td>
+                                                <td>Nombre</td>
+                                                <td>ApellidoI</td>
+                                                <td>ApellidoII</td>
+                                                <td>Administrador</td>  
+                                              </tr>
+
+                                            </tbody>
+                                          </table>
+                                    </div>
+                                </div>
+                                 <!-- NUEVO Usuario-->
+                                <div id="nuevo-usuarios" class="UPanel nuevo-usuarios usuarios-uPanel">
+                                    <!-- Titulo del UPanel -->
+                                    <blockquote>
+                                        <h4>Nuevo Usuario</h4>
+                                    </blockquote>
+                                    <!-- Cuerpo del Upanel -->
+                                    <div class="UpanelBody container">
+                                        <div class="card">
+                                            <div style="padding-bottom:30px;" class="container">
+                                            <br>
+                                            <div class="input-field col s12">
+                                                <input id="text" type="email" class="validate">
+                                                <label for="text">Correo electrónico</label>
+                                            </div>
+                                            <div class="input-field col s12">
+                                                <input id="text" type="text" class="validate">
+                                                <label for="text">Nombre</label>
+                                            </div>    
+                                            <div class="input-field col s6">
+                                                <input id="text" type="text" class="validate">
+                                                <label for="text">1° Apellido</label>
+                                            </div> 
+                                            <div class="input-field col s6">
+                                                <input id="text" type="text" class="validate">
+                                                <label for="text">2° Apellido</label>
+                                            </div>     
+                                              <div class="input-field col s12">
+                                                <select>
+                                                  <option value="" disabled selected>Elija una opción</option>
+                                                  <option value="1">Administrador</option>
+                                                  <option value="2">Docente</option>
+                                                  <option value="3">Estudiante</option>
+                                                </select>
+                                                <label>Tipo</label>
+                                              </div>
+                                            <div class="input-field col s12">
+                                                <input id="text" type="password" class="validate">
+                                                <label for="text">Contraseña</label>
+                                            </div>
+                                             <div class="input-field col s12">
+                                                <input id="text" type="password" class="validate">
+                                                <label for="text">Confirmar contraseña</label>
+                                            </div>         
+                                              <button class="btn blue darken-2" type="submit" name="action">
+                                                Guardar
+                                              </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- EDITAR Usuario-->
+                                <div id="editar-usuarios" class="UPanel editar-usuarios usuarios-uPanel">
+                                    <!-- Titulo del UPanel -->
+                                    <blockquote>
+                                        <h4>Editar Usuarios</h4>
+                                    </blockquote>
+                                    <!-- Cuerpo del Upanel -->
+                                    <div class="UpanelBody">
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Soporte Panel -->
+                    <div id="soportePanel" class="">
+                        <div class="row">
+                            <!-- Menu de la izquierda -->
+                            <div class="col m3">
+                                <div class="collection">
+                                    <a href="#!" class="collection-item active"><i class="material-icons left">announcement</i> Solicitar Soporte</a>
+                                </div>
+                            </div>
+                            <!-- Contenido -->
+                            <div class="col m9">
+                                <div class="UPanel soporte-uPanel active-uPanel">
+                                    <!-- Titulo del UPanel -->
+                                    <blockquote>
+                                        <h4>Solicitar Soporte</h4>
+                                    </blockquote>
+
+                                    <!-- Cuerpo del Upanel -->
+                                    <div class="UpanelBody container">
+                                         <div class="card">
+                                          <div style="padding-bottom:30px;" class="container">
+                                            <br>
+                                            <div class="input-field col s12">
+                                                <select>
+                                                  <option value="" disabled selected>Elija una opción</option>
+                                                  <optgroup label="Planta 1">
+                                                        <option value="1">Option 1</option>
+                                                        <option value="2">Option 2</option>
+                                                  </optgroup>
+                                                  <optgroup label="Planta 2">
+                                                        <option value="3">Option 3</option>
+                                                        <option value="4">Option 4</option>
+                                                  </optgroup>
+                                                </select>
+                                                <label>Espacio</label>
+                                            </div>  
+                                            <div class="input-field col s12">
+                                                <textarea id="text" type="text" class="materialize-textarea"></textarea>
+                                                <label for="text">Descripción del problema</label>
+                                            </div>
+
+
+                                            <button class="btn blue darken-2" type="submit" name="action">
+                                                Guardar
+                                            </button>
+                                          </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+                <!-- Solicitudes Panel -->
+                <div id="solicitudesPanel" class="Panel adminPanel">
+                    <div class="row">
+                        <!-- Menu de la izquierda -->
+                        <div class="col m3">
+                            <div class="collection">
+                                <a href="#!" class="collection-item active"><i class="material-icons left">content_paste</i> Solicitudes Generales</a>
+                                <a href="#!" class="collection-item"><i class="material-icons left">announcement</i> Historial General de solicitudes</a>
+                                <a href="#!" class="collection-item"><i class="material-icons left">announcement</i> Solicitudes Pendientes</a>
+                            </div>
+                        </div>
+                        <!-- Contenido -->
+                        <div class="col m9">
+                            <div class="UPanel solicitudes-uPanel active-uPanel">
+                                <!-- Titulo del UPanel -->
+                                <blockquote>
+                                    <h4>Solicitudes Generales</h4>
+                                </blockquote>
+                                
+                                <!-- Cuerpo del Upanel -->
+                                <div class="UpanelBody">
+                                    <div class="row">
+
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <!-- Actividad Panel -->
+                <div id="actividadPanel" class="Panel adminPanel">
+                    <div class="row">
+                        <!-- Menu de la izquierda -->
+                        <div class="col m3">
+                            <div class="card">
+                                <div class="container">
+                                    <br>
+                                    <div class="row">
+                                        <div class="col s2 left-align"><h6><i class="material-icons medium  blue-text text-darken-2">account_circle</i></h6></div>
+                                        <div style="padding-left:40px; padding-top:6px; font-size:20px;" class="col s10 left-align">Dorian Cortés González</div>
+                                        <div class="col s12 left-align"><blockquote><h6><big>Administrador</big></h6></blockquote></div>
+                                        <br>
+                                    </div> 
+                                </div>           
+                            </div>
+                            <div class="collection">
+                                <a href="#!" class="collection-item active"><i class="material-icons left">timeline</i> Mi Actividad</a>
+                                <a href="#!" class="collection-item"><i class="material-icons left">history</i> Historial de Solicitudes</a>
+                                <a href="#!" class="collection-item"><i class="material-icons left">warning</i> Solicitudes en Espera</a>
+                            </div>
+                            <div class="collection">
+                                <a href="#!" class="collection-item"><i class="material-icons left">settings</i> Configuración del Usuario</a>
+                                <a href="#!" class="collection-item"><i class="material-icons left">exit_to_app</i> Cerrar Sesión</a>
+                            </div>
+                        </div>
+                        <!-- Contenido -->
+                        <div class="col m8">
+                            <div style="display:block;" class="UPanel actividad-uPanel active-uPanel">
+                                <!-- Titulo del UPanel -->
+                                    <blockquote>
+                                        <div class="row">
+                                            <div class="col s6">
+                                                <h4>Mi Actividad</h4>
+                                            </div>
+                                             <div class="input-field col s3">
+                                                <select multiple>
+                                                  <option value="1" selected disabled>Ninguno</option>
+                                                   <option value="1">Activos</option>
+                                                   <option value="2">Espacios</option>
+                                                   <option value="2">Usuarios</option>
+                                                   <option disabled>Actividad</option>
+                                                   <option value="3">Nuevo</option>
+                                                   <option value="4">Edición</option>
+                                                   <option value="4">Eliminación</option>
+                                                </select>
+                                                <label>Filtros</label>
+                                             </div>
+                                            <div class="input-field col s3">
+                                              <input id="last_name" type="text" class="validate">
+                                              <label for="last_name">Id</label>
+                                            </div>
+                                        </div>
+                                    </blockquote>
+                                
+                                <!-- Cuerpo del Upanel -->
+                                <div class="UpanelBody">
+                                    <div class="row">
+                                         <!--Plantilla de articulo-->
+                                            <div class="col s12">
+                                              <div class="card">
+                                                <!-- ID y CHECK -->  
+                                                <div style="padding-top:0px; padding-bottom:0px; padding-left:10px; padding-right:0px;" class="card-action grey lighten-2">
+                                                  <div class="row" style="margin-bottom:0px;">
+                                                    <div class="col s9">
+                                                      <p style="margin-bottom:10px;"><i style="margin-right:10px;" class="material-icons left">timeline</i>ID</p>
+                                                    </div>
+                                                    <div class="col s3">
+                                                        <p style="margin-bottom:10px;" class="right-align">
+                                                          <i style="margin-right:10px; cursor:pointer;" class="material-icons">delete_forever</i>
+                                                        </p>
+                                                    </div>  
+                                                  </div>
+                                                </div>
+                                                <!-- Titulo y Estado -->    
+                                                <div style="padding-top:0px; padding-bottom:0px; margin-bottom:0px; padding-left:10px; padding-right:15px;"  class="card-action row">
+                                                    <div class="col s10">
+                                                        <h5>
+                                                            <i style="margin-right:10px; cursor:pointer;" class="material-icons left">content_paste</i>Activo
+                                                        </h5>
+                                                         <p><i style="margin-right:5px;" class="material-icons left">create</i> Editado</p>
+                                                        
+                                                    </div>
+                                                    <div class="col s2">
+                                                        <p><i style="margin-right:10px; cursor:pointer;" class="material-icons left">date_range</i>Fecha</p>
+                                                    </div>
+                                                </div>
+                                                <!-- Descripción -->
+                                                <div style="padding-top:5px; padding-bottom:10px; padding-left:15px; padding-right:15px;" class="card-action">
+                                                  <table class="centered responsive-table bordered">
+                                                    <thead>
+                                                      <tr>
+                                                          <th>Id</th>
+                                                          <th>Tipo</th>
+                                                          <th>Descripción</th>
+                                                      </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                      <tr class="red lighten-4">
+                                                        <td>AX-#</td>
+                                                        <td>Auxiliar</td>
+                                                        <td>Cable</td>
+                                                      </tr>
+                                                      <tr class="green accent-1">
+                                                        <td>AX-#</td>
+                                                        <td>Auxiliar</td>
+                                                        <td>Cable-HDMI</td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>  
+                                                </div>
+                                              </div>
+                                            </div>
+                                           <!-- Fin de la plantilla -->
+                                             <!--Plantilla de articulo-->
+                                            <div class="col s12">
+                                              <div class="card">
+                                                <!-- ID y CHECK -->  
+                                                <div style="padding-top:0px; padding-bottom:0px; padding-left:10px; padding-right:0px;" class="card-action grey lighten-2">
+                                                  <div class="row" style="margin-bottom:0px;">
+                                                    <div class="col s9">
+                                                      <p style="margin-bottom:10px;"><i style="margin-right:10px;" class="material-icons left">timeline</i>ID</p>
+                                                    </div>
+                                                    <div class="col s3">
+                                                        <p style="margin-bottom:10px;" class="right-align">
+                                                          <i style="margin-right:10px; cursor:pointer;" class="material-icons">delete_forever</i>
+                                                        </p>
+                                                    </div>  
+                                                  </div>
+                                                </div>
+                                                <!-- Titulo y Estado -->    
+                                                <div style="padding-top:0px; padding-bottom:0px; margin-bottom:0px; padding-left:10px; padding-right:15px;"  class="card-action row">
+                                                    <div class="col s10">
+                                                        <h5>
+                                                            <i style="margin-right:10px; cursor:pointer;" class="material-icons left">content_paste</i>Activo
+                                                        </h5>
+                                                         <p><i style="margin-right:0px;" class="material-icons left">add_circle_outliner</i>Creado</p>
+                                                        
+                                                    </div>
+                                                    <div class="col s2">
+                                                        <p><i style="margin-right:10px; cursor:pointer;" class="material-icons left">date_range</i>Fecha</p>
+                                                    </div>
+                                                </div>
+                                                <!-- Descripción -->
+                                                <div style="padding-top:5px; padding-bottom:10px; padding-left:15px; padding-right:15px;" class="card-action">
+                                                  <table class="centered responsive-table bordered">
+                                                    <thead>
+                                                      <tr>
+                                                          <th>Id</th>
+                                                          <th>Tipo</th>
+                                                          <th>Descripción</th>
+                                                      </tr>
+                                                    </thead>
+
+                                                    <tbody>                                       
+                                                      <tr class="green accent-1">
+                                                        <td>MB-#</td>
+                                                        <td>Mobiliario</td>
+                                                        <td>Escritorio-Café</td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>  
+                                                </div>
+                                              </div>
+                                            </div>
+                                           <!-- Fin de la plantilla -->
+                                             <!--Plantilla de articulo-->
+                                            <div class="col s12">
+                                              <div class="card">
+                                                <!-- ID y CHECK -->  
+                                                <div style="padding-top:0px; padding-bottom:0px; padding-left:10px; padding-right:0px;" class="card-action grey lighten-2">
+                                                  <div class="row" style="margin-bottom:0px;">
+                                                    <div class="col s9">
+                                                      <p style="margin-bottom:10px;"><i style="margin-right:10px;" class="material-icons left">timeline</i>ID</p>
+                                                    </div>
+                                                    <div class="col s3">
+                                                        <p style="margin-bottom:10px;" class="right-align">
+                                                          <i style="margin-right:10px; cursor:pointer;" class="material-icons">delete_forever</i>
+                                                        </p>
+                                                    </div>  
+                                                  </div>
+                                                </div>
+                                                <!-- Titulo y Estado -->    
+                                                <div style="padding-top:0px; padding-bottom:0px; margin-bottom:0px; padding-left:10px; padding-right:15px;"  class="card-action row">
+                                                    <div class="col s10">
+                                                        <h5>
+                                                            <i style="margin-right:10px; cursor:pointer;" class="material-icons left">content_paste</i>Activo
+                                                        </h5>
+                                                         <p><i style="margin-right:5px;" class="material-icons left">delete_forever</i> Eliminado</p>
+                                                        
+                                                    </div>
+                                                    <div class="col s2">
+                                                        <p><i style="margin-right:10px; cursor:pointer;" class="material-icons left">date_range</i>Fecha</p>
+                                                    </div>
+                                                </div>
+                                                <!-- Descripción -->
+                                                <div style="padding-top:5px; padding-bottom:10px; padding-left:15px; padding-right:15px;" class="card-action">
+                                                  <table class="centered responsive-table bordered">
+                                                    <thead>
+                                                      <tr>
+                                                          <th>Id</th>
+                                                          <th>Tipo</th>
+                                                          <th>Descripción</th>
+                                                      </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                      <tr class="red lighten-4">
+                                                        <td>EQ-#</td>
+                                                        <td>Equipo</td>
+                                                        <td>Monitor-SAMSUNG</td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>  
+                                                </div>
+                                              </div>
+                                            </div>
+                                           <!-- Fin de la plantilla -->
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           
+            <div id="loading" class="modal">
+                <div class="modal-content center-align">
+                  <br> 
+                  <div class="preloader-wrapper big active">
+                      <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div><div class="gap-patch">
+                          <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                          <div class="circle"></div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <p class="center-align">Espere un momento...</p>
+                </div>
+            </div>
+            
+        </main>
+        <footer class="page-footer  grey darken-2">
+          <div class="footer-copyright">
+            <div class="container">
+            © 2017 Cedes Don Bosco
+            </div>
+          </div>
+        </footer>
+    </body>
+</html>
