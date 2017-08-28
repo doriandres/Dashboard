@@ -1,16 +1,15 @@
 //Paquetes
 var express= require('express'); //Express se encarga del intercambio de datos del protocolo HTTP
 var mongoose= require("mongoose"); //Mongoose se de las conexiones con la base de datos de MongoDB
+var dotenv = require('dotenv');//Permite leer datos sensibles desde el archivo .env, estos se leen desde el objeto process.env
+dotenv.load();
 //Aun no voy a usar estos
 //var nodemailer = require('nodemailer');//NodeMailer se encarga del envio de correos electronicos
 //var xoauth2 = require('xoauth2'); //XOAuth2 se encarga de las credenciales del servicio de la api de Gmail
 //Creacion del servidor
 var app = new express();
-//Conexión con MONGODB
-var urldb="mongodb://192.168.43.209/tics"; //cel doriandres
-//var urldb= "mongodb://192.168.1.9/tics";//casa de marco
 
-mongoose.connect (urldb); //Ruta de conexion con la base de datos de TICS
+mongoose.connect (process.env.urldb); //Ruta de conexion con la base de datos de TICS
 mongoose.connection.on('connected', function () {  
   console.log('Conexion con la base de datos ha sido exitosa');
 });
