@@ -1,4 +1,4 @@
-var ruta = "http://192.168.43.209:8080"; //cel doriandres
+var ruta = "http://localhost:8080"; //cel doriandres
 //var ruta= "http://192.168.1.9:8080"; //casa de marco
 var _ =hdfsb();
 var espaciosList = "";
@@ -7,6 +7,11 @@ var _espacios = new Array();
 var _usuarios = new Array();
 var _user = new Object();
 var audioAlert = new Audio('sounds/nuevaSolicitud.mp3');
+
+$("#activosFiltro").change(function(){
+    alert("change");
+})
+
 function initDashboard(){
     $('#loading').modal('open');
     if ( _ == undefined || _ == null || _ == "undefined"){
@@ -549,6 +554,9 @@ function displayActivos(activos){
         }
         c++;
     }
+}
+function updateActivos(){
+
 }
 function getIconByTipo(tipo){
     var icon="";

@@ -1,5 +1,4 @@
-var ruta="http://192.168.43.209:8080"; //cel mio
-//var ruta= "http://192.168.1.9:8080"; //casa de marco
+var ruta="http://localhost:8080";
 function rdrct(){window.location="/dashboard";}
 function signIn(){
     $('#loading').modal('open');
