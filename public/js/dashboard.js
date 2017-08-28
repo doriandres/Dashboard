@@ -83,6 +83,9 @@ function loadDashboard(w,u){
                  
                  
                  
+                 
+                 
+                 
                   
                 //navbar-tabs
                 elm = '<li class="tab"><a class="grey-text text-darken-2" href="#usuariosPanel"><i class="material-icons icon-collapse">people</i><i class="material-icons left hide">people</i><!--Relleno--><span class="hide-on-small-only">Usuarios</span></a></li>';
