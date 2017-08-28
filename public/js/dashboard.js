@@ -470,7 +470,8 @@ function nuevoActivo(){
                 descripcion: document.getElementById("nuevoActivo-descripcion").value,
                 estado: document.getElementById("nuevoActivo-estado").value,
                 espacio: document.getElementById("nuevoActivo-espacio").value,
-                cantidad: parseInt(document.getElementById("nuevoActivo-cantidad").value)
+                cantidad: parseInt(document.getElementById("nuevoActivo-cantidad").value),
+                user:_user.correo
         }
         
         $.ajax({
@@ -1036,6 +1037,7 @@ function editarElemento(item, tipo){
             messenger.descripcion=document.getElementById('activos-editar-'+id+'-descripcion').value;
             messenger.estado=document.getElementById('activos-editar-'+id+'-estado').value;
             messenger.espacio=document.getElementById('activos-editar-'+id+'-espacio').value;
+            messenger.user=_user.correo;
             $.ajax({
                 type: "POST",
                 url: ruta+"/editarActivo",

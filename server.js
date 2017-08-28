@@ -322,7 +322,11 @@ app.post("/nuevoActivo", function(req, res){
                         }
                         datos.codigo=datos.codigo+"-"+_n.toString();
                         nuevoActivos[i]=new Activo(datos);
-                        nuevoActivos[i].save();
+                        nuevoActivos[i].save(function(err, doc){
+                             var arr=new Array();
+                             arr[0]= doc;
+                             newActivity('Activo', 'Creado', datos.user, arr);
+                        });
                     }             
                 }  
             }else{
@@ -347,7 +351,11 @@ app.post("/nuevoActivo", function(req, res){
                     }
                     datos.codigo=datos.codigo+"-"+numero;
                     nuevoActivos[i]=new Activo(datos);
-                    nuevoActivos[i].save();
+                    nuevoActivos[i].save(function(err, doc){
+                             var arr=new Array();
+                             arr[0]= doc;
+                             newActivity('Activo', 'Creado', datos.user, arr);
+                    });
                 }
             }
             if (err){
