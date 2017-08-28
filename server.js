@@ -305,65 +305,53 @@ app.post("/nuevoActivo", function(req, res){
     req.on('end', function(){
         var respuesta= new Object();
         respuesta.resultado="";
-        for (var i=0; i < datos.cantidad; i++){
-            guardarActivos(datos, i);
-            if (i==datos.cantidad-1){
-                res.setHeader("Content-Type", "text/json", "Access-Control-Allow-Origin", "*");
-                res.send(respuesta);
-                res.end();
-            }
-        }
+        var activoData =  new Activo(datos);
+        activoData.codigo = "";
+        Activo.findOne({'tipo':datos.tipo}, function(err, pack){
+            if (pack==null){
+                        activoData.codigo="";
+                        if (datos.tipo=="Auxiliar"){
+                            activoData.codigo="AUX";
+                        }
+                        if (datos.tipo=="Equipo"){
+                            activoData.codigo="EQU";
+                        }
+                         if (datos.tipo=="Mobiliario"){
+                            activoData.codigo="MOB";
+                        }
+                        activoData.codigo=activoData.codigo+"-1";
+                        activoData.save(function(err){
+                            res.setHeader("Content-Type", "text/json", "Access-Control-Allow-Origin", "*");
+                            res.send(respuesta);
+                            res.end();
+                        });
+            }else{
+                        var disponible="";
+                        var packCode=pack.codigo;
+                        var arrayPack= packCode.split("-");
+                        var num_text=arrayPack[1];
+                        var num_n=  parseInt(num_text);
+                        var n_num= num_n+1+i;
+                        var numero= n_num.toString();
+                        if (datos.tipo=="Auxiliar"){
+                            activoData.codigo="AUX";
+                        }
+                        if (datos.tipo=="Equipo"){
+                            activoData.codigo="EQU";
+                        }
+                         if (datos.tipo=="Mobiliario"){
+                            activoData.codigo="MOB";
+                        }
+                        activoData.codigo=activoData.codigo+"-"+numero;
+                        activoData.save(function(err){
+                            res.setHeader("Content-Type", "text/json", "Access-Control-Allow-Origin", "*");
+                            res.send(respuesta);
+                            res.end();
+                        }); 
+            }   
+        });
     });   
 });
-function guardarActivos(datos, i){
-    var activoData =  new Activo(datos);
-    activoData.codigo = "";
-    Activo.findOne({'tipo':datos.tipo}, function(err, pack){
-        if (pack==null){
-                    activoData.codigo="";
-                    if (datos.tipo=="Auxiliar"){
-                        activoData.codigo="AUX";
-                    }
-                    if (datos.tipo=="Equipo"){
-                        activoData.codigo="EQU";
-                    }
-                     if (datos.tipo=="Mobiliario"){
-                        activoData.codigo="MOB";
-                    }
-                    activoData.codigo=activoData.codigo+"-1";
-                    activoData.save(function(err){
-                        /*respuesta.resultado="ok";    
-                        if (err){
-                            respuesta.resultado="error-a";     
-                        }*/
-                    });
-        }else{
-                    var disponible="";
-                    var packCode=pack.codigo;
-                    var arrayPack= packCode.split("-");
-                    var num_text=arrayPack[1];
-                    var num_n=  parseInt(num_text);
-                    var n_num= num_n+1+i;
-                    var numero= n_num.toString();
-                    if (datos.tipo=="Auxiliar"){
-                        activoData.codigo="AUX";
-                    }
-                    if (datos.tipo=="Equipo"){
-                        activoData.codigo="EQU";
-                    }
-                     if (datos.tipo=="Mobiliario"){
-                        activoData.codigo="MOB";
-                    }
-                    activoData.codigo=activoData.codigo+"-"+numero;
-                    activoData.save(function(err){
-                        /*respuesta.resultado="ok";    
-                        if (err){
-                            respuesta.resultado="error-a";     
-                        }*/
-                    }); 
-        }   
-    }).sort({ _id : -1 });
-}
 app.post("/editarActivo", function(req, res){
     var store = {};var binario;var datos;  
     req.on('data', function(data){store = data;binario=(store.toString('utf8'));datos=JSON.parse(binario);});
