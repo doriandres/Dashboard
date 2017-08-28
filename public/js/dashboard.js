@@ -473,22 +473,6 @@ function nuevoActivo(){
                 cantidad: parseInt(document.getElementById("nuevoActivo-cantidad").value)
         }
         
-        var q=false;
-        for (var i=0; i < parseInt(nuevoActivo.cantidad); i++){
-            if (i==parseInt(nuevoActivo.cantidad)-1){
-                q=true;
-            }
-            guardaActivo(nuevoActivo, q);
-        }
-        
-    }else{
-         $('#loading').modal('close');
-         var $toastContent = $('<span><i class="material-icons left">warning</i> Debe llenar todos los campos correctamente<span>');
-         Materialize.toast($toastContent, 5000, "orange");
-    }
-}
-function guardaActivo(nuevoActivo, q){
-    if (q==true){
         $.ajax({
                 type: "POST",
                 url: ruta+"/nuevoActivo",
@@ -537,16 +521,14 @@ function guardaActivo(nuevoActivo, q){
                    Materialize.toast($toastContent, 5000, "red");
                 }
         });
+        
     }else{
-         $.ajax({
-                type: "POST",
-                url: ruta+"/nuevoActivo",
-                dataType: "json",   
-                data: JSON.stringify(nuevoActivo),
-                timeout: 5000
-        });
+         $('#loading').modal('close');
+         var $toastContent = $('<span><i class="material-icons left">warning</i> Debe llenar todos los campos correctamente<span>');
+         Materialize.toast($toastContent, 5000, "orange");
     }
 }
+
 function verActivos(){
     var messenger=new Object();
     $.ajax({
@@ -604,15 +586,15 @@ function displayActivos(activos){
         c++;
     }
 }
-<<<<<<< HEAD
+// HEAD
 function updateActivos(){
 
 }
-=======
+//=======
 
 
 
->>>>>>> origin/master
+//>>>>>>> origin/master
 function getIconByTipo(tipo){
     var icon="";
     if (tipo=="Auxiliar"){

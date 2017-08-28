@@ -305,57 +305,66 @@ app.post("/nuevoActivo", function(req, res){
     req.on('end', function(){
         var respuesta= new Object();
         respuesta.resultado="";
-        var activoData =  new Activo(datos);
-        activoData.codigo = "";
         Activo.findOne({'tipo':datos.tipo}, function(err, pack){
-            if (pack==null){
-                        activoData.codigo="";
+            if (pack==null){ 
+                if (datos.cantidad>1){
+                    var nuevoActivos=new Array();
+                    for (var i=0; i < datos.cantidad; i++){
+                        var _n=i+1;
                         if (datos.tipo=="Auxiliar"){
-                            activoData.codigo="AUX";
+                            datos.codigo="AUX";
                         }
                         if (datos.tipo=="Equipo"){
-                            activoData.codigo="EQU";
+                            datos.codigo="EQU";
                         }
-                         if (datos.tipo=="Mobiliario"){
-                            activoData.codigo="MOB";
+                        if (datos.tipo=="Mobiliario"){
+                            datos.codigo="MOB";
                         }
-                        activoData.codigo=activoData.codigo+"-1";
-                        activoData.save(function(err){
-                            res.setHeader("Content-Type", "text/json", "Access-Control-Allow-Origin", "*");
-                            res.send(respuesta);
-                            res.end();
-                        });
+                        datos.codigo=datos.codigo+"-"+_n.toString();
+                        nuevoActivos[i]=new Activo(datos);
+                        nuevoActivos[i].save();
+                    }             
+                }  
             }else{
-                        var disponible="";
-                        var packCode=pack.codigo;
-                        var arrayPack= packCode.split("-");
-                        var num_text=arrayPack[1];
-                        var num_n=  parseInt(num_text);
-                        var n_num= num_n+1+i;
-                        var numero= n_num.toString();
-                        if (datos.tipo=="Auxiliar"){
-                            activoData.codigo="AUX";
-                        }
-                        if (datos.tipo=="Equipo"){
-                            activoData.codigo="EQU";
-                        }
-                         if (datos.tipo=="Mobiliario"){
-                            activoData.codigo="MOB";
-                        }
-                        activoData.codigo=activoData.codigo+"-"+numero;
-                        activoData.save(function(err){
-                            res.setHeader("Content-Type", "text/json", "Access-Control-Allow-Origin", "*");
-                            res.send(respuesta);
-                            res.end();
-                        }); 
-            }   
-        });
+                var disponible="";
+                var packCode=pack.codigo;
+                var arrayPack= packCode.split("-");
+                var num_text=arrayPack[1];
+                var num_n=  parseInt(num_text);
+                var nuevoActivos=new Array();
+                for (var i=0; i < datos.cantidad; i++){
+                    var _n= 1+i;
+                    var n_num= num_n+_n;
+                    var numero= n_num.toString();
+                    if (datos.tipo=="Auxiliar"){
+                        datos.codigo="AUX";
+                    }
+                    if (datos.tipo=="Equipo"){
+                        datos.codigo="EQU";
+                    }
+                    if (datos.tipo=="Mobiliario"){
+                        datos.codigo="MOB";
+                    }
+                    datos.codigo=datos.codigo+"-"+numero;
+                    nuevoActivos[i]=new Activo(datos);
+                    nuevoActivos[i].save();
+                }
+            }
+            if (err){
+            //nothing yet    
+            }else{
+                res.setHeader("Content-Type", "text/json", "Access-Control-Allow-Origin", "*");
+                res.send(respuesta);
+                res.end();
+            }
+        }).sort({'_id': -1});;
     });   
 });
 app.post("/editarActivo", function(req, res){
     var store = {};var binario;var datos;  
     req.on('data', function(data){store = data;binario=(store.toString('utf8'));datos=JSON.parse(binario);});
-    req.on('end', function(){   
+    req.on('end', function(){ 
+        Activo.findOne({ 'codigo': datos.id }, function(err, predoc){
            Activo.update({ 'codigo': datos.id }, 
                           { $set: { 
                               'descripcion': datos.descripcion,
@@ -377,31 +386,44 @@ app.post("/editarActivo", function(req, res){
                             respuesta.resultado="error-b";
                         }else{
                             respuesta.resultado="ok";
+                            var arr=new Array();
+                            arr[0]= doc;
+                            arr[1]= predoc;
+                            newActivity('Activo', 'Editado', datos.user, arr);
                         }
                         res.setHeader("Content-Type", "text/json", "Access-Control-Allow-Origin", "*");
                         res.send(respuesta);
                         res.end();
                     });
                 }
-            }); 
+            });
+        });    
     }); 
 });
 app.post("/eliminarActivos", function(req, res){
     var store = {};var binario;var datos;  
     req.on('data', function(data){store = data;binario=(store.toString('utf8'));datos=JSON.parse(binario);});
     req.on('end', function(){
-        Activo.remove({_id:{ $in: datos.elementos }}, function(err){
-            var respuesta=new Object();
-            respuesta.resultado="ok";
-            if (err){
-                respuesta.resultado="err";
-            }
-            respuesta.elementos=datos.elementos.length;
-            respuesta.tipo="Activo";
-            res.setHeader("Content-Type", "text/json", "Access-Control-Allow-Origin", "*");
-            res.send(respuesta);
-            res.end();
-        });
+        Activo.find({_id:{ $in: datos.elementos }}, function(err, docs){
+            Activo.remove({_id:{ $in: datos.elementos }}, function(err){
+                var respuesta=new Object();
+                respuesta.resultado="ok";
+                if (err){
+                    respuesta.resultado="err";
+                }else{
+                     var doc=new Object();
+                     doc.deletedList=docs;
+                     var arr=new Array();
+                     arr[0]= doc;
+                     newActivity('Activo', 'Eliminado', datos.user, arr);
+                }
+                respuesta.elementos=datos.elementos.length;
+                respuesta.tipo="Activo";
+                res.setHeader("Content-Type", "text/json", "Access-Control-Allow-Origin", "*");
+                res.send(respuesta);
+                res.end();
+            });
+        });    
     });
 });
 app.post("/nuevaSolicitud", function(req, res){
