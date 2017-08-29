@@ -1694,19 +1694,20 @@ function streamSlctds(t){
                     if (res.resultado == true){
                         var d = document;              
                         var c=0;
+                        var current_c=parseInt(d.getElementById("solicitudes-badge").innerHTML);
                         if (res.tipo=="Administrador"){
                             c=res.activosCount+res.espaciosCount+res.soporteCount;
                             d.getElementById("solicitudes-badge").innerHTML=c;
                             if (parseInt(d.getElementById("activosPendientes-badge").innerHTML)<res.activosCount){
                                 Pendientes({name:"Activo"});
-                                audioAlert.play();
+                                
                                 var $toastContent = $('<span><i class="material-icons left">announcement</i>Hay nuevas solicitudes de <b>activos</b> pendientes</span>');
                                 Materialize.toast($toastContent, 5000, "blue darken-2");
                             }
                             d.getElementById("activosPendientes-badge").innerHTML=res.activosCount;
                             if (parseInt(d.getElementById("espaciosPendientes-badge").innerHTML)<res.espaciosCount){
                                  Pendientes({name:"Espacio"});
-                                 audioAlert.play();
+                               
                                  var $toastContent = $('<span><i class="material-icons left">announcement</i>Hay nuevas solicitudes de <b>espacios</b> pendientes</span>');
                                  Materialize.toast($toastContent, 5000, "blue darken-2");
                             }
@@ -1714,7 +1715,6 @@ function streamSlctds(t){
                             
                             if (parseInt(d.getElementById("soportePendientes-badge").innerHTML)<res.soporteCount){
                                 Pendientes({name:"Soporte"});
-                                audioAlert.play();
                                 var $toastContent = $('<span><i class="material-icons left">announcement</i>Hay nuevas solicitudes de <b>soporte</b> pendientes</span>');
                                 Materialize.toast($toastContent, 5000, "blue darken-2");
                             }
@@ -1729,6 +1729,9 @@ function streamSlctds(t){
                                 Materialize.toast($toastContent, 5000, "blue darken-2");
                             }
                             d.getElementById("soportePendientes-badge").innerHTML=res.soporteCount;
+                        }
+                        if (c>current_c){
+                             audioAlert.play();
                         }
                     }
                 },
