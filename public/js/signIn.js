@@ -1,5 +1,6 @@
 var ruta="http://localhost:8080";
 function rdrct(){window.location="/dashboard";}
+adfadc();
 function signIn(){
     $('#loading').modal('open');
     //validación
@@ -48,6 +49,14 @@ function signIn(){
          $('#loading').modal('close');
          var $toastContent = $('<span><i class="material-icons left">warning</i> Debe llenar todos los campos<span>');
          Materialize.toast($toastContent, 5000, "orange");
+    }
+}
+function adfadc(){
+    if (localStorage.x != null || localStorage.x != undefined){
+        var h=JSON.parse(localStorage.x);
+        if (h.y==true){
+            rdrct();
+        }
     }
 }
 function setUser(krx){

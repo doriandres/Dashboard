@@ -84,6 +84,9 @@ app.get("/dashboard", function(req, res){
     res.render("dashboard.jade");
     res.end();
 });
+app.get('*', function(req, res) {
+    res.redirect('/');
+});
 //usuarioS
 app.post("/signIn", function(req, res){
     var store = {};var binario;var datos;

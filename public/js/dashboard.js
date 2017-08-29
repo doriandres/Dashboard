@@ -439,13 +439,16 @@ function displayEspacios(espacios){
     _espacios=espacios;
     document.getElementById("solicitar-espacios-espacio").innerHTML="";
     document.getElementById("solicitar-soporte-espacio").innerHTML="";
+    document.getElementById("activos-filtro-espacio").innerHTML='<option value="Todos" selected>Todos</option>';
     for (var i = 0; i<espacios.length; i++){
         var option= '<option value="'+espacios[i].codigo+'">'+espacios[i].codigo+'</option>';
         $( "#solicitar-espacios-espacio" ).append( option );
         $( "#solicitar-soporte-espacio" ).append( option );
+        $( "#activos-filtro-espacio" ).append( option );
     }
     $('#solicitar-espacios-espacio').material_select();
     $('#solicitar-soporte-espacio').material_select();
+    $('#activos-filtro-espacio').material_select();
     
     document.getElementById("displayEspacios").innerHTML="";
     var displayEspacios="";
@@ -1181,7 +1184,9 @@ function nuevoEditarUsuarios(elm){
      $('select').material_select();
 }
 function signOut(){
-    localStorage.x=null;
+    var o = JSON.parse(localStorage.x);
+    o.y=false;
+    localStorage.x=JSON.stringify(o);
     window.location="/";
 }
 function nuevaSolicitud(elm){
