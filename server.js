@@ -780,15 +780,12 @@ app.post("/solicitudRespuesta", function(req, res){
     var store = {};var binario;var datos;  
     req.on('data', function(data){store = data;binario=(store.toString('utf8'));datos=JSON.parse(binario);});
     req.on('end', function(){
-        
-       
         var std="";
         if (datos.state=="true"){
             std="Aceptada";
         }else{
             std="Rechazada";
         }
-        //Solicitud.update({ '_id': datos.id }, { $set: { 'estado': std, 'respuesta': datos.res }}, function(err, doc){
         Solicitud.findByIdAndUpdate(datos.id , { $set: { 'estado': std, 'respuesta': datos.res }}, function(err, doc){
             var respuesta=new Object();
             respuesta.resultado=true;
@@ -807,10 +804,8 @@ app.post("/solicitudRespuesta", function(req, res){
     });
 });
 function addSchedule(data){
-    var ob=new Object();
-    ob.fecha=data.fecha;
-    ob.bloques=data.bloques;
-    Espacio.update({'codigo':data.espacio}, { $push: { agenda: ob }});
+    Espacio.update({'codigo':data.espacio}, { $push: { agenda: {fecha: data.fecha, bloques:data.bloques} }}, function(err){
+    });
 }
 app.post("/solicitudRespuestaSup", function(req, res){
     var store = {};var binario;var datos;  
