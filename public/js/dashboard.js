@@ -124,7 +124,7 @@ function loadDashboard(w,u){
                 elm = '<div class="collection"><a id="nuevo-espacios-btn" href="#!" onclick="display_uPanel(this)" class="espacios-sideNav nuevo collection-item"><i class="material-icons left">add_circle_outline</i>Nuevo Espacio</a><a id="editar-espacios-btn" href="#!" onclick="display_uPanel(this); nuevoEditarEspacios(this);" class="espacios-sideNav editar collection-item"><i class="material-icons left">create</i>Editar Espacio</a><a id="eliminar-espacios-btn" onclick="eliminar_alert(this)" href="#!" class="collection-item"><i class="material-icons left">delete_forever</i>Eliminar Espacios</a></div>';
                 $( "#espaciosSideMenu" ).append( elm );
                 //espacios paneles
-                 elm = '<!--NUEVO ESPACIO--><div id="nuevo-espacios" class="UPanel nuevo-espacios espacios-uPanel"><!--Titulo del UPanel--><blockquote><h4>Nuevo Espacio</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><input id="nuevoEspacio-codigo" type="text" class="validate"><label for="nuevoEspacio-codigo">Código del Espacio</label></div><div class="input-field col s12"><select id="nuevoEspacio-planta"><option value="" disabled selected>Elija una opción</option><option value="1">1° Planta</option><option value="2">2° Planta</option></select><label>Planta</label></div><div class="input-field col s12"><input id="nuevoEspacio-descripcion" type="text" class="validate"><label for="nuevoEspacio-descripcion">Descripción</label></div><p><input type="checkbox" class="filled-in checkbox-blue" id="nuevoEspacio-aireAcondicionado"/><label for="nuevoEspacio-aireAcondicionado">Aire acondicionado</label></p><button onclick="nuevoEspacio()" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div></div></div><!--EDITAR ESPACIO--><div id="editar-espacios" class="UPanel editar-espacios espacios-uPanel"><!--Titulo del UPanel--><blockquote><h4>Editar Espacio</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><ul id="espacios-editar-tabs-headers" class="tabs tabs-fixed-width"></ul></div><div id="espacios-editar-tabs"></div></div></div>';
+                 elm = '<!--NUEVO ESPACIO--><div id="nuevo-espacios" class="UPanel nuevo-espacios espacios-uPanel"><!--Titulo del UPanel--><blockquote><h4>Nuevo Espacio</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><input id="nuevoEspacio-codigo" type="number" class="validate"><label for="nuevoEspacio-codigo">Número de espacio</label></div><div class="input-field col s12"><select id="nuevoEspacio-planta"><option value="" disabled selected>Elija una opción</option><option value="1">1° Planta</option><option value="2">2° Planta</option></select><label>Planta</label></div><div class="input-field col s12"><input id="nuevoEspacio-descripcion" type="text" class="validate"><label for="nuevoEspacio-descripcion">Descripción</label></div><p><input type="checkbox" class="filled-in checkbox-blue" id="nuevoEspacio-aireAcondicionado"/><label for="nuevoEspacio-aireAcondicionado">Aire acondicionado</label></p><button onclick="nuevoEspacio()" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div></div></div><!--EDITAR ESPACIO--><div id="editar-espacios" class="UPanel editar-espacios espacios-uPanel"><!--Titulo del UPanel--><blockquote><h4>Editar Espacio</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><ul id="espacios-editar-tabs-headers" class="tabs tabs-fixed-width"></ul></div><div id="espacios-editar-tabs"></div></div></div>';
                  $( "#espaciosPaneles" ).append( elm );
                 
                  
@@ -360,6 +360,10 @@ function nuevoEspacio(){
     
     if (document.getElementById("nuevoEspacio-codigo").value==""){
         valido=false;
+    }else{
+        if ($.isNumeric(document.getElementById("nuevoEspacio-codigo").value)==false){
+            valido=false;
+        }
     }
     if (document.getElementById("nuevoEspacio-planta").value==""){
         valido=false;
@@ -386,19 +390,7 @@ function nuevoEspacio(){
                    document.getElementById("nuevoEspacio-codigo").value="";
                    document.getElementById("nuevoEspacio-descripcion").value="";
                    document.getElementById("nuevoEspacio-aireAcondicionado").checked=false;
-                   /*Esto es un intento fail de resetear el select
-                   var opciones=document.getElementById("nuevoEspacio-planta").childNodes;
-                   for (var i=0; i<opciones.length; i++){
-                       if (opciones[i].nodeName=="OPTION"){
-                           if (opciones[i].selected==true){
-                               opciones[i].selected=false;
-                           }
-                       }
-                   }
-                   opciones[1].selected=true;
-                   */
-                    
-                   var $toastContent = $('<span><i class="material-icons left">check</i> Espacio Guardado<span>');
+                    var $toastContent = $('<span><i class="material-icons left">check</i> Espacio Guardado<span>');
                    Materialize.toast($toastContent, 5000, "green");
                 },
                 error: function(){
@@ -409,7 +401,7 @@ function nuevoEspacio(){
         }); 
     }else{
          $('#loading').modal('close');
-         var $toastContent = $('<span><i class="material-icons left">warning</i> Debe llenar todos los campos<span>');
+         var $toastContent = $('<span><i class="material-icons left">warning</i> Debe llenar todos los campos correctamente<span>');
          Materialize.toast($toastContent, 5000, "orange");
     }
     

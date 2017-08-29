@@ -215,6 +215,7 @@ app.post("/nuevoEspacio", function(req, res){
     req.on('end', function(){
         var respuesta= new Object();
         respuesta.resultado="";
+        datos.codigo="TICs"+datos.codigo;
         var espacioData =  new Espacio(datos);
         espacioData.estado=false;
         espacioData.save(function(err, doc){
