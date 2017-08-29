@@ -5,6 +5,8 @@ var espaciosList = "";
 var _activos = new Array();
 var _espacios = new Array();
 var _usuarios = new Array();
+var _activity = new Array();
+var _myActivity= new Array();
 var _user = new Object();
 var audioAlert = new Audio('sounds/nuevaSolicitud.mp3');
 
@@ -48,7 +50,23 @@ function loadDashboard(w,u){
                 elm = '<li><a onclick="display_Panel(this); Activity();" class="actividadGeneral" href="#!"><i class="material-icons left">timeline</i>Actividad</a></li>';
                 $( "#nav-mobile" ).append( elm ); 
                  
-                elm= '<!--Admin Onlys--><!--Actividad GENERAL Panel--><div id="actividadGeneralPanel" class="Panel adminPanel"><div class="row"><!--Menu de la izquierda--><div class="col s12 m3 hide-on-med-and-down"><div class="collection"><a onclick="Activity()" href="#!" class="collection-item active"><i class="material-icons left">timeline</i>Actividad</a></div></div><!--Contenido--><div class="col s12 m8"><div id="actividadGeneral-actividadGeneral" class="UPanel actividadGeneral-actividadGeneral actividadGeneral-uPanel active-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s6"><h4>Actividad</h4></div><div class="input-field col s3"><select multiple><option value="1" selected disabled>Ninguno</option><option value="1">Activos</option><option value="2">Espacios</option><option value="2">Usuarios</option><option disabled>Actividad</option><option value="3">Nuevo</option><option value="4">Edición</option><option value="4">Eliminación</option></select><label>Filtros</label></div><div class="input-field col s3"><input id="last_name" type="text" class="validate"><label for="last_name">Id</label></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayActivity" class="row"></div></div></div></div></div></div>';
+
+                
+               /*
+                 ACTIVIDAD General     ___
+                                                                    |   |
+                                                                    |   |
+                                                                    |   |
+                                                                **************
+                                                                 ************
+                                                                  **********
+                                                                   ********
+                                                                    ******
+                                                                     ****
+                                                                      **
+                */
+
+                elm= '<!--Admin Onlys--><!--Actividad GENERAL Panel--><div id="actividadGeneralPanel" class="Panel adminPanel"><div class="row"><!--Menu de la izquierda--><div class="col s12 m3 hide-on-med-and-down"><div class="collection"><a onclick="Activity()" href="#!" class="collection-item active"><i class="material-icons left">timeline</i>Actividad</a></div></div><!--Contenido--><div class="col s12 m8"><div id="actividadGeneral-actividadGeneral" class="UPanel actividadGeneral-actividadGeneral actividadGeneral-uPanel active-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s4"><h4>Actividad</h4></div> <div class="col s8"><div class="input-field col s12 m4">                                                                                  <select>                                                                                                            <option value="Todas" selected>Todas</option>                                                                  <option value="Creado">Creado</option>                                                                        <option value="Editado">Editado</option>                                                                      <option value="Eliminado">Elimando</option>                                                             </select><label>Acción</label></div>                                                                       <div class="input-field col s12 m4">                                                                                <select>                                                                                                             <option value="Todas" selected>Todas</option>                                                                 <option value="Creado">Activos</option>                                                                       <option value="Editado">Espacios</option>                                                                     <option value="Eliminado">Usuarios</option>                                                             </select><label>Elemento</label></div>                                                                  <div class="input-field col s12 m4">                                                                                     <input type="text" class="validate">                                                                           <label >Id Actividad</label></div></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayActivity" class="row"></div></div></div></div></div></div>';
                 $( "#tools" ).append( elm ); 
                
                 elm = '<li><a onclick="display_Panel(this); historySlctds();" class="solicitudes grey-text text-lighten-2" href="#!"><i class="material-icons left">announcement</i>Solicitudes<span id="solicitudes-badge" class="badge white-text">0</span></a></li>';
@@ -68,7 +86,7 @@ function loadDashboard(w,u){
 
 
                 /*
-                  aqui esta la parte del option de mi ACTIVIDAD      ___
+                 MI ACTIVIDAD     ___
                                                                     |   |
                                                                     |   |
                                                                     |   |
@@ -80,7 +98,7 @@ function loadDashboard(w,u){
                                                                      ****
                                                                       **
                 */
-                elm = '<!--Mi Actividad Panel--><div id="actividadPanel" class="Panel adminPanel"><div class="row"><!--Menu de la izquierda--><div id="actividadSideMenu" class="col s12 m3 hide-on-med-and-down"><div class="card"><div class="container"><br><div class="row"><div style="padding-left:0px;" class="col s2 left-align"><h6><i class="material-icons medium  blue-text text-darken-2">account_circle</i></h6></div><div id="userName" style="padding-left:20px; padding-top:6px; font-size:20px;" class="col s10 left-align"></div><div class="col s12 left-align"><blockquote><h6><big id="userType"></big></h6></blockquote></div><br></div></div></div><!--Todos menos los estudiantes--><div class="collection"><a id="ver-actividad-btn" href="#!" onclick="display_uPanel(this); MyActivity();" class="actividad-sideNav ver collection-item active"><i class="material-icons left">timeline</i>Mi Actividad</a></div><div class="collection"><a id="historial-actividad-btn" href="#!" onclick="display_uPanel(this); myHistorySolicitudes();" class="actividad-sideNav historial collection-item"><i class="material-icons left">history</i>Mi historial de solicitudes</a><a id="soporte-actividad-btn" href="#!" onclick="display_uPanel(this); mySoporteLista();" class="actividad-sideNav soporte collection-item"><i class="material-icons left">view_agenda</i>Mi soporte en lista</a><a id="pendientes-actividad-btn" href="#!" onclick="display_uPanel(this); mySolicitudesPendientes();" class="actividad-sideNav pendientes collection-item"><i class="material-icons left">warning</i>Mis solicitudes en pendientes</a></div><div class="collection"><a id="config-actividad-btn" href="#!" onclick="display_uPanel(this); userConfig();" class="actividad-sideNav config collection-item"><i class="material-icons left">settings</i>Configuración del Usuario</a><a onclick="signOut()" href="#!" class="collection-item"><i class="material-icons left">exit_to_app</i>Cerrar Sesión</a></div></div><!--Contenido--><div id="actividadPaneles" class="col s12 m8"><!--Todos menos los estudiantes--><div id="ver-actividad" class="UPanel ver-actividad actividad-uPanel active-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s6"><h4>Mi Actividad</h4></div><div class="input-field col s3">                                                                                                                                 <select multiple id="chito_es_guapo">                                                                                                   <option value="1" selected disabled>Ninguno</option>                                                           <option value="1">Activos</option>                                                                             <option value="2">Espacios</option>                                                                           <option value="2">Usuarios</option>                                                                           <option disabled>Actividad</option>                                                                           <option value="3">Nuevo</option>                                                                               <option value="4">Edición</option>                                                                             <option value="4">Eliminación</option>                                               </select>                                                                                           <label>Filtros</label></div><div class="input-field col s3">                                                            <!-- Input de busqeuda por id  -->                                                                       <input id="last_name" type="text" class="validate">                                                        <label for="last_name">Id</label></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayMyActivity" class="row"></div></div></div><div id="historial-actividad" class="UPanel historial-actividad actividad-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s6"><h4>Mi historial de solicitudes</h4></div><div class="input-field col s3">                            <!-- Aqui esta el otro select -->                                                                               <select multiple>                                                                                               <option value="1" selected disabled>Ninguno</option>                                                         </select>                                                                                     <label>Filtros</label></div><div class="input-field col s3">                                                         <!-- INput de busqueda por id -->                                                                            <input id="last_name" type="text" class="validate">                                                 <label for="last_name">Id</label></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayMyHistorialSolicitudes" class="row"></div></div></div><div id="soporte-actividad" class="UPanel soporte-actividad actividad-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s12"><h4>Mi soporte en lista</h4></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayMyListSoporte" class="row"></div></div></div><div id="pendientes-actividad" class="UPanel pendientes-actividad actividad-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s6"><h4>Mi solicitudes pendientes</h4></div><div class="input-field col s3">               <!-- Aqui esta el otro select -->                                                                               <select multiple>                                                                                                       <option value="1" selected disabled>Ninguno</option>                                                 </select>                                                                                         <label>Filtros</label></div><div class="input-field col s3">                                                            <!-- Input de busqueda por id-->                                                                            <input id="last_name" type="text" class="validate">                                                     <label for="last_name">Id</label></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayMyPendientes" class="row"></div></div></div><div id="config-actividad" class="UPanel config-actividad actividad-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s12"><h4>Configuración del usuario</h4></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="config-form" class="col s12 m9 card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><input id="config-nombre" class="validate" type="text"><label for="usuarios-editar-nuevo-nombre">Nombre</label></div><div class="input-field col s6"><input id="config-apellido1" class="validate" type="text"><label for="config-apellido1" class="">1° Apellido</label></div><div class="input-field col s6"><input id="config-apellido2" class="validate" type="text"><label for="config-apellido2">2° Apellido</label></div><div class="input-field col s12"><input id="config-pass" class="validate" type="password"><label for="config-pass" class="">Contraseña Actual</label></div><div class="input-field col s12"><input id="config-npass" class="validate" type="password"><label for="config-npass" class="">Contraseña Nueva<small>(Opcional)</small></label></div><br><button id="config-btn" onclick="edituUser()" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div></div></div></div></div></div>';
+                elm = '<!--Mi Actividad Panel--><div id="actividadPanel" class="Panel adminPanel"><div class="row"><!--Menu de la izquierda--><div id="actividadSideMenu" class="col s12 m3 hide-on-med-and-down"><div class="card"><div class="container"><br><div class="row"><div style="padding-left:0px;" class="col s2 left-align"><h6><i class="material-icons medium  blue-text text-darken-2">account_circle</i></h6></div><div id="userName" style="padding-left:20px; padding-top:6px; font-size:20px;" class="col s10 left-align"></div><div class="col s12 left-align"><blockquote><h6><big id="userType"></big></h6></blockquote></div><br></div></div></div><!--Todos menos los estudiantes--><div class="collection"><a id="ver-actividad-btn" href="#!" onclick="display_uPanel(this); MyActivity();" class="actividad-sideNav ver collection-item active"><i class="material-icons left">timeline</i>Mi Actividad</a></div><div class="collection"><a id="historial-actividad-btn" href="#!" onclick="display_uPanel(this); myHistorySolicitudes();" class="actividad-sideNav historial collection-item"><i class="material-icons left">history</i>Mi historial de solicitudes</a><a id="soporte-actividad-btn" href="#!" onclick="display_uPanel(this); mySoporteLista();" class="actividad-sideNav soporte collection-item"><i class="material-icons left">view_agenda</i>Mi soporte en lista</a><a id="pendientes-actividad-btn" href="#!" onclick="display_uPanel(this); mySolicitudesPendientes();" class="actividad-sideNav pendientes collection-item"><i class="material-icons left">warning</i>Mis solicitudes en pendientes</a></div><div class="collection"><a id="config-actividad-btn" href="#!" onclick="display_uPanel(this); userConfig();" class="actividad-sideNav config collection-item"><i class="material-icons left">settings</i>Configuración del Usuario</a><a onclick="signOut()" href="#!" class="collection-item"><i class="material-icons left">exit_to_app</i>Cerrar Sesión</a></div></div><!--Contenido--><div id="actividadPaneles" class="col s12 m8"><!--Todos menos los estudiantes--><div id="ver-actividad" class="UPanel ver-actividad actividad-uPanel active-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s4"><h4>Mi Actividad</h4></div> <div class="col s8"><div class="input-field col s12 m4">                                                                                                           <select>                                                                                                             <option value="Todas" selected>Todas</option>                                                                  <option value="Creado">Creado</option>                                                                        <option value="Editado">Editado</option>                                                                      <option value="Eliminado">Elimando</option>                                                             </select><label>Acción</label></div>                                                                       <div class="input-field col s12 m4">                                                                                  <select>                                                                                                          <option value="Todas" selected>Todas</option>                                                                  <option value="Creado">Activos</option>                                                                        <option value="Editado">Espacios</option>                                                                      <option value="Eliminado">Usuarios</option>                                                               </select><label>Elemento</label></div>                                                                  <div class="input-field col s12 m4">                                                                                     <input type="text" class="validate">                                                                           <label >Id Actividad</label></div></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayMyActivity" class="row"></div></div></div><div id="historial-actividad" class="UPanel historial-actividad actividad-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s6"><h4>Mi historial de solicitudes</h4></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayMyHistorialSolicitudes" class="row"></div></div></div><div id="soporte-actividad" class="UPanel soporte-actividad actividad-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s12"><h4>Mi soporte en lista</h4></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayMyListSoporte" class="row"></div></div></div><div id="pendientes-actividad" class="UPanel pendientes-actividad actividad-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s6"><h4>Mi solicitudes pendientes</h4></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayMyPendientes" class="row"></div></div></div><div id="config-actividad" class="UPanel config-actividad actividad-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s12"><h4>Configuración del usuario</h4></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="config-form" class="col s12 m9 card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><input id="config-nombre" class="validate" type="text"><label for="usuarios-editar-nuevo-nombre">Nombre</label></div><div class="input-field col s6"><input id="config-apellido1" class="validate" type="text"><label for="config-apellido1" class="">1° Apellido</label></div><div class="input-field col s6"><input id="config-apellido2" class="validate" type="text"><label for="config-apellido2">2° Apellido</label></div><div class="input-field col s12"><input id="config-pass" class="validate" type="password"><label for="config-pass" class="">Contraseña Actual</label></div><div class="input-field col s12"><input id="config-npass" class="validate" type="password"><label for="config-npass" class="">Contraseña Nueva<small>(Opcional)</small></label></div><br><button id="config-btn" onclick="edituUser()" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div></div></div></div></div></div>';
 
                  $( "#tools" ).append( elm );
 
@@ -99,7 +117,7 @@ function loadDashboard(w,u){
                 elm = '<div class="collection"><a id="nuevo-activos-btn" href="#!" onclick="display_uPanel(this)" class="activos-sideNav nuevo collection-item"><i class="material-icons left">add_circle_outline</i>Nuevo Activo</a><a id="editar-activos-btn" href="#!" onclick="display_uPanel(this); nuevoEditarActivos(this);" class="activos-sideNav editar collection-item"><i class="material-icons left">create</i>Editar Activos</a><a id="eliminar-activos-btn" onclick="eliminar_alert(this)" href="#!" class="collection-item"><i class="material-icons left">delete_forever</i>Eliminar Activos</a></div>';
                 $( "#activosSideMenu" ).append( elm );
                 //activos paneles
-                elm = '<!--NUEVO ACTIVO--><div id="nuevo-activos" class="UPanel nuevo-activos activos-uPanel"><!--Titulo del UPanel--><blockquote><h4>Nuevo Activo</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s6"><select id="nuevoActivo-tipo"><option value="" disabled selected>Elija una opción</option><option value="Auxiliar">Auxiliar</option><option value="Equipo">Equipo</option><option value="Mobiliario">Mobiliario</option></select><label>Tipo de Activo</label></div><div class="input-field col s6"><input id="nuevoActivo-cantidad" type="number" class="validate" value="1"><label for="nuevoActivo-cantidad">Cantidad</label></div><div class="input-field col s12"><input id="nuevoActivo-descripcion" type="text" class="validate"><label for="nuevoActivo-descripcion">Descripción</label></div><div class="input-field col s12"><select id="nuevoActivo-estado"><option value="" disabled selected>Elija una opción</option><option value="Disponible">Disponible</option><option value="Ocupado">Ocupado</option><option value="Dañado">Dañado</option></select><label>Estado del activo</label></div><div class="input-field col s12"><select id="nuevoActivo-espacio"></select><label>Espacio del activo</label></div><button onclick="nuevoActivo()" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div></div></div><!--EDITAR ACTIVOS--><div id="editar-activos" class="UPanel editar-activos activos-uPanel"><!--Titulo del UPanel--><blockquote><h4>Editar Activos</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><ul id="activos-editar-tabs-headers" class="tabs tabs-fixed-width"><li class="tab col s3"><a class="" href="#test-swipe-1">ID-#</a></li><li class="tab col s3"><a class="active" href="#activos-editar-nuevo">Nuevo</a></li></ul></div><div id="activos-editar-tabs"></div></div></div>';
+                elm = '<!--NUEVO ACTIVO--><div id="nuevo-activos" class="UPanel nuevo-activos activos-uPanel"><!--Titulo del UPanel--><blockquote><h4>Nuevo Activo</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s6"><select id="nuevoActivo-tipo"><option value="" disabled selected>Elija una opción</option><option value="Auxiliar">Auxiliar</option><option value="Equipo">Equipo</option><option value="Mobiliario">Mobiliario</option></select><label>Tipo de Activo</label></div><div class="input-field col s6"><input id="nuevoActivo-cantidad" type="number" class="validate" value="1"><label for="nuevoActivo-cantidad">Cantidad</label></div><div class="input-field col s12"><input id="nuevoActivo-descripcion" type="text" class="validate"><label for="nuevoActivo-descripcion">Descripción</label></div><div class="input-field col s12"><div id="nuevoActivo-ci" class="chips chips-initial"></div><label>Código Institucional</label></div><div class="input-field col s12"><select id="nuevoActivo-espacio"></select><label>Espacio del activo</label></div><button onclick="nuevoActivo()" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div></div></div><!--EDITAR ACTIVOS--><div id="editar-activos" class="UPanel editar-activos activos-uPanel"><!--Titulo del UPanel--><blockquote><h4>Editar Activos</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><ul id="activos-editar-tabs-headers" class="tabs tabs-fixed-width"><li class="tab col s3"><a class="" href="#test-swipe-1">ID-#</a></li><li class="tab col s3"><a class="active" href="#activos-editar-nuevo">Nuevo</a></li></ul></div><div id="activos-editar-tabs"></div></div></div>';
                 $( "#activosPaneles" ).append( elm );
                  
                 //espacios menu
@@ -108,12 +126,34 @@ function loadDashboard(w,u){
                 //espacios paneles
                  elm = '<!--NUEVO ESPACIO--><div id="nuevo-espacios" class="UPanel nuevo-espacios espacios-uPanel"><!--Titulo del UPanel--><blockquote><h4>Nuevo Espacio</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><input id="nuevoEspacio-codigo" type="text" class="validate"><label for="nuevoEspacio-codigo">Código del Espacio</label></div><div class="input-field col s12"><select id="nuevoEspacio-planta"><option value="" disabled selected>Elija una opción</option><option value="1">1° Planta</option><option value="2">2° Planta</option></select><label>Planta</label></div><div class="input-field col s12"><input id="nuevoEspacio-descripcion" type="text" class="validate"><label for="nuevoEspacio-descripcion">Descripción</label></div><p><input type="checkbox" class="filled-in checkbox-blue" id="nuevoEspacio-aireAcondicionado"/><label for="nuevoEspacio-aireAcondicionado">Aire acondicionado</label></p><button onclick="nuevoEspacio()" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div></div></div><!--EDITAR ESPACIO--><div id="editar-espacios" class="UPanel editar-espacios espacios-uPanel"><!--Titulo del UPanel--><blockquote><h4>Editar Espacio</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><ul id="espacios-editar-tabs-headers" class="tabs tabs-fixed-width"></ul></div><div id="espacios-editar-tabs"></div></div></div>';
                  $( "#espaciosPaneles" ).append( elm );
-                //usuarios
-                 elm = '<!--Usuarios Panel--><div id="usuariosPanel" class=""><div class="row"><!--Menu de la izquierda--><div class="col s12 m3 hide-on-med-and-down"><div class="collection"><a id="ver-usuarios-btn" href="#!" onclick="display_uPanel(this); verUsuarios();" class="usuarios-sideNav ver collection-item active"><i class="material-icons left">people</i>Usuarios</a></div><div class="collection"><a id="nuevo-usuarios-btn" href="#!" onclick="display_uPanel(this)" class="usuarios-sideNav nuevo collection-item"><i class="material-icons left">add_circle_outline</i>Nuevo Usuario</a><a id="editar-usuarios-btn" href="#!" onclick="display_uPanel(this);nuevoEditarUsuarios(this);" class="usuarios-sideNav editar collection-item"><i class="material-icons left">create</i>Editar Usuarios</a><a id="eliminar-usuarios-btn" href="#!" onclick="eliminar_alert(this)" class="collection-item"><i class="material-icons left">delete_forever</i>Eliminar Usuarios</a></div></div><!--Contenido--><div class="col s12 m8"><!--Usuarios--><div id="ver-usuarios" class="UPanel ver-usuarios usuarios-uPanel active-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s6"><h4>Usuarios</h4></div><div class="input-field col s3"><select><option value="1" selected>Ninguno</option><option value="2">Correo Electronico</option><option value="3">Tipo</option><option value="3">1° Apellido</option></select><label>Filtros</label></div><div class="input-field col s3"><input id="last_name" type="text" class="validate"><label for="last_name">Buscar</label></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><table class="card bordered striped centered responsive-table"><thead><tr><th><i style="" class="material-icons">indeterminate_check_box</i></th><th>Correo Electrónico</th><th>Nombre</th><th>1° Apellido</th><th>2° Apellido</th><th>Tipo</th></tr></thead><tbody id="displayUsuarios"></tbody></table></div></div><!--NUEVO Usuario--><div id="nuevo-usuarios" class="UPanel nuevo-usuarios usuarios-uPanel"><!--Titulo del UPanel--><blockquote><h4>Nuevo Usuario</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><input id="nuevoUsuario-email" type="email" class="validate"><label for="nuevoUsuario-email">Correo electrónico</label></div><div class="input-field col s12"><input id="nuevoUsuario-nombre" type="text" class="validate"><label for="nuevoUsuario-nombre">Nombre</label></div><div class="input-field col s6"><input id="nuevoUsuario-apellido1" type="text" class="validate"><label for="nuevoUsuario-apellido1">1° Apellido</label></div><div class="input-field col s6"><input id="nuevoUsuario-apellido2" type="text" class="validate"><label for="nuevoUsuario-apellido2">2° Apellido</label></div><div class="input-field col s12"><select id="nuevoUsuario-tipo"><option value="" disabled selected>Elija una opción</option><option value="Administrador">Administrador</option><option value="Soporte">Soporte</option><option value="Docente">Docente</option><option value="Estudiante">Estudiante</option></select><label>Tipo</label></div><div class="input-field col s12"><input id="nuevoUsuario-pass" type="password" class="validate"><label for="nuevoUsuario-pass">Contraseña</label></div><div class="input-field col s12"><input id="nuevoUsuario-cpass" type="password" class="validate"><label for="nuevoUsuario-cpass">Confirmar contraseña</label></div><button onclick="nuevoUsuario()" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div></div></div><!--EDITAR Usuario--><div id="editar-usuarios" class="UPanel editar-usuarios usuarios-uPanel"><!--Titulo del UPanel--><blockquote><h4>Editar Usuarios</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody s12 m8"><div class="card col s12 m9"><ul id="usuarios-editar-tabs-headers" class="tabs tabs-fixed-width"><li class="tab col s3"><a class="active" href="#us-a">email</a></li><li class="tab col s3"><a class="active" href="#us-b">Nuevo</a></li></ul></div><div id="usuarios-editar-tabs"></div></div></div></div></div></div>';
+                
+                 
+                 /*
+                 Usuarios     ___
+                                                                    |   |
+                                                                    |   |
+                                                                    |   |
+                                                                **************
+                                                                 ************
+                                                                  **********
+                                                                   ********
+                                                                    ******
+                                                                     ****
+                                                                      **
+                */
+                 
+                 
+                 
+                 elm = '<!--Usuarios Panel--><div id="usuariosPanel" class=""><div class="row"><!--Menu de la izquierda--><div class="col s12 m3 hide-on-med-and-down"><div class="collection"><a id="ver-usuarios-btn" href="#!" onclick="display_uPanel(this); verUsuarios();" class="usuarios-sideNav ver collection-item active"><i class="material-icons left">people</i>Usuarios</a> </div><div class="collection"><a id="nuevo-usuarios-btn" href="#!" onclick="display_uPanel(this)" class="usuarios-sideNav nuevo collection-item"><i class="material-icons left">add_circle_outline</i>Nuevo Usuario</a><a id="editar-usuarios-btn" href="#!" onclick="display_uPanel(this);nuevoEditarUsuarios(this);" class="usuarios-sideNav editar collection-item"><i class="material-icons left">create</i>Editar Usuarios</a><a id="eliminar-usuarios-btn" href="#!" onclick="eliminar_alert(this)" class="collection-item"><i class="material-icons left">delete_forever</i>Eliminar Usuarios</a></div></div><!--Contenido--><div class="col s12 m8"><!--Usuarios--><div id="ver-usuarios" class="UPanel ver-usuarios usuarios-uPanel active-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s6"><h4>Usuarios</h4></div>                                 <div class="input-field col s3">                                                                                    <select>                                                                                                        <option value="Todos" selected>Todos</option>                                                                  <option value="Administrador">Administrador</option>                                                          <option value="Soporte">Soporte</option>                                                                      <option value="Docente">Docente</option>                                                                      <option value="Estudiante">Estudiante</option>                                                             </select><label>Tipo</label></div>                                                                      <div class="input-field col s3">                                                                                <input id="" type="email" class="validate">                                                                     <label>Correo Electrónico</label></div></div>                                                  </blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><table class="card bordered striped centered responsive-table"><thead><tr><th><i style="" class="material-icons">indeterminate_check_box</i></th><th>Correo Electrónico</th><th>Nombre</th><th>1° Apellido</th><th>2° Apellido</th><th>Tipo</th></tr></thead><tbody id="displayUsuarios"></tbody></table></div></div><!--NUEVO Usuario--><div id="nuevo-usuarios" class="UPanel nuevo-usuarios usuarios-uPanel"><!--Titulo del UPanel--><blockquote><h4>Nuevo Usuario</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><input id="nuevoUsuario-email" type="email" class="validate"><label for="nuevoUsuario-email">Correo electrónico</label></div><div class="input-field col s12"><input id="nuevoUsuario-nombre" type="text" class="validate"><label for="nuevoUsuario-nombre">Nombre</label></div><div class="input-field col s6"><input id="nuevoUsuario-apellido1" type="text" class="validate"><label for="nuevoUsuario-apellido1">1° Apellido</label></div><div class="input-field col s6"><input id="nuevoUsuario-apellido2" type="text" class="validate"><label for="nuevoUsuario-apellido2">2° Apellido</label></div><div class="input-field col s12"><select id="nuevoUsuario-tipo"><option value="" disabled selected>Elija una opción</option><option value="Administrador">Administrador</option><option value="Soporte">Soporte</option><option value="Docente">Docente</option><option value="Estudiante">Estudiante</option></select><label>Tipo</label></div><div class="input-field col s12"><input id="nuevoUsuario-pass" type="password" class="validate"><label for="nuevoUsuario-pass">Contraseña</label></div><div class="input-field col s12"><input id="nuevoUsuario-cpass" type="password" class="validate"><label for="nuevoUsuario-cpass">Confirmar contraseña</label></div><button onclick="nuevoUsuario()" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div></div></div><!--EDITAR Usuario--><div id="editar-usuarios" class="UPanel editar-usuarios usuarios-uPanel"><!--Titulo del UPanel--><blockquote><h4>Editar Usuarios</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody s12 m8"><div class="card col s12 m9"><ul id="usuarios-editar-tabs-headers" class="tabs tabs-fixed-width"><li class="tab col s3"><a class="active" href="#us-a">email</a></li><li class="tab col s3"><a class="active" href="#us-b">Nuevo</a></li></ul></div><div id="usuarios-editar-tabs"></div></div></div></div></div></div>';
                   $( "#PanelesTab" ).append( elm );
                  
                  
                 //Nombre y tipo
+
+                $('.chips-initial').material_chip({
+                    data: [],
+                });
+                Materialize.updateTextFields();
                 $('#userName').text(_user.nombre+' '+_user.primer_apellido+' '+_user.segundo_apellido);
                 $('#userType').text(_user.tipo); 
                 verUsuarios();
@@ -143,9 +183,9 @@ function loadDashboard(w,u){
                 elm = '<div class="collection"><a id="nuevo-activos-btn" href="#!" onclick="display_uPanel(this)" class="activos-sideNav nuevo collection-item"><i class="material-icons left">add_circle_outline</i>Nuevo Activo</a><a id="editar-activos-btn" href="#!" onclick="display_uPanel(this); nuevoEditarActivos(this);" class="activos-sideNav editar collection-item"><i class="material-icons left">create</i>Editar Activos</a><a id="eliminar-activos-btn" onclick="eliminar_alert(this)" href="#!" class="collection-item"><i class="material-icons left">delete_forever</i>Eliminar Activos</a></div>';
                 $( "#activosSideMenu" ).append( elm );
                 //activos paneles
-                elm = '<!--NUEVO ACTIVO--><div id="nuevo-activos" class="UPanel nuevo-activos activos-uPanel"><!--Titulo del UPanel--><blockquote><h4>Nuevo Activo</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s6"><select id="nuevoActivo-tipo"><option value="" disabled selected>Elija una opción</option><option value="Auxiliar">Auxiliar</option><option value="Equipo">Equipo</option><option value="Mobiliario">Mobiliario</option></select><label>Tipo de Activo</label></div><div class="input-field col s6"><input id="nuevoActivo-cantidad" type="number" class="validate" value="1"><label for="nuevoActivo-cantidad">Cantidad</label></div><div class="input-field col s12"><input id="nuevoActivo-descripcion" type="text" class="validate"><label for="nuevoActivo-descripcion">Descripción</label></div><div class="input-field col s12"><select id="nuevoActivo-estado"><option value="" disabled selected>Elija una opción</option><option value="Disponible">Disponible</option><option value="Ocupado">Ocupado</option><option value="Dañado">Dañado</option></select><label>Estado del activo</label></div><div class="input-field col s12"><select id="nuevoActivo-espacio"></select><label>Espacio del activo</label></div><button onclick="nuevoActivo()" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div></div></div><!--EDITAR ACTIVOS--><div id="editar-activos" class="UPanel editar-activos activos-uPanel"><!--Titulo del UPanel--><blockquote><h4>Editar Activos</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><ul id="activos-editar-tabs-headers" class="tabs tabs-fixed-width"><li class="tab col s3"><a class="" href="#test-swipe-1">ID-#</a></li><li class="tab col s3"><a class="active" href="#activos-editar-nuevo">Nuevo</a></li></ul></div><div id="activos-editar-tabs"></div></div></div>';
+                elm = '<!--NUEVO ACTIVO--><div id="nuevo-activos" class="UPanel nuevo-activos activos-uPanel"><!--Titulo del UPanel--><blockquote><h4>Nuevo Activo</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s6"><select id="nuevoActivo-tipo"><option value="" disabled selected>Elija una opción</option><option value="Auxiliar">Auxiliar</option><option value="Equipo">Equipo</option><option value="Mobiliario">Mobiliario</option></select><label>Tipo de Activo</label></div><div class="input-field col s6"><input id="nuevoActivo-cantidad" type="number" class="validate" value="1"><label for="nuevoActivo-cantidad">Cantidad</label></div><div class="input-field col s12"><input id="nuevoActivo-descripcion" type="text" class="validate"><label for="nuevoActivo-descripcion">Descripción</label></div><div class="input-field col s12"><div id="nuevoActivo-ci" class="chips chips-initial"></div></div><div class="input-field col s12"><select id="nuevoActivo-espacio"></select><label>Espacio del activo</label></div><button onclick="nuevoActivo()" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div></div></div><!--EDITAR ACTIVOS--><div id="editar-activos" class="UPanel editar-activos activos-uPanel"><!--Titulo del UPanel--><blockquote><h4>Editar Activos</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><ul id="activos-editar-tabs-headers" class="tabs tabs-fixed-width"><li class="tab col s3"><a class="" href="#test-swipe-1">ID-#</a></li><li class="tab col s3"><a class="active" href="#activos-editar-nuevo">Nuevo</a></li></ul></div><div id="activos-editar-tabs"></div></div></div>';
                 $( "#activosPaneles" ).append( elm );
-                 
+                
                 //espacios menu
                 elm = '<div class="collection"><a id="nuevo-espacios-btn" href="#!" onclick="display_uPanel(this)" class="espacios-sideNav nuevo collection-item"><i class="material-icons left">add_circle_outline</i>Nuevo Espacio</a><a id="editar-espacios-btn" href="#!" onclick="display_uPanel(this); nuevoEditarEspacios(this);" class="espacios-sideNav editar collection-item"><i class="material-icons left">create</i>Editar Espacio</a><a id="eliminar-espacios-btn" onclick="eliminar_alert(this)" href="#!" class="collection-item"><i class="material-icons left">delete_forever</i>Eliminar Espacios</a></div>';
                 $( "#espaciosSideMenu" ).append( elm );
@@ -154,6 +194,10 @@ function loadDashboard(w,u){
                  $( "#espaciosPaneles" ).append( elm );
                  
                  //Nombre y tipo
+                $('.chips-initial').material_chip({
+                    data: [],
+                });
+                Materialize.updateTextFields();
                 $('#userName').text(_user.nombre+' '+_user.primer_apellido+' '+_user.segundo_apellido);
                 $('#userType').text(_user.tipo);
                 verUsuarios();
@@ -177,7 +221,7 @@ function loadDashboard(w,u){
                 elm = '<div class="collection"><a id="nuevo-activos-btn" href="#!" onclick="display_uPanel(this)" class="activos-sideNav nuevo collection-item"><i class="material-icons left">add_circle_outline</i>Nuevo Activo</a><a id="editar-activos-btn" href="#!" onclick="display_uPanel(this); nuevoEditarActivos(this);" class="activos-sideNav editar collection-item"><i class="material-icons left">create</i>Editar Activos</a><a id="eliminar-activos-btn" onclick="eliminar_alert(this)" href="#!" class="collection-item"><i class="material-icons left">delete_forever</i>Eliminar Activos</a></div>';
                 $( "#activosSideMenu" ).append( elm );
                 //activos paneles
-                elm = '<!--NUEVO ACTIVO--><div id="nuevo-activos" class="UPanel nuevo-activos activos-uPanel"><!--Titulo del UPanel--><blockquote><h4>Nuevo Activo</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s6"><select id="nuevoActivo-tipo"><option value="" disabled selected>Elija una opción</option><option value="Auxiliar">Auxiliar</option><option value="Equipo">Equipo</option><option value="Mobiliario">Mobiliario</option></select><label>Tipo de Activo</label></div><div class="input-field col s6"><input id="nuevoActivo-cantidad" type="number" class="validate" value="1"><label for="nuevoActivo-cantidad">Cantidad</label></div><div class="input-field col s12"><input id="nuevoActivo-descripcion" type="text" class="validate"><label for="nuevoActivo-descripcion">Descripción</label></div><div class="input-field col s12"><select id="nuevoActivo-estado"><option value="" disabled selected>Elija una opción</option><option value="Disponible">Disponible</option><option value="Ocupado">Ocupado</option><option value="Dañado">Dañado</option></select><label>Estado del activo</label></div><div class="input-field col s12"><select id="nuevoActivo-espacio"></select><label>Espacio del activo</label></div><button onclick="nuevoActivo()" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div></div></div><!--EDITAR ACTIVOS--><div id="editar-activos" class="UPanel editar-activos activos-uPanel"><!--Titulo del UPanel--><blockquote><h4>Editar Activos</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><ul id="activos-editar-tabs-headers" class="tabs tabs-fixed-width"><li class="tab col s3"><a class="" href="#test-swipe-1">ID-#</a></li><li class="tab col s3"><a class="active" href="#activos-editar-nuevo">Nuevo</a></li></ul></div><div id="activos-editar-tabs"></div></div></div>';
+                elm = '<!--NUEVO ACTIVO--><div id="nuevo-activos" class="UPanel nuevo-activos activos-uPanel"><!--Titulo del UPanel--><blockquote><h4>Nuevo Activo</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s6"><select id="nuevoActivo-tipo"><option value="" disabled selected>Elija una opción</option><option value="Auxiliar">Auxiliar</option><option value="Equipo">Equipo</option><option value="Mobiliario">Mobiliario</option></select><label>Tipo de Activo</label></div><div class="input-field col s6"><input id="nuevoActivo-cantidad" type="number" class="validate" value="1"><label for="nuevoActivo-cantidad">Cantidad</label></div><div class="input-field col s12"><input id="nuevoActivo-descripcion" type="text" class="validate"><label for="nuevoActivo-descripcion">Descripción</label></div><div class="input-field col s12"><div id="nuevoActivo-ci" class="chips chips-initial"></div></div><div class="input-field col s12"><select id="nuevoActivo-espacio"></select><label>Espacio del activo</label></div><button onclick="nuevoActivo()" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div></div></div><!--EDITAR ACTIVOS--><div id="editar-activos" class="UPanel editar-activos activos-uPanel"><!--Titulo del UPanel--><blockquote><h4>Editar Activos</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><ul id="activos-editar-tabs-headers" class="tabs tabs-fixed-width"><li class="tab col s3"><a class="" href="#test-swipe-1">ID-#</a></li><li class="tab col s3"><a class="active" href="#activos-editar-nuevo">Nuevo</a></li></ul></div><div id="activos-editar-tabs"></div></div></div>';
                 $( "#activosPaneles" ).append( elm );
                  
                  //Nombre y tipo
@@ -393,6 +437,8 @@ function verEspacios(){
 }
 function displayEspacios(espacios){
     _espacios=espacios;
+    document.getElementById("solicitar-espacios-espacio").innerHTML="";
+    document.getElementById("solicitar-soporte-espacio").innerHTML="";
     for (var i = 0; i<espacios.length; i++){
         var option= '<option value="'+espacios[i].codigo+'">'+espacios[i].codigo+'</option>';
         $( "#solicitar-espacios-espacio" ).append( option );
@@ -420,7 +466,7 @@ function displayEspacios(espacios){
         if (c==0){
             displayEspacios='<div class="row">';
         } 
-        espacio='<div id="elemento_'+espacios[i]._id+'" class="col s12 m4"><div class="card"><div style="padding-top:0px; padding-bottom:0px; padding-left:10px; padding-right:0px;" class="card-action grey lighten-2"><div class="row" style="margin-bottom:0px;"><div class="col s10"><p style="margin-bottom:10px;"><i class="material-icons left">place</i></p></div><div class="col s2"><p style="margin-bottom:10px;"><input type="checkbox" class="filled-in checkbox-blue espaciosCheckbox" id="'+espacios[i]._id+'"><label for="'+espacios[i]._id+'"></label></p></div></div></div><div style="padding-top:0px; padding-bottom:5px; padding-left:10px; padding-right:15px;" class="card-action"><h5>'+espacios[i].codigo+'<span class="new badge blue darken-2" data-badge-caption="">'+get_estadoEspacio(espacios[i].estado)+'</span></h5><h6><i style="margin-right:5px;" class="material-icons left">ac_unit</i></h6>'+get_aireEspacio(espacios[i].aireAcondicionado)+'<h6><i style="margin-right:5px;" class="material-icons left">layers</i>'+espacios[i].planta+'° Planta</h6></div><div style="padding-top:5px; padding-bottom:10px; padding-left:15px; padding-right:15px;" class="card-action"><h6><i style="margin-right:5px;" class="material-icons left">info_outline</i><b>Descripción</b></h6><p style="margin-top:10px; margin-bottom:10px;">'+espacios[i].descripcion+'</p></div><div class="card-action"><a onclick="verAgenda('+"'"+espacios[i]._id+"'"+','+"'"+espacios[i].codigo+"'"+')" class="btn blue darken-2" href="#"><i class="material-icons left">today</i>Ver Agenda</a></div></div></div>';
+        espacio='<div id="elemento_'+espacios[i]._id+'" class="col s12 m4"><div class="card"><div style="padding-top:0px; padding-bottom:0px; padding-left:10px; padding-right:0px;" class="card-action grey lighten-2"><div class="row" style="margin-bottom:0px;"><div class="col s10"><p style="margin-bottom:10px;"><i class="material-icons left">place</i></p></div><div class="col s2"><p style="margin-bottom:10px;"><input type="checkbox" class="filled-in checkbox-blue espaciosCheckbox" id="'+espacios[i]._id+'"><label for="'+espacios[i]._id+'"></label></p></div></div></div><div style="padding-top:0px; padding-bottom:5px; padding-left:10px; padding-right:15px;" class="card-action"><h5>'+espacios[i].codigo+'<span style="cursor:pointer; padding:5px; padding-right:10px;" onclick="verAgenda('+"'"+espacios[i]._id+"'"+','+"'"+espacios[i].codigo+"'"+')" class="new badge blue darken-2" data-badge-caption=""><i class="material-icons left">today</i><b>Agenda</b></span></h5><h6><i style="margin-right:5px;" class="material-icons left">ac_unit</i></h6>'+get_aireEspacio(espacios[i].aireAcondicionado)+'<h6><i style="margin-right:5px;" class="material-icons left">layers</i>'+espacios[i].planta+'° Planta</h6></div><div style="padding-top:5px; padding-bottom:10px; padding-left:15px; padding-right:15px;" class="card-action"><h6><i style="margin-right:5px;" class="material-icons left">info_outline</i><b>Descripción</b></h6><p style="margin-top:10px; margin-bottom:10px;">'+espacios[i].descripcion+'</p></div></div></div>';
         displayEspacios=displayEspacios+espacio;
         if (c==2 || i==espacios.length-1){
             displayEspacios= displayEspacios+'</div>';
@@ -458,63 +504,72 @@ function nuevoActivo(){
     if (document.getElementById("nuevoActivo-descripcion").value==""){
         valido=false;
     }
-    if (document.getElementById("nuevoActivo-estado").value==""){
-        valido=false;
-    }
     if (document.getElementById("nuevoActivo-espacio").value==""){
         valido=false;
     }
+    var pci = $('.chips-initial').material_chip('data');
+    var ci=new Array();
+    if (pci.length==0){
+        valido=false;
+    }else{
+        if (pci.length!=parseInt(document.getElementById("nuevoActivo-cantidad").value)){
+             valido=false;
+        }else{
+            for (var i=0; i<pci.length; i++){
+                ci.push(pci[i].tag);
+            }
+        }
+    }
+    
+    
     if (valido==true){
         var nuevoActivo = {
                 tipo: document.getElementById("nuevoActivo-tipo").value,
                 descripcion: document.getElementById("nuevoActivo-descripcion").value,
-                estado: document.getElementById("nuevoActivo-estado").value,
                 espacio: document.getElementById("nuevoActivo-espacio").value,
                 cantidad: parseInt(document.getElementById("nuevoActivo-cantidad").value),
+                ci: ci,
                 user:_user.correo
         }
-        
         $.ajax({
                 type: "POST",
                 url: ruta+"/nuevoActivo",
                 dataType: "json",   
                 data: JSON.stringify(nuevoActivo),
                 timeout: 5000,
-                success: function(){
+                success: function(res){
                    $('#loading').modal('close');
-                   document.getElementById("nuevoActivo-descripcion").value="";
-                   document.getElementById("nuevoActivo-cantidad").value="1";
-                   $("#nuevoActivo-descripcion").removeClass("valid");
-                   var nuevoActivo_tipo=document.getElementById("nuevoActivo-tipo").childNodes;
-                   for (var i=0; i<nuevoActivo_tipo.length; i++){
-                       if (nuevoActivo_tipo[i].nodeName=="OPTION"){
-                           if (nuevoActivo_tipo[i].selected==true){
-                               nuevoActivo_tipo[i].selected=false;
+                    if (res.dup){
+                        var $toastContent = $('<span><i class="material-icons left">warning</i>Almenos uno de los códigos institucionales ya existe<span>');
+                        Materialize.toast($toastContent, 5000, "orange");
+                    }else{
+                       document.getElementById("nuevoActivo-descripcion").value="";
+                       document.getElementById("nuevoActivo-cantidad").value="1";
+                       $("#nuevoActivo-descripcion").removeClass("valid");
+                       var nuevoActivo_tipo=document.getElementById("nuevoActivo-tipo").childNodes;
+                       for (var i=0; i<nuevoActivo_tipo.length; i++){
+                           if (nuevoActivo_tipo[i].nodeName=="OPTION"){
+                               if (nuevoActivo_tipo[i].selected==true){
+                                   nuevoActivo_tipo[i].selected=false;
+                               }
                            }
                        }
-                   }
-                   nuevoActivo_tipo[1].selected=true;
-                   var nuevoActivo_estado=document.getElementById("nuevoActivo-estado").childNodes;
-                   for (var i=0; i<nuevoActivo_estado.length; i++){
-                       if (nuevoActivo_estado[i].nodeName=="OPTION"){
-                           if (nuevoActivo_estado[i].selected==true){
-                               nuevoActivo_estado[i].selected=false;
+                       nuevoActivo_tipo[1].selected=true;                   
+                       var nuevoActivo_espacio=document.getElementById("nuevoActivo-espacio").childNodes;
+                       for (var i=0; i<nuevoActivo_espacio.length; i++){
+                           if (nuevoActivo_espacio[i].nodeName=="OPTION"){
+                               if (nuevoActivo_espacio[i].selected==true){
+                                   nuevoActivo_espacio[i].selected=false;
+                               }
                            }
                        }
-                   }
-                   nuevoActivo_estado[1].selected=true;                    
-                   var nuevoActivo_espacio=document.getElementById("nuevoActivo-espacio").childNodes;
-                   for (var i=0; i<nuevoActivo_espacio.length; i++){
-                       if (nuevoActivo_espacio[i].nodeName=="OPTION"){
-                           if (nuevoActivo_espacio[i].selected==true){
-                               nuevoActivo_espacio[i].selected=false;
-                           }
-                       }
-                   }
-                   nuevoActivo_espacio[0].selected=true;
-                   $('select').material_select();
-                   var $toastContent = $('<span><i class="material-icons left">check</i> Activo Guardado<span>');
-                   Materialize.toast($toastContent, 5000, "green");
+                       nuevoActivo_espacio[0].selected=true;
+                       $('select').material_select();
+                       var $toastContent = $('<span><i class="material-icons left">check</i> Activo Guardado<span>');
+                       Materialize.toast($toastContent, 5000, "green");
+                       $('.chips-initial').material_chip({data: []});
+                    }
+                   
                 },
                 error: function(){
                    $('#loading').modal('close');
@@ -522,12 +577,14 @@ function nuevoActivo(){
                    Materialize.toast($toastContent, 5000, "red");
                 }
         });
-        
     }else{
          $('#loading').modal('close');
          var $toastContent = $('<span><i class="material-icons left">warning</i> Debe llenar todos los campos correctamente<span>');
          Materialize.toast($toastContent, 5000, "orange");
     }
+    
+    
+    
 }
 
 function verActivos(){
@@ -576,7 +633,7 @@ function displayActivos(activos){
         if (c==0){
             displayActivos='<div class="row">';
         } 
-        activo='<div id="elemento_'+activos[i]._id+'" class="col s12 m4"><div class="card"><div style="padding-top:0px; padding-bottom:0px; padding-left:10px; padding-right:0px;" class="card-action grey lighten-2"><div class="row" style="margin-bottom:0px;"><div class="col s9"><p style="margin-bottom:10px;"><i style="margin-right:10px;" class="material-icons left">'+getIconByTipo(activos[i].tipo)+'</i>'+activos[i].codigo+'</p></div><div class="col s3"><p class="right-align" style="margin-bottom:10px;"><input type="checkbox" class="filled-in checkbox-blue activosCheckbox" id="'+activos[i]._id+'" name="'+activos[i].codigo+'"><label for="'+activos[i]._id+'"></label></p></div></div></div><div style="padding-top:0px; padding-bottom:5px; padding-left:10px; padding-right:15px;" class="card-action"><h5>'+activos[i].tipo+'<span class="new badge blue darken-2" data-badge-caption="">'+activos[i].estado+'</span></h5><h6><i style="margin-right:5px;" class="material-icons left">place</i><span>'+activos[i].espacio+'</span></h6></div><div style="padding-top:5px; padding-bottom:10px; padding-left:15px; padding-right:15px;" class="card-action"><h6><i style="margin-right:5px;" class="material-icons left">info_outline</i><b>Descripción</b></h6><p style="margin-top:10px; margin-bottom:10px;">'+activos[i].descripcion+'</p></div></div></div>';
+        activo='<div id="elemento_'+activos[i]._id+'" class="col s12 m4"><div class="card"><div style="padding-top:0px; padding-bottom:0px; padding-left:10px; padding-right:0px;" class="card-action grey lighten-2"><div class="row" style="margin-bottom:0px;"><div class="col s9"><p style="margin-bottom:10px;"><i style="margin-right:10px;" class="material-icons left">'+getIconByTipo(activos[i].tipo)+'</i>'+activos[i].codigo+'</p></div><div class="col s3"><p class="right-align" style="margin-bottom:10px;"><input type="checkbox" class="filled-in checkbox-blue activosCheckbox" id="'+activos[i]._id+'" name="'+activos[i].codigo+'"><label for="'+activos[i]._id+'"></label></p></div></div></div><div style="padding-top:0px; padding-bottom:5px; padding-left:10px; padding-right:15px;" class="card-action"><h5>'+activos[i].tipo+'<span class="new badge blue darken-2 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Código Institucional" data-badge-caption="">'+activos[i].codigoInstitucional+'</span></h5><h6><i style="margin-right:5px;" class="material-icons left">place</i><span>'+activos[i].espacio+'</span></h6></div><div style="padding-top:5px; padding-bottom:10px; padding-left:15px; padding-right:15px;" class="card-action"><h6><i style="margin-right:5px;" class="material-icons left">info_outline</i><b>Descripción</b></h6><p style="margin-top:10px; margin-bottom:10px;">'+activos[i].descripcion+'</p></div></div></div>';
         displayActivos=displayActivos+activo;
         ids[c]=activos[i]._id;
         if (c==2 || i==activos.length-1){
@@ -586,6 +643,7 @@ function displayActivos(activos){
         }
         c++;
     }
+    $('.tooltipped').tooltip({delay: 50});
 }
 // HEAD
 function updateActivos(){
@@ -874,7 +932,7 @@ function nuevoEditarActivos(elm){
     }
     var tab_header= '<li class="tab col s3"><a class="'+active+'" href="#activos-editar-nuevo">Nuevo</a>';    
     $( "#activos-editar-tabs-headers" ).append( tab_header );
-    var tab_body='<div id="activos-editar-nuevo" class="col s12 card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><input id="activos-editar-nuevo-codigo" type="text" class="validate"><label for="activos-editar-nuevo-codigo">Id del Activo</label></div><div class="input-field col s12"><input id="activos-editar-nuevo-descripcion" type="text" class="validate"><label for="activos-editar-nuevo-descripcion">Descripción</label></div><div class="input-field col s12"><select  id="activos-editar-nuevo-estado"><option value="" disabled selected>Estado del activo</option><option value="1">Disponible</option><option value="2">Ocupado</option><option class="browser-default" value="3">Dañado</option></select></div><div class="input-field col s12"><select  id="activos-editar-nuevo-espacio">'+espaciosList+'</select></div><button id="activos-editar-nuevo-btn" onclick=" FUNCION " class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div>';
+    var tab_body='<div id="activos-editar-nuevo" class="col s12 card"><div style="padding-bottom:30px;" class="container"><br><div><h5 class="center-align">Seleccione activos para editar</h5></div></div></div>';
     $( "#activos-editar-tabs" ).append( tab_body );
     if (checked.length>0){
         var descripcionValue="";
@@ -897,17 +955,8 @@ function nuevoEditarActivos(elm){
                    espacioValue= _activos[u].espacio;
                 }
             }
-            tab_body='<div id="activos-editar-'+checked[i].id+'" class="col s12 card"> <i onclick="editClose(this, '+"'activos'"+')" id="editX-'+checked[i].id+'" style="margin-top:15px; cursor:pointer;" class="material-icons right">clear</i><div style="padding-bottom:30px;" class="container"><br> <div class="input-field col s12"><input id="activos-editar-'+checked[i].id+'-descripcion" type="text" class="active validate" value="'+descripcionValue+'"><label for="activos-editar-'+checked[i].id+'-descripcion">Descripción</label></div><div class="input-field col s12"><select  id="activos-editar-'+checked[i].id+'-estado"><option value="" disabled>Estado del activo</option><option value="Disponible">Disponible</option><option value="Ocupado">Ocupado</option><option value="Dañado">Dañado</option></select></div><div class="input-field col s12"><select  id="activos-editar-'+checked[i].id+'-espacio">'+espaciosList+'</select></div><div class="input-field col s12" style="padding-bottom:20px;"><button id="activos-editar-'+checked[i].id+'-btn" name="'+checked[i].name+'" onclick="editarElemento(this,'+"'activos'"+')" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div><br></div></div>';
+            tab_body='<div id="activos-editar-'+checked[i].id+'" class="col s12 card"> <i onclick="editClose(this, '+"'activos'"+')" id="editX-'+checked[i].id+'" style="margin-top:15px; cursor:pointer;" class="material-icons right">clear</i><div style="padding-bottom:30px;" class="container"><br><br> <div class="input-field col s12"><input id="activos-editar-'+checked[i].id+'-descripcion" type="text" class="active validate" value="'+descripcionValue+'"><label for="activos-editar-'+checked[i].id+'-descripcion">Descripción</label></div><div class="input-field col s12"><select  id="activos-editar-'+checked[i].id+'-espacio">'+espaciosList+'</select></div><div class="input-field col s12" style="padding-bottom:20px;"><button id="activos-editar-'+checked[i].id+'-btn" name="'+checked[i].name+'" onclick="editarElemento(this,'+"'activos'"+')" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div><br></div></div>';
             $( "#activos-editar-tabs" ).append( tab_body );
-            var editarActivo_estado=document.getElementById('activos-editar-'+checked[i].id+'-estado').childNodes;
-            for (var u=0; u<editarActivo_estado.length; u++){
-               if (editarActivo_estado[u].nodeName=="OPTION"){
-                   if (editarActivo_estado[u].innerHTML==estadoValue){
-                       lista_de_options.push(editarActivo_estado[u]);
-                       editarActivo_estado[u].setAttribute("selected", true);
-                   }
-               }
-            }
             var editarActivo_espacio=document.getElementById('activos-editar-'+checked[i].id+'-espacio').childNodes;
             for (var u=0; u<editarActivo_espacio.length; u++){
                if (editarActivo_espacio[u].nodeName=="OPTION"){
@@ -941,7 +990,7 @@ function nuevoEditarEspacios(elm){
     }
     var tab_header= '<li class="tab col s3"><a class="'+active+'" href="#espacios-editar-nuevo">Nuevo</a>';    
     $( "#espacios-editar-tabs-headers" ).append( tab_header );
-    var tab_body='<div id="espacios-editar-nuevo" class="col s12 card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><input id="espacios-editar-nuevo-codigo" type="text" class="validate"><label for="espacios-editar-nuevo-codigo">Código del Espacio</label></div><div class="input-field col s12"><select id="espacios-editar-nuevo-descripcion"><option value="" disabled selected>Elija una opción</option><option value="1">1° Planta</option><option value="2">2° Planta</option></select><label>Planta</label></div><div class="input-field col s12"><input id="espacios-editar-nuevo-descripcion" type="text" class="validate"><label for="espacios-editar-nuevo-descripcion">Descripción</label></div><button id="espacios-editar-nuevo-btn" onclick=" FUNCION " class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div>';
+    var tab_body='<div id="espacios-editar-nuevo" class="col s12 card"><div style="padding-bottom:30px;" class="container"><br><div><h5 class="center-align">Seleccione espacios para editar</h5></div></div></div>';
     $( "#espacios-editar-tabs" ).append( tab_body );
     if (checked.length>0){
         var descripcionValue="";
@@ -968,7 +1017,7 @@ function nuevoEditarEspacios(elm){
             
            $( "#espacios-editar-tabs-headers" ).append( tab_header );
             
-            tab_body='<div id="espacios-editar-'+checked[i].id+'" class="col s12 card"><i onclick="editClose(this, '+"'espacios'"+')" id="editX-'+checked[i].id+'" style="margin-top:15px; cursor:pointer;" class="material-icons right">clear</i><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><select id="espacios-editar-'+checked[i].id+'-planta"><option value="" disabled>Elija una opción</option><option value="1">1° Planta</option><option value="2">2° Planta</option></select><label>Planta</label></div><div class="input-field col s12"><input id="espacios-editar-'+checked[i].id+'-descripcion" value="'+descripcionValue+'" type="text" class="validate"><label for="espacios-editar-'+checked[i].id+'-descripcion">Descripción</label></div><div class="input-field col s12"><select id="espacios-editar-'+checked[i].id+'-estado"><option value="" disabled>Elija una opción</option><option value="Disponible">Disponible</option><option value="Ocupado">Ocupado</option></select><label>Estado</label></div><p><input type="checkbox" class="filled-in checkbox-blue" id="espacios-editar-'+checked[i].id+'-aire"/><label for="espacios-editar-'+checked[i].id+'-aire">Aire acondicionado</label></p><button id="espacios-editar-'+checked[i].id+'-btn" name="'+codigoValue+'" onclick="editarElemento(this,'+"'espacios'"+')" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div>';
+            tab_body='<div id="espacios-editar-'+checked[i].id+'" class="col s12 card"><i onclick="editClose(this, '+"'espacios'"+')" id="editX-'+checked[i].id+'" style="margin-top:15px; cursor:pointer;" class="material-icons right">clear</i><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><select id="espacios-editar-'+checked[i].id+'-planta"><option value="" disabled>Elija una opción</option><option value="1">1° Planta</option><option value="2">2° Planta</option></select><label>Planta</label></div><div class="input-field col s12"><input id="espacios-editar-'+checked[i].id+'-descripcion" value="'+descripcionValue+'" type="text" class="validate"><label for="espacios-editar-'+checked[i].id+'-descripcion">Descripción</label></div><p><input type="checkbox" class="filled-in checkbox-blue" id="espacios-editar-'+checked[i].id+'-aire"/><label for="espacios-editar-'+checked[i].id+'-aire">Aire acondicionado</label></p><button id="espacios-editar-'+checked[i].id+'-btn" name="'+codigoValue+'" onclick="editarElemento(this,'+"'espacios'"+')" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div>';
             
             $( "#espacios-editar-tabs" ).append( tab_body );
             
@@ -977,17 +1026,6 @@ function nuevoEditarEspacios(elm){
                if (editarEspacio_planta[u].nodeName=="OPTION"){
                    if (editarEspacio_planta[u].innerHTML==plantaValue+'° Planta'){
                        editarEspacio_planta[u].setAttribute("selected", true);
-                   }
-               }
-            }
-            var editarEspacio_estado=document.getElementById('espacios-editar-'+checked[i].id+'-estado').childNodes;
-            for (var u=0; u<editarEspacio_estado.length; u++){
-               if (editarEspacio_estado[u].nodeName=="OPTION"){
-                   if (editarEspacio_estado[u].innerHTML=='Disponible' && estadoValue==true){
-                       editarEspacio_estado[u].setAttribute("selected", true);
-                   }
-                   if (editarEspacio_estado[u].innerHTML=='Ocupado' && estadoValue==false){
-                       editarEspacio_estado[u].setAttribute("selected", true);
                    }
                }
             }
@@ -1035,7 +1073,6 @@ function editarElemento(item, tipo){
     switch(tipo){
         case "activos":
             messenger.descripcion=document.getElementById('activos-editar-'+id+'-descripcion').value;
-            messenger.estado=document.getElementById('activos-editar-'+id+'-estado').value;
             messenger.espacio=document.getElementById('activos-editar-'+id+'-espacio').value;
             messenger.user=_user.correo;
             $.ajax({
@@ -1064,12 +1101,7 @@ function editarElemento(item, tipo){
         break;
         case "espacios":
             messenger.descripcion=document.getElementById('espacios-editar-'+id+'-descripcion').value;
-            messenger.planta=document.getElementById('espacios-editar-'+id+'-planta').value;
-            messenger.estado=false;
-            estado_e=document.getElementById('espacios-editar-'+id+'-estado').value;
-            if (estado_e=='Disponible'){
-                messenger.estado=true;
-            }   
+            messenger.planta=document.getElementById('espacios-editar-'+id+'-planta').value;   
             messenger.aireAcondicionado = document.getElementById('espacios-editar-'+id+'-aire').checked;
             messenger.user=_user.correo;
             $.ajax({
@@ -2042,6 +2074,7 @@ function MyActivity(){
     });
 }
 function displayMyActivity(actividad){
+    _myActivity=actividad;
     var d = document;
     d.getElementById("displayMyActivity").innerHTML="";
     var mainIcon="";
@@ -2165,6 +2198,7 @@ function Activity(){
     });
 }
 function displayActivity(actividad){
+    _activity=actividad;
     var d = document;
     d.getElementById("displayActivity").innerHTML="";
     var mainIcon="";

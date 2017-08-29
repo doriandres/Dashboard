@@ -127,11 +127,11 @@
                                     <!-- Titulo del UPanel -->
                                     <blockquote>
                                         <div class="row">
-                                            <div class="col s6">
+                                            <div class="col s4">
                                                 <h4>Activos</h4>
                                             </div>
-                                            <div class="col s6">
-                                                <div class="input-field col s12 m6">
+                                            <div class="col s8">
+                                                <div class="input-field col s12 m3">
                                                     <select id="chitoesguapo">
                                                       <option value="Ninguno" selected>Todos</option>
                                                       <option value="Auxiliar">Auxiliar</option>
@@ -140,12 +140,21 @@
                                                     </select>
                                                     <label>Tipo</label>
                                                 </div>
-                                                <div class="input-field col s12 m6">
+                                                <div class="input-field col s12 m3">
                                                     <select>
                                                       <option value="Ninguno" selected>Todos</option>
                                                     </select>
                                                     <label>Espacio</label>
                                                 </div>
+                                                <div class="input-field col s12 m3">
+                                                     <input id="search_activo_codigo" type="text" class="validate">
+                                                     <label for="search_activo_codigo">Código</label>
+                                                </div>
+                                                <div class="input-field col s12 m3">
+                                                     <input id="search_activo_ci" type="text" class="validate">
+                                                     <label for="search_activo_ci">CI</label>
+                                                </div>
+                                                
                                             </div>
                                              
                                         </div>
@@ -223,16 +232,15 @@
                                             </div>
                                              <div class="input-field col s3">
                                                 <select>
-                                                  <option value="1" selected>Ninguno</option>
-                                                  <option value="2">Id</option>
-                                                  <option value="3">Planta</option>
-                                                  <option value="3">Estado</option>
+                                                  <option value="" selected>Todas</option>
+                                                  <option value="1" >1° Planta</option>
+                                                  <option value="2">2° Planta</option>                                
                                                 </select>
-                                                <label>Filtros</label>
+                                                <label>Planta</label>
                                              </div>
                                             <div class="input-field col s3">
                                               <input id="last_name" type="text" class="validate">
-                                              <label for="last_name">Buscar</label>
+                                              <label for="last_name">Código</label>
                                             </div>
                                         </div>
                                     </blockquote>

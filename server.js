@@ -37,11 +37,10 @@ var espacios_esquema={
 };
 var activos_esquema={
     codigo: String,
+    codigoInstitucional:String,
     tipo: String,
     descripcion: String,
-    estado: String,
     espacio: String,
-    agenda: []
 };
 var solicitudes_esquema={
     tipo: String,
@@ -241,7 +240,6 @@ app.post("/editarEspacio", function(req, res){
                            { $set: { 
                                 'descripcion': datos.descripcion,
                                 'planta': datos.planta,
-                                'estado': datos.estado,
                                 'aireAcondicionado': datos.aireAcondicionado
                                 }
                             }, 
@@ -305,67 +303,97 @@ app.post("/nuevoActivo", function(req, res){
     req.on('end', function(){
         var respuesta= new Object();
         respuesta.resultado="";
-        Activo.findOne({'tipo':datos.tipo}, function(err, pack){
-            if (pack==null){ 
-                if (datos.cantidad>1){
-                    var nuevoActivos=new Array();
-                    for (var i=0; i < datos.cantidad; i++){
-                        var _n=i+1;
-                        if (datos.tipo=="Auxiliar"){
-                            datos.codigo="AUX";
+        Activo.find({codigoInstitucional:{ $in: datos.ci }}, function(err, socks){
+            if (socks==null || socks.length<1){
+                Activo.findOne({'tipo':datos.tipo}, function(err, pack){
+                    if (pack==null){ 
+                        if (datos.cantidad>1){
+                            var nuevoActivos=new Array();
+                            for (var i=0; i < datos.cantidad; i++){
+                                var _n=i+1;
+                                if (datos.tipo=="Auxiliar"){
+                                    datos.codigo="AUX";
+                                }
+                                if (datos.tipo=="Equipo"){
+                                    datos.codigo="EQU";
+                                }
+                                if (datos.tipo=="Mobiliario"){
+                                    datos.codigo="MOB";
+                                }
+                                datos.codigo=datos.codigo+"-"+_n.toString();
+                                datos.codigoInstitucional=datos.ci[i];
+                                nuevoActivos[i]=new Activo(datos);
+                                nuevoActivos[i].save(function(err, doc){
+                                     var arr=new Array();
+                                     arr[0]= doc;
+                                     newActivity('Activo', 'Creado', datos.user, arr);
+                                });
+                            }             
+                        }else{
+                             var _n=1;
+                             if (datos.tipo=="Auxiliar"){
+                                    datos.codigo="AUX";
+                              }
+                              if (datos.tipo=="Equipo"){
+                                    datos.codigo="EQU";
+                              }
+                              if (datos.tipo=="Mobiliario"){
+                                    datos.codigo="MOB";
+                              }
+                              datos.codigo=datos.codigo+"-"+_n.toString();
+                              datos.codigoInstitucional=datos.ci[0];
+                              var nuevoActivo=new Activo(datos);
+                              nuevoActivo.save(function(err, doc){
+                                    var arr=new Array();
+                                    arr[0]= doc;
+                                    newActivity('Activo', 'Creado', datos.user, arr);
+                              });
+                        } 
+                    }else{
+                        var disponible="";
+                        var packCode=pack.codigo;
+                        var arrayPack= packCode.split("-");
+                        var num_text=arrayPack[1];
+                        var num_n=  parseInt(num_text);
+                        var nuevoActivos=new Array();
+                        for (var i=0; i < datos.cantidad; i++){
+                            var _n= 1+i;
+                            var n_num= num_n+_n;
+                            var numero= n_num.toString();
+                            if (datos.tipo=="Auxiliar"){
+                                datos.codigo="AUX";
+                            }
+                            if (datos.tipo=="Equipo"){
+                                datos.codigo="EQU";
+                            }
+                            if (datos.tipo=="Mobiliario"){
+                                datos.codigo="MOB";
+                            }
+                            datos.codigo=datos.codigo+"-"+numero;
+                            datos.codigoInstitucional=datos.ci[i];
+                            nuevoActivos[i]=new Activo(datos);
+                            nuevoActivos[i].save(function(err, doc){
+                                     var arr=new Array();
+                                     arr[0]= doc;
+                                     newActivity('Activo', 'Creado', datos.user, arr);
+                            });
                         }
-                        if (datos.tipo=="Equipo"){
-                            datos.codigo="EQU";
-                        }
-                        if (datos.tipo=="Mobiliario"){
-                            datos.codigo="MOB";
-                        }
-                        datos.codigo=datos.codigo+"-"+_n.toString();
-                        nuevoActivos[i]=new Activo(datos);
-                        nuevoActivos[i].save(function(err, doc){
-                             var arr=new Array();
-                             arr[0]= doc;
-                             newActivity('Activo', 'Creado', datos.user, arr);
-                        });
-                    }             
-                }  
+                    }
+                    if (err){
+                    //nothing yet    
+                    }else{
+                        res.setHeader("Content-Type", "text/json", "Access-Control-Allow-Origin", "*");
+                        res.send(respuesta);
+                        res.end();
+                    }
+                }).sort({'_id': -1}); 
             }else{
-                var disponible="";
-                var packCode=pack.codigo;
-                var arrayPack= packCode.split("-");
-                var num_text=arrayPack[1];
-                var num_n=  parseInt(num_text);
-                var nuevoActivos=new Array();
-                for (var i=0; i < datos.cantidad; i++){
-                    var _n= 1+i;
-                    var n_num= num_n+_n;
-                    var numero= n_num.toString();
-                    if (datos.tipo=="Auxiliar"){
-                        datos.codigo="AUX";
-                    }
-                    if (datos.tipo=="Equipo"){
-                        datos.codigo="EQU";
-                    }
-                    if (datos.tipo=="Mobiliario"){
-                        datos.codigo="MOB";
-                    }
-                    datos.codigo=datos.codigo+"-"+numero;
-                    nuevoActivos[i]=new Activo(datos);
-                    nuevoActivos[i].save(function(err, doc){
-                             var arr=new Array();
-                             arr[0]= doc;
-                             newActivity('Activo', 'Creado', datos.user, arr);
-                    });
-                }
-            }
-            if (err){
-            //nothing yet    
-            }else{
+                respuesta.dup=true;
                 res.setHeader("Content-Type", "text/json", "Access-Control-Allow-Origin", "*");
                 res.send(respuesta);
-                res.end();
+                res.end();   
             }
-        }).sort({'_id': -1});;
+        });
     });   
 });
 app.post("/editarActivo", function(req, res){
@@ -376,7 +404,6 @@ app.post("/editarActivo", function(req, res){
            Activo.update({ 'codigo': datos.id }, 
                           { $set: { 
                               'descripcion': datos.descripcion,
-                              'estado':datos.estado,
                               'espacio':datos.espacio
                             }
                           }, 
