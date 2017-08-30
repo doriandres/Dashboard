@@ -10,9 +10,123 @@ var _myActivity= new Array();
 var _user = new Object();
 var audioAlert = new Audio('sounds/nuevaSolicitud.mp3');
 
-$("#activosFiltro").change(function(){
-    alert("change");
-})
+
+function filters(elm){
+    var d=document;
+    var arr= new Array();
+    arr= elm.id.split("-");
+    var tipo= arr[0];
+    switch(tipo){
+        case "activos":
+                var activos_filtrados=new Array();
+                for (var i=0; i<_activos.length; i++){
+                    var type=d.getElementById("activos-filtro-tipo").value;
+                    var space=d.getElementById("activos-filtro-espacio").value;
+                    var code=d.getElementById("activos-filtro-codigo").value;//input
+                    var ci=d.getElementById("activos-filtro-ci").value;//input
+                    
+                    if (type=="Todos"){
+                        type=_activos[i].tipo;
+                    }
+                    if (space=="Todos"){
+                        space=_activos[i].espacio;
+                    }
+                    if (code==""){
+                        code=_activos[i].codigo;
+                    }
+                    if (ci==""){
+                        ci=_activos[i].codigoInstitucional;
+                    }
+                    if (_activos[i].tipo==type && _activos[i].espacio==space && _activos[i].codigo==code && _activos[i].codigoInstitucional==ci){
+                        activos_filtrados.push(_activos[i]);
+                    } 
+                }
+                displayActivos(activos_filtrados, false);
+            break; //fin de activos
+        case "espacios":
+                var espacios_filtrados=new Array();
+                for (var i=0; i<_espacios.length; i++){
+                    var plant=d.getElementById("espacios-filtro-planta").value; 
+                    var code=d.getElementById("espacios-filtro-codigo").value;//input
+                    if (plant=="Todos"){
+                        plant=_espacios[i].planta;
+                    }
+                    if (code==""){
+                        code=_espacios[i].codigo;
+                    }
+                    if (_espacios[i].planta==plant && _espacios[i].codigo==code){
+                        espacios_filtrados.push(_espacios[i]);
+                    } 
+                }
+                displayEspacios(espacios_filtrados, false);
+            break; //fin de espacios
+        case "usuarios":
+                var usuarios_filtrados=new Array();
+                for (var i=0; i<_usuarios.length; i++){
+                    var type=d.getElementById("usuarios-filtro-tipo").value; 
+                    var mail=d.getElementById("usuarios-filtro-correo").value;//input
+                    if (type=="Todos"){
+                        type=_usuarios[i].tipo;
+                    }
+                    if (mail==""){
+                        mail=_usuarios[i].correo;
+                    }
+                    if (_usuarios[i].tipo==type && _usuarios[i].correo==mail){
+                        usuarios_filtrados.push(_usuarios[i]);
+                    } 
+                }
+                displayUsuarios(usuarios_filtrados, false);
+            break; //fin de espacios
+        case "actividad":
+                var actividad_filtrados=new Array();
+                for (var i=0; i<_activity.length; i++){
+                    var action=d.getElementById("actividad-filtro-accion").value;
+                    var elem=d.getElementById("actividad-filtro-elemento").value;
+                    var id=d.getElementById("actividad-filtro-id").value;//input
+                    var mail=d.getElementById("actividad-filtro-correo").value;//input
+                    
+                    if (action=="Todos"){
+                        action=_activity[i].tipo;
+                    }
+                    if (elem=="Todos"){
+                        elem=_activity[i].categoria;
+                    }
+                    if (id==""){
+                        id=_activity[i]._id;
+                    }
+                    if (mail==""){
+                        mail=_activity[i].usuario;
+                    }
+                    if (_activity[i].tipo==action && _activity[i].categoria==elem && _activity[i]._id==id && _activity[i].usuario==mail){
+                        actividad_filtrados.push(_activity[i]);
+                    } 
+                }
+                displayActivity(actividad_filtrados, false);
+            break; //fin de activos
+        case "myActividad":
+                var myActividad_filtrados=new Array();
+                for (var i=0; i<_myActivity.length; i++){
+                    var action=d.getElementById("myActividad-filtro-accion").value;
+                    var elem=d.getElementById("myActividad-filtro-elemento").value;
+                    var id=d.getElementById("myActividad-filtro-id").value;//input
+                    
+                    if (action=="Todos"){
+                        action=_myActivity[i].tipo;
+                    }
+                    if (elem=="Todos"){
+                        elem=_myActivity[i].categoria;
+                    }
+                    if (id==""){
+                        id=_myActivity[i]._id;
+                    }
+                    if (_myActivity[i].tipo==action && _myActivity[i].categoria==elem && _myActivity[i]._id==id){
+                        myActividad_filtrados.push(_myActivity[i]);
+                    } 
+                }
+                displayMyActivity(myActividad_filtrados, false);
+            break; //fin de activos
+    }
+}
 
 function initDashboard(){
     $('#loading').modal('open');
@@ -66,7 +180,7 @@ function loadDashboard(w,u){
                                                                       **
                 */
 
-                elm= '<!--Admin Onlys--><!--Actividad GENERAL Panel--><div id="actividadGeneralPanel" class="Panel adminPanel"><div class="row"><!--Menu de la izquierda--><div class="col s12 m3 hide-on-med-and-down"><div class="collection"><a onclick="Activity()" href="#!" class="collection-item active"><i class="material-icons left">timeline</i>Actividad</a></div></div><!--Contenido--><div class="col s12 m8"><div id="actividadGeneral-actividadGeneral" class="UPanel actividadGeneral-actividadGeneral actividadGeneral-uPanel active-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s4"><h4>Actividad</h4></div> <div class="col s8"><div class="input-field col s12 m4">                                                                                  <select>                                                                                                            <option value="Todas" selected>Todas</option>                                                                  <option value="Creado">Creado</option>                                                                        <option value="Editado">Editado</option>                                                                      <option value="Eliminado">Elimando</option>                                                             </select><label>Acción</label></div>                                                                       <div class="input-field col s12 m4">                                                                                <select>                                                                                                             <option value="Todas" selected>Todas</option>                                                                 <option value="Creado">Activos</option>                                                                       <option value="Editado">Espacios</option>                                                                     <option value="Eliminado">Usuarios</option>                                                             </select><label>Elemento</label></div>                                                                  <div class="input-field col s12 m4">                                                                                     <input type="text" class="validate">                                                                           <label >Id Actividad</label></div></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayActivity" class="row"></div></div></div></div></div></div>';
+                elm= '<!--Admin Onlys--><!--Actividad GENERAL Panel--><div id="actividadGeneralPanel" class="Panel adminPanel"><div class="row"><!--Menu de la izquierda--><div class="col s12 m3 hide-on-med-and-down"><div class="collection"><a onclick="Activity()" href="#!" class="collection-item active"><i class="material-icons left">timeline</i>Actividad</a></div></div><!--Contenido--><div class="col s12 m8"><div id="actividadGeneral-actividadGeneral" class="UPanel actividadGeneral-actividadGeneral actividadGeneral-uPanel active-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s4"><h4>Actividad</h4></div> <div class="col s8"><div class="input-field col s12 m3">                                                                                  <select id="actividad-filtro-accion" onchange="filters(this)">                                                       <option value="Todos" selected>Todas</option>                                                                  <option value="Creado">Creado</option>                                                                        <option value="Editado">Editado</option>                                                                      <option value="Eliminado">Elimando</option>                                                             </select><label>Acción</label></div>                                                                       <div class="input-field col s12 m3">                                                                                <select id="actividad-filtro-elemento" onchange="filters(this)">                                                      <option value="Todos" selected>Todos</option>                                                                 <option value="Activo">Activos</option>                                                                       <option value="Espacio">Espacios</option>                                                                     <option value="Usuario">Usuarios</option>                                                             </select><label>Elemento</label></div>                                                                  <div class="input-field col s12 m3">                                                                                     <input type="text" id="actividad-filtro-id" onchange="filters(this)">                                         <label for="actividad-filtro-id">Id Actividad</label></div>                                        <div class="input-field col s12 m3">                                                                                     <input type="text" id="actividad-filtro-correo" onchange="filters(this)">                                         <label for="actividad-filtro-correo">Usuario</label></div></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayActivity" class="row"></div></div></div></div></div></div>';
                 $( "#tools" ).append( elm ); 
                
                 elm = '<li><a onclick="display_Panel(this); historySlctds();" class="solicitudes grey-text text-lighten-2" href="#!"><i class="material-icons left">announcement</i>Solicitudes<span id="solicitudes-badge" class="badge white-text">0</span></a></li>';
@@ -98,7 +212,7 @@ function loadDashboard(w,u){
                                                                      ****
                                                                       **
                 */
-                elm = '<!--Mi Actividad Panel--><div id="actividadPanel" class="Panel adminPanel"><div class="row"><!--Menu de la izquierda--><div id="actividadSideMenu" class="col s12 m3 hide-on-med-and-down"><div class="card"><div class="container"><br><div class="row"><div style="padding-left:0px;" class="col s2 left-align"><h6><i class="material-icons medium  blue-text text-darken-2">account_circle</i></h6></div><div id="userName" style="padding-left:20px; padding-top:6px; font-size:20px;" class="col s10 left-align"></div><div class="col s12 left-align"><blockquote><h6><big id="userType"></big></h6></blockquote></div><br></div></div></div><!--Todos menos los estudiantes--><div class="collection"><a id="ver-actividad-btn" href="#!" onclick="display_uPanel(this); MyActivity();" class="actividad-sideNav ver collection-item active"><i class="material-icons left">timeline</i>Mi Actividad</a></div><div class="collection"><a id="historial-actividad-btn" href="#!" onclick="display_uPanel(this); myHistorySolicitudes();" class="actividad-sideNav historial collection-item"><i class="material-icons left">history</i>Mi historial de solicitudes</a><a id="soporte-actividad-btn" href="#!" onclick="display_uPanel(this); mySoporteLista();" class="actividad-sideNav soporte collection-item"><i class="material-icons left">view_agenda</i>Mi soporte en lista</a><a id="pendientes-actividad-btn" href="#!" onclick="display_uPanel(this); mySolicitudesPendientes();" class="actividad-sideNav pendientes collection-item"><i class="material-icons left">warning</i>Mis solicitudes en pendientes</a></div><div class="collection"><a id="config-actividad-btn" href="#!" onclick="display_uPanel(this); userConfig();" class="actividad-sideNav config collection-item"><i class="material-icons left">settings</i>Configuración del Usuario</a><a onclick="signOut()" href="#!" class="collection-item"><i class="material-icons left">exit_to_app</i>Cerrar Sesión</a></div></div><!--Contenido--><div id="actividadPaneles" class="col s12 m8"><!--Todos menos los estudiantes--><div id="ver-actividad" class="UPanel ver-actividad actividad-uPanel active-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s4"><h4>Mi Actividad</h4></div> <div class="col s8"><div class="input-field col s12 m4">                                                                                                           <select>                                                                                                             <option value="Todas" selected>Todas</option>                                                                  <option value="Creado">Creado</option>                                                                        <option value="Editado">Editado</option>                                                                      <option value="Eliminado">Elimando</option>                                                             </select><label>Acción</label></div>                                                                       <div class="input-field col s12 m4">                                                                                  <select>                                                                                                          <option value="Todas" selected>Todas</option>                                                                  <option value="Creado">Activos</option>                                                                        <option value="Editado">Espacios</option>                                                                      <option value="Eliminado">Usuarios</option>                                                               </select><label>Elemento</label></div>                                                                  <div class="input-field col s12 m4">                                                                                     <input type="text" class="validate">                                                                           <label >Id Actividad</label></div></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayMyActivity" class="row"></div></div></div><div id="historial-actividad" class="UPanel historial-actividad actividad-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s6"><h4>Mi historial de solicitudes</h4></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayMyHistorialSolicitudes" class="row"></div></div></div><div id="soporte-actividad" class="UPanel soporte-actividad actividad-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s12"><h4>Mi soporte en lista</h4></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayMyListSoporte" class="row"></div></div></div><div id="pendientes-actividad" class="UPanel pendientes-actividad actividad-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s6"><h4>Mi solicitudes pendientes</h4></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayMyPendientes" class="row"></div></div></div><div id="config-actividad" class="UPanel config-actividad actividad-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s12"><h4>Configuración del usuario</h4></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="config-form" class="col s12 m9 card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><input id="config-nombre" class="validate" type="text"><label for="usuarios-editar-nuevo-nombre">Nombre</label></div><div class="input-field col s6"><input id="config-apellido1" class="validate" type="text"><label for="config-apellido1" class="">1° Apellido</label></div><div class="input-field col s6"><input id="config-apellido2" class="validate" type="text"><label for="config-apellido2">2° Apellido</label></div><div class="input-field col s12"><input id="config-pass" class="validate" type="password"><label for="config-pass" class="">Contraseña Actual</label></div><div class="input-field col s12"><input id="config-npass" class="validate" type="password"><label for="config-npass" class="">Contraseña Nueva<small>(Opcional)</small></label></div><br><button id="config-btn" onclick="edituUser()" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div></div></div></div></div></div>';
+                elm = '<!--Mi Actividad Panel--><div id="actividadPanel" class="Panel adminPanel"><div class="row"><!--Menu de la izquierda--><div id="actividadSideMenu" class="col s12 m3 hide-on-med-and-down"><div class="card"><div class="container"><br><div class="row"><div style="padding-left:0px;" class="col s2 left-align"><h6><i class="material-icons medium  blue-text text-darken-2">account_circle</i></h6></div><div id="userName" style="padding-left:20px; padding-top:6px; font-size:20px;" class="col s10 left-align"></div><div class="col s12 left-align"><blockquote><h6><big id="userType"></big></h6></blockquote></div><br></div></div></div><!--Todos menos los estudiantes--><div class="collection"><a id="ver-actividad-btn" href="#!" onclick="display_uPanel(this); MyActivity();" class="actividad-sideNav ver collection-item active"><i class="material-icons left">timeline</i>Mi Actividad</a></div><div class="collection"><a id="historial-actividad-btn" href="#!" onclick="display_uPanel(this); myHistorySolicitudes();" class="actividad-sideNav historial collection-item"><i class="material-icons left">history</i>Mi historial de solicitudes</a><a id="soporte-actividad-btn" href="#!" onclick="display_uPanel(this); mySoporteLista();" class="actividad-sideNav soporte collection-item"><i class="material-icons left">view_agenda</i>Mi soporte en lista</a><a id="pendientes-actividad-btn" href="#!" onclick="display_uPanel(this); mySolicitudesPendientes();" class="actividad-sideNav pendientes collection-item"><i class="material-icons left">warning</i>Mis solicitudes en pendientes</a></div><div class="collection"><a id="config-actividad-btn" href="#!" onclick="display_uPanel(this); userConfig();" class="actividad-sideNav config collection-item"><i class="material-icons left">settings</i>Configuración del Usuario</a><a onclick="signOut()" href="#!" class="collection-item"><i class="material-icons left">exit_to_app</i>Cerrar Sesión</a></div></div><!--Contenido--><div id="actividadPaneles" class="col s12 m8"><!--Todos menos los estudiantes--><div id="ver-actividad" class="UPanel ver-actividad actividad-uPanel active-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s4"><h4>Mi Actividad</h4></div> <div class="col s8"><div class="input-field col s12 m4">                                                                                                           <select id="myActividad-filtro-accion" onchange="filters(this)">                                                     <option value="Todos" selected>Todas</option>                                                                  <option value="Creado">Creado</option>                                                                        <option value="Editado">Editado</option>                                                                      <option value="Eliminado">Elimando</option>                                                             </select><label>Acción</label></div>                                                                       <div class="input-field col s12 m4">                                                                                  <select id="myActividad-filtro-elemento" onchange="filters(this)">                                                   <option value="Todos" selected>Todos</option>                                                                  <option value="Activo">Activos</option>                                                                        <option value="Espacio">Espacios</option>                                                                      <option value="Usuario">Usuarios</option>                                                               </select><label>Elemento</label></div>                                                                  <div class="input-field col s12 m4">                                                                                     <input type="text" id="myActividad-filtro-id" onchange="filters(this)">                                    <label for="myActividad-filtro-id">Id Actividad</label></div></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayMyActivity" class="row"></div></div></div><div id="historial-actividad" class="UPanel historial-actividad actividad-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s6"><h4>Mi historial de solicitudes</h4></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayMyHistorialSolicitudes" class="row"></div></div></div><div id="soporte-actividad" class="UPanel soporte-actividad actividad-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s12"><h4>Mi soporte en lista</h4></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayMyListSoporte" class="row"></div></div></div><div id="pendientes-actividad" class="UPanel pendientes-actividad actividad-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s6"><h4>Mi solicitudes pendientes</h4></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayMyPendientes" class="row"></div></div></div><div id="config-actividad" class="UPanel config-actividad actividad-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s12"><h4>Configuración del usuario</h4></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="config-form" class="col s12 m9 card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><input id="config-nombre" class="validate" type="text"><label for="usuarios-editar-nuevo-nombre">Nombre</label></div><div class="input-field col s6"><input id="config-apellido1" class="validate" type="text"><label for="config-apellido1" class="">1° Apellido</label></div><div class="input-field col s6"><input id="config-apellido2" class="validate" type="text"><label for="config-apellido2">2° Apellido</label></div><div class="input-field col s12"><input id="config-pass" class="validate" type="password"><label for="config-pass" class="">Contraseña Actual</label></div><div class="input-field col s12"><input id="config-npass" class="validate" type="password"><label for="config-npass" class="">Contraseña Nueva<small>(Opcional)</small></label></div><br><button id="config-btn" onclick="edituUser()" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div></div></div></div></div></div>';
 
                  $( "#tools" ).append( elm );
 
@@ -144,7 +258,7 @@ function loadDashboard(w,u){
                  
                  
                  
-                 elm = '<!--Usuarios Panel--><div id="usuariosPanel" class=""><div class="row"><!--Menu de la izquierda--><div class="col s12 m3 hide-on-med-and-down"><div class="collection"><a id="ver-usuarios-btn" href="#!" onclick="display_uPanel(this); verUsuarios();" class="usuarios-sideNav ver collection-item active"><i class="material-icons left">people</i>Usuarios</a> </div><div class="collection"><a id="nuevo-usuarios-btn" href="#!" onclick="display_uPanel(this)" class="usuarios-sideNav nuevo collection-item"><i class="material-icons left">add_circle_outline</i>Nuevo Usuario</a><a id="editar-usuarios-btn" href="#!" onclick="display_uPanel(this);nuevoEditarUsuarios(this);" class="usuarios-sideNav editar collection-item"><i class="material-icons left">create</i>Editar Usuarios</a><a id="eliminar-usuarios-btn" href="#!" onclick="eliminar_alert(this)" class="collection-item"><i class="material-icons left">delete_forever</i>Eliminar Usuarios</a></div></div><!--Contenido--><div class="col s12 m8"><!--Usuarios--><div id="ver-usuarios" class="UPanel ver-usuarios usuarios-uPanel active-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s6"><h4>Usuarios</h4></div>                                 <div class="input-field col s3">                                                                                    <select>                                                                                                        <option value="Todos" selected>Todos</option>                                                                  <option value="Administrador">Administrador</option>                                                          <option value="Soporte">Soporte</option>                                                                      <option value="Docente">Docente</option>                                                                      <option value="Estudiante">Estudiante</option>                                                             </select><label>Tipo</label></div>                                                                      <div class="input-field col s3">                                                                                <input id="" type="email" class="validate">                                                                     <label>Correo Electrónico</label></div></div>                                                  </blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><table class="card bordered striped centered responsive-table"><thead><tr><th><i style="" class="material-icons">indeterminate_check_box</i></th><th>Correo Electrónico</th><th>Nombre</th><th>1° Apellido</th><th>2° Apellido</th><th>Tipo</th></tr></thead><tbody id="displayUsuarios"></tbody></table></div></div><!--NUEVO Usuario--><div id="nuevo-usuarios" class="UPanel nuevo-usuarios usuarios-uPanel"><!--Titulo del UPanel--><blockquote><h4>Nuevo Usuario</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><input id="nuevoUsuario-email" type="email" class="validate"><label for="nuevoUsuario-email">Correo electrónico</label></div><div class="input-field col s12"><input id="nuevoUsuario-nombre" type="text" class="validate"><label for="nuevoUsuario-nombre">Nombre</label></div><div class="input-field col s6"><input id="nuevoUsuario-apellido1" type="text" class="validate"><label for="nuevoUsuario-apellido1">1° Apellido</label></div><div class="input-field col s6"><input id="nuevoUsuario-apellido2" type="text" class="validate"><label for="nuevoUsuario-apellido2">2° Apellido</label></div><div class="input-field col s12"><select id="nuevoUsuario-tipo"><option value="" disabled selected>Elija una opción</option><option value="Administrador">Administrador</option><option value="Soporte">Soporte</option><option value="Docente">Docente</option><option value="Estudiante">Estudiante</option></select><label>Tipo</label></div><div class="input-field col s12"><input id="nuevoUsuario-pass" type="password" class="validate"><label for="nuevoUsuario-pass">Contraseña</label></div><div class="input-field col s12"><input id="nuevoUsuario-cpass" type="password" class="validate"><label for="nuevoUsuario-cpass">Confirmar contraseña</label></div><button onclick="nuevoUsuario()" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div></div></div><!--EDITAR Usuario--><div id="editar-usuarios" class="UPanel editar-usuarios usuarios-uPanel"><!--Titulo del UPanel--><blockquote><h4>Editar Usuarios</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody s12 m8"><div class="card col s12 m9"><ul id="usuarios-editar-tabs-headers" class="tabs tabs-fixed-width"><li class="tab col s3"><a class="active" href="#us-a">email</a></li><li class="tab col s3"><a class="active" href="#us-b">Nuevo</a></li></ul></div><div id="usuarios-editar-tabs"></div></div></div></div></div></div>';
+                 elm = '<!--Usuarios Panel--><div id="usuariosPanel" class=""><div class="row"><!--Menu de la izquierda--><div class="col s12 m3 hide-on-med-and-down"><div class="collection"><a id="ver-usuarios-btn" href="#!" onclick="display_uPanel(this); verUsuarios();" class="usuarios-sideNav ver collection-item active"><i class="material-icons left">people</i>Usuarios</a> </div><div class="collection"><a id="nuevo-usuarios-btn" href="#!" onclick="display_uPanel(this)" class="usuarios-sideNav nuevo collection-item"><i class="material-icons left">add_circle_outline</i>Nuevo Usuario</a><a id="editar-usuarios-btn" href="#!" onclick="display_uPanel(this);nuevoEditarUsuarios(this);" class="usuarios-sideNav editar collection-item"><i class="material-icons left">create</i>Editar Usuarios</a><a id="eliminar-usuarios-btn" href="#!" onclick="eliminar_alert(this)" class="collection-item"><i class="material-icons left">delete_forever</i>Eliminar Usuarios</a></div></div><!--Contenido--><div class="col s12 m8"><!--Usuarios--><div id="ver-usuarios" class="UPanel ver-usuarios usuarios-uPanel active-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s6"><h4>Usuarios</h4></div>                                 <div class="input-field col s3">                                                                                    <select id="usuarios-filtro-tipo" onchange="filters(this)">                                                     <option value="Todos" selected>Todos</option>                                                                  <option value="Administrador">Administrador</option>                                                          <option value="Soporte">Soporte</option>                                                                      <option value="Docente">Docente</option>                                                                      <option value="Estudiante">Estudiante</option>                                                             </select><label>Tipo</label></div>                                                                      <div class="input-field col s3">                                                                                <input id="usuarios-filtro-correo" onchange="filters(this)" type="text">                                                                     <label>Correo Electrónico</label></div></div>                                                  </blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><table class="card bordered striped centered responsive-table"><thead><tr><th><i style="" class="material-icons">indeterminate_check_box</i></th><th>Correo Electrónico</th><th>Nombre</th><th>1° Apellido</th><th>2° Apellido</th><th>Tipo</th></tr></thead><tbody id="displayUsuarios"></tbody></table></div></div><!--NUEVO Usuario--><div id="nuevo-usuarios" class="UPanel nuevo-usuarios usuarios-uPanel"><!--Titulo del UPanel--><blockquote><h4>Nuevo Usuario</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><input id="nuevoUsuario-email" type="email" class="validate"><label for="nuevoUsuario-email">Correo electrónico</label></div><div class="input-field col s12"><input id="nuevoUsuario-nombre" type="text" class="validate"><label for="nuevoUsuario-nombre">Nombre</label></div><div class="input-field col s6"><input id="nuevoUsuario-apellido1" type="text" class="validate"><label for="nuevoUsuario-apellido1">1° Apellido</label></div><div class="input-field col s6"><input id="nuevoUsuario-apellido2" type="text" class="validate"><label for="nuevoUsuario-apellido2">2° Apellido</label></div><div class="input-field col s12"><select id="nuevoUsuario-tipo"><option value="" disabled selected>Elija una opción</option><option value="Administrador">Administrador</option><option value="Soporte">Soporte</option><option value="Docente">Docente</option><option value="Estudiante">Estudiante</option></select><label>Tipo</label></div><div class="input-field col s12"><input id="nuevoUsuario-pass" type="password" class="validate"><label for="nuevoUsuario-pass">Contraseña</label></div><div class="input-field col s12"><input id="nuevoUsuario-cpass" type="password" class="validate"><label for="nuevoUsuario-cpass">Confirmar contraseña</label></div><button onclick="nuevoUsuario()" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div></div></div><!--EDITAR Usuario--><div id="editar-usuarios" class="UPanel editar-usuarios usuarios-uPanel"><!--Titulo del UPanel--><blockquote><h4>Editar Usuarios</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody s12 m8"><div class="card col s12 m9"><ul id="usuarios-editar-tabs-headers" class="tabs tabs-fixed-width"><li class="tab col s3"><a class="active" href="#us-a">email</a></li><li class="tab col s3"><a class="active" href="#us-b">Nuevo</a></li></ul></div><div id="usuarios-editar-tabs"></div></div></div></div></div></div>';
                   $( "#PanelesTab" ).append( elm );
                  
                  
@@ -416,7 +530,7 @@ function verEspacios(){
                 timeout: 5000,
                 success: function(res){
                    if (res.resultado==true){
-                       displayEspacios(res.datos);
+                       displayEspacios(res.datos, true);
                        $('#loading').modal('close');
                    }else{
                        $('#loading').modal('close');
@@ -427,8 +541,10 @@ function verEspacios(){
                 }
         });
 }
-function displayEspacios(espacios){
-    _espacios=espacios;
+function displayEspacios(espacios, b){
+    if (b==true){
+        _espacios=espacios;
+    }
     document.getElementById("solicitar-espacios-espacio").innerHTML="";
     document.getElementById("solicitar-soporte-espacio").innerHTML="";
     document.getElementById("activos-filtro-espacio").innerHTML='<option value="Todos" selected>Todos</option>';
@@ -592,7 +708,7 @@ function verActivos(){
                 timeout: 5000,
                 success: function(res){
                    if (res.resultado==true){
-                       displayActivos(res.datos);
+                       displayActivos(res.datos, true);
                        $('#loading').modal('close');
                    }else{
                        $('#loading').modal('close');
@@ -604,11 +720,10 @@ function verActivos(){
         });
 }
 function hdfsb(){return JSON.parse(localStorage.x);}
-function displayActivos(activos){
-
-
-
-    _activos=activos;
+function displayActivos(activos, b){
+    if (b==true){
+       _activos=activos; 
+    }
     document.getElementById("solicitar-activos-lista").innerHTML="";
     for (var i = 0; i<activos.length; i++){
         var option= '<option value="'+activos[i].codigo+'">'+activos[i].codigo+'</option>';
@@ -789,7 +904,7 @@ function verUsuarios(){
                 timeout: 5000,
                 success: function(res){
                    if (res.resultado==true){
-                       displayUsuarios(res.datos);
+                       displayUsuarios(res.datos, true);
                        $('#loading').modal('close');
                    }else{
                        $('#loading').modal('close');
@@ -800,8 +915,10 @@ function verUsuarios(){
                 }
         });
 }
-function displayUsuarios(usuarios){
-    _usuarios=usuarios;
+function displayUsuarios(usuarios, b){
+    if (b==true){
+        _usuarios=usuarios;
+    }
     document.getElementById("displayUsuarios").innerHTML="";
     var displayActivos="";
     var usuario="";
@@ -2154,7 +2271,7 @@ function MyActivity(){
         success: function(res){
             $('#loading').modal('close');
             if (res.resultado==true){
-                displayMyActivity(res.actividad);
+                displayMyActivity(res.actividad, true);
             }else{
                 var $toastContent = $('<span><i class="material-icons left">error</i> Error de conexión intente más     tarde</span>');
                 Materialize.toast($toastContent, 5000, "red");
@@ -2167,8 +2284,10 @@ function MyActivity(){
         }
     });
 }
-function displayMyActivity(actividad){
-    _myActivity=actividad;
+function displayMyActivity(actividad, b){
+    if (b==true){
+        _myActivity=actividad;
+    }
     var d = document;
     d.getElementById("displayMyActivity").innerHTML="";
     var mainIcon="";
@@ -2278,7 +2397,7 @@ function Activity(){
         success: function(res){
             $('#loading').modal('close');
             if (res.resultado==true){
-                displayActivity(res.actividad);
+                displayActivity(res.actividad, true);
             }else{
                 var $toastContent = $('<span><i class="material-icons left">error</i> Error de conexión intente más     tarde</span>');
                 Materialize.toast($toastContent, 5000, "red");
@@ -2291,8 +2410,10 @@ function Activity(){
         }
     });
 }
-function displayActivity(actividad){
-    _activity=actividad;
+function displayActivity(actividad, b){
+    if (b==true){
+          _activity=actividad;
+    }
     var d = document;
     d.getElementById("displayActivity").innerHTML="";
     var mainIcon="";

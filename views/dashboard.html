@@ -133,8 +133,8 @@
                                             </div>
                                             <div class="col s8">
                                                 <div class="input-field col s12 m3">
-                                                    <select id="chitoesguapo">
-                                                      <option value="Ninguno" selected>Todos</option>
+                                                    <select id="activos-filtro-tipo" onchange="filters(this)">
+                                                      <option value="Todos" selected>Todos</option>
                                                       <option value="Auxiliar">Auxiliar</option>
                                                       <option value="Equipo">Equipo</option>
                                                       <option value="Mobiliario">Mobiliario</option>
@@ -142,17 +142,17 @@
                                                     <label>Tipo</label>
                                                 </div>
                                                 <div class="input-field col s12 m3">
-                                                    <select id="activos-filtro-espacio">
+                                                    <select id="activos-filtro-espacio" onchange="filters(this)">
                                                       <option value="Todos" selected>Todos</option>
                                                     </select>
                                                     <label>Espacio</label>
                                                 </div>
                                                 <div class="input-field col s12 m3">
-                                                     <input id="search_activo_codigo" type="text" class="validate">
+                                                     <input id="activos-filtro-codigo" type="text" onchange="filters(this)">
                                                      <label for="search_activo_codigo">Código</label>
                                                 </div>
                                                 <div class="input-field col s12 m3">
-                                                     <input id="search_activo_ci" type="text" class="validate">
+                                                     <input id="activos-filtro-ci" type="text" onchange="filters(this)">
                                                      <label for="search_activo_ci">CI</label>
                                                 </div>
                                             </div>
@@ -229,15 +229,15 @@
                                                 <h4>Espacios</h4>
                                             </div>
                                              <div class="input-field col s3">
-                                                <select>
-                                                  <option value="" selected>Todas</option>
+                                                <select id="espacios-filtro-planta" onchange="filters(this)">
+                                                  <option value="Todos" selected>Todas</option>
                                                   <option value="1" >1° Planta</option>
                                                   <option value="2">2° Planta</option>                                
                                                 </select>
                                                 <label>Planta</label>
                                              </div>
                                             <div class="input-field col s3">
-                                              <input id="last_name" type="text" class="validate">
+                                              <input id="espacios-filtro-codigo" onchange="filters(this)" type="text">
                                               <label for="last_name">Código</label>
                                             </div>
                                         </div>
