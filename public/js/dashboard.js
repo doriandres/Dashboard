@@ -180,7 +180,7 @@ function loadDashboard(w,u){
                                                                       **
                 */
 
-                elm= '<!--Admin Onlys--><!--Actividad GENERAL Panel--><div id="actividadGeneralPanel" class="Panel adminPanel"><div class="row"><!--Menu de la izquierda--><div class="col s12 m3 hide-on-med-and-down"><div class="collection"><a onclick="Activity()" href="#!" class="collection-item active"><i class="material-icons left">timeline</i>Actividad</a></div></div><!--Contenido--><div class="col s12 m8"><div id="actividadGeneral-actividadGeneral" class="UPanel actividadGeneral-actividadGeneral actividadGeneral-uPanel active-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s4"><h4>Actividad</h4></div> <div class="col s8"><div class="input-field col s12 m3">                                                                                  <select id="actividad-filtro-accion" onchange="filters(this)">                                                       <option value="Todos" selected>Todas</option>                                                                  <option value="Creado">Creado</option>                                                                        <option value="Editado">Editado</option>                                                                      <option value="Eliminado">Elimando</option>                                                             </select><label>Acción</label></div>                                                                       <div class="input-field col s12 m3">                                                                                <select id="actividad-filtro-elemento" onchange="filters(this)">                                                      <option value="Todos" selected>Todos</option>                                                                 <option value="Activo">Activos</option>                                                                       <option value="Espacio">Espacios</option>                                                                     <option value="Usuario">Usuarios</option>                                                             </select><label>Elemento</label></div>                                                                  <div class="input-field col s12 m3">                                                                                     <input type="text" id="actividad-filtro-id" onchange="filters(this)">                                         <label for="actividad-filtro-id">Id Actividad</label></div>                                        <div class="input-field col s12 m3">                                                                                     <input type="text" id="actividad-filtro-correo" onchange="filters(this)">                                         <label for="actividad-filtro-correo">Usuario</label></div></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayActivity" class="row"></div></div></div></div></div></div>';
+                elm= '<!--Admin Onlys--><!--Actividad GENERAL Panel--><div id="actividadGeneralPanel" class="Panel adminPanel"><div class="row"><!--Menu de la izquierda--><div class="col s12 m3 hide-on-med-and-down"><div class="collection"><a onclick="Activity()" href="#!" class="collection-item active"><i class="material-icons left">timeline</i>Actividad</a></div></div><!--Contenido--><div class="col s12 m8"><div id="actividadGeneral-actividadGeneral" class="UPanel actividadGeneral-actividadGeneral actividadGeneral-uPanel active-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s4"><h4>Actividad</h4></div> <div class="col s8"><div class="input-field col s12 m3">                                                                                  <select id="actividad-filtro-accion" onchange="filters(this)">                                                       <option value="Todos" selected>Todas</option>                                                                  <option value="Creado">Creado</option>                                                                        <option value="Editado">Editado</option>                                                                      <option value="Eliminado">Elimando</option>                                                             </select><label>Acción</label></div>                                                                       <div class="input-field col s12 m3">                                                                                <select id="actividad-filtro-elemento" onchange="filters(this)">                                                      <option value="Todos" selected>Todos</option>                                                                 <option value="Activo">Activos</option>                                                                       <option value="Espacio">Espacios</option>                                                                     <option value="Usuario">Usuarios</option>                                                             </select><label>Elemento</label></div>                                                                  <div class="input-field col s12 m3">                                                                                     <input type="text" id="actividad-filtro-id" onchange="filters(this)">                                         <label for="actividad-filtro-id">Id Actividad</label></div>                                        <div class="input-field col s12 m3">                                                                                     <input type="text" id="actividad-filtro-correo" onchange="filters(this)">                                         <label for="actividad-filtro-correo">Correo usuario</label></div></div></div></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><div id="displayActivity" class="row"></div></div></div></div></div></div>';
                 $( "#tools" ).append( elm ); 
                
                 elm = '<li><a onclick="display_Panel(this); historySlctds();" class="solicitudes grey-text text-lighten-2" href="#!"><i class="material-icons left">announcement</i>Solicitudes<span id="solicitudes-badge" class="badge white-text">0</span></a></li>';
@@ -258,7 +258,7 @@ function loadDashboard(w,u){
                  
                  
                  
-                 elm = '<!--Usuarios Panel--><div id="usuariosPanel" class=""><div class="row"><!--Menu de la izquierda--><div class="col s12 m3 hide-on-med-and-down"><div class="collection"><a id="ver-usuarios-btn" href="#!" onclick="display_uPanel(this); verUsuarios();" class="usuarios-sideNav ver collection-item active"><i class="material-icons left">people</i>Usuarios</a> </div><div class="collection"><a id="nuevo-usuarios-btn" href="#!" onclick="display_uPanel(this)" class="usuarios-sideNav nuevo collection-item"><i class="material-icons left">add_circle_outline</i>Nuevo Usuario</a><a id="editar-usuarios-btn" href="#!" onclick="display_uPanel(this);nuevoEditarUsuarios(this);" class="usuarios-sideNav editar collection-item"><i class="material-icons left">create</i>Editar Usuarios</a><a id="eliminar-usuarios-btn" href="#!" onclick="eliminar_alert(this)" class="collection-item"><i class="material-icons left">delete_forever</i>Eliminar Usuarios</a></div></div><!--Contenido--><div class="col s12 m8"><!--Usuarios--><div id="ver-usuarios" class="UPanel ver-usuarios usuarios-uPanel active-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s6"><h4>Usuarios</h4></div>                                 <div class="input-field col s3">                                                                                    <select id="usuarios-filtro-tipo" onchange="filters(this)">                                                     <option value="Todos" selected>Todos</option>                                                                  <option value="Administrador">Administrador</option>                                                          <option value="Soporte">Soporte</option>                                                                      <option value="Docente">Docente</option>                                                                      <option value="Estudiante">Estudiante</option>                                                             </select><label>Tipo</label></div>                                                                      <div class="input-field col s3">                                                                                <input id="usuarios-filtro-correo" onchange="filters(this)" type="text">                                                                     <label>Correo Electrónico</label></div></div>                                                  </blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><table class="card bordered striped centered responsive-table"><thead><tr><th><i style="" class="material-icons">indeterminate_check_box</i></th><th>Correo Electrónico</th><th>Nombre</th><th>1° Apellido</th><th>2° Apellido</th><th>Tipo</th></tr></thead><tbody id="displayUsuarios"></tbody></table></div></div><!--NUEVO Usuario--><div id="nuevo-usuarios" class="UPanel nuevo-usuarios usuarios-uPanel"><!--Titulo del UPanel--><blockquote><h4>Nuevo Usuario</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><input id="nuevoUsuario-email" type="email" class="validate"><label for="nuevoUsuario-email">Correo electrónico</label></div><div class="input-field col s12"><input id="nuevoUsuario-nombre" type="text" class="validate"><label for="nuevoUsuario-nombre">Nombre</label></div><div class="input-field col s6"><input id="nuevoUsuario-apellido1" type="text" class="validate"><label for="nuevoUsuario-apellido1">1° Apellido</label></div><div class="input-field col s6"><input id="nuevoUsuario-apellido2" type="text" class="validate"><label for="nuevoUsuario-apellido2">2° Apellido</label></div><div class="input-field col s12"><select id="nuevoUsuario-tipo"><option value="" disabled selected>Elija una opción</option><option value="Administrador">Administrador</option><option value="Soporte">Soporte</option><option value="Docente">Docente</option><option value="Estudiante">Estudiante</option></select><label>Tipo</label></div><div class="input-field col s12"><input id="nuevoUsuario-pass" type="password" class="validate"><label for="nuevoUsuario-pass">Contraseña</label></div><div class="input-field col s12"><input id="nuevoUsuario-cpass" type="password" class="validate"><label for="nuevoUsuario-cpass">Confirmar contraseña</label></div><button onclick="nuevoUsuario()" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div></div></div><!--EDITAR Usuario--><div id="editar-usuarios" class="UPanel editar-usuarios usuarios-uPanel"><!--Titulo del UPanel--><blockquote><h4>Editar Usuarios</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody s12 m8"><div class="card col s12 m9"><ul id="usuarios-editar-tabs-headers" class="tabs tabs-fixed-width"><li class="tab col s3"><a class="active" href="#us-a">email</a></li><li class="tab col s3"><a class="active" href="#us-b">Nuevo</a></li></ul></div><div id="usuarios-editar-tabs"></div></div></div></div></div></div>';
+                 elm = '<!--Usuarios Panel--><div id="usuariosPanel" class=""><div class="row"><!--Menu de la izquierda--><div class="col s12 m3 hide-on-med-and-down"><div class="collection"><a id="ver-usuarios-btn" href="#!" onclick="display_uPanel(this); verUsuarios();" class="usuarios-sideNav ver collection-item active"><i class="material-icons left">people</i>Usuarios</a> </div><div class="collection"><a id="nuevo-usuarios-btn" href="#!" onclick="display_uPanel(this)" class="usuarios-sideNav nuevo collection-item"><i class="material-icons left">add_circle_outline</i>Nuevo Usuario</a><a id="editar-usuarios-btn" href="#!" onclick="display_uPanel(this);nuevoEditarUsuarios(this);" class="usuarios-sideNav editar collection-item"><i class="material-icons left">create</i>Editar Usuarios</a><a id="eliminar-usuarios-btn" href="#!" onclick="eliminar_alert(this)" class="collection-item"><i class="material-icons left">delete_forever</i>Eliminar Usuarios</a></div></div><!--Contenido--><div class="col s12 m8"><!--Usuarios--><div id="ver-usuarios" class="UPanel ver-usuarios usuarios-uPanel active-uPanel"><!--Titulo del UPanel--><blockquote><div class="row"><div class="col s6"><h4>Usuarios</h4></div>                                 <div class="input-field col s3">                                                                                    <select id="usuarios-filtro-tipo" onchange="filters(this)">                                                     <option value="Todos" selected>Todos</option>                                                                  <option value="Administrador">Administrador</option>                                                          <option value="Soporte">Soporte</option>                                                                      <option value="Docente">Docente</option>                                                                      <option value="Estudiante">Estudiante</option>                                                             </select><label>Tipo</label></div>                                                                      <div class="input-field col s3">                                                                                <input id="usuarios-filtro-correo" onchange="filters(this)" type="text">                                                                     <label for="usuarios-filtro-correo">Correo Electrónico</label></div></div>                                                  </blockquote><!--Cuerpo del Upanel--><div class="UpanelBody"><table class="card bordered striped centered responsive-table"><thead><tr><th><i style="" class="material-icons">indeterminate_check_box</i></th><th>Correo Electrónico</th><th>Nombre</th><th>1° Apellido</th><th>2° Apellido</th><th>Tipo</th></tr></thead><tbody id="displayUsuarios"></tbody></table></div></div><!--NUEVO Usuario--><div id="nuevo-usuarios" class="UPanel nuevo-usuarios usuarios-uPanel"><!--Titulo del UPanel--><blockquote><h4>Nuevo Usuario</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody col s12 m9"><div class="card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><input id="nuevoUsuario-email" type="email" class="validate"><label for="nuevoUsuario-email">Correo electrónico</label></div><div class="input-field col s12"><input id="nuevoUsuario-nombre" type="text" class="validate"><label for="nuevoUsuario-nombre">Nombre</label></div><div class="input-field col s6"><input id="nuevoUsuario-apellido1" type="text" class="validate"><label for="nuevoUsuario-apellido1">1° Apellido</label></div><div class="input-field col s6"><input id="nuevoUsuario-apellido2" type="text" class="validate"><label for="nuevoUsuario-apellido2">2° Apellido</label></div><div class="input-field col s12"><select id="nuevoUsuario-tipo"><option value="" disabled selected>Elija una opción</option><option value="Administrador">Administrador</option><option value="Soporte">Soporte</option><option value="Docente">Docente</option><option value="Estudiante">Estudiante</option></select><label>Tipo</label></div><div class="input-field col s12"><input id="nuevoUsuario-pass" type="password" class="validate"><label for="nuevoUsuario-pass">Contraseña</label></div><div class="input-field col s12"><input id="nuevoUsuario-cpass" type="password" class="validate"><label for="nuevoUsuario-cpass">Confirmar contraseña</label></div><button onclick="nuevoUsuario()" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div></div></div><!--EDITAR Usuario--><div id="editar-usuarios" class="UPanel editar-usuarios usuarios-uPanel"><!--Titulo del UPanel--><blockquote><h4>Editar Usuarios</h4></blockquote><!--Cuerpo del Upanel--><div class="UpanelBody s12 m8"><div class="card col s12 m9"><ul id="usuarios-editar-tabs-headers" class="tabs tabs-fixed-width"><li class="tab col s3"><a class="active" href="#us-a">email</a></li><li class="tab col s3"><a class="active" href="#us-b">Nuevo</a></li></ul></div><div id="usuarios-editar-tabs"></div></div></div></div></div></div>';
                   $( "#PanelesTab" ).append( elm );
                  
                  
@@ -590,8 +590,22 @@ function displayEspacios(espacios, b){
     espaciosList = optLista;
     var select=document.getElementById("nuevoActivo-espacio");
     select.innerHTML=optLista;
-   
     $('select').material_select();
+    
+    if (b==true){
+        var filtro_planta=document.getElementById("espacios-filtro-planta").childNodes;
+        for (var i=0; i<filtro_planta.length; i++){
+            if (filtro_planta[i].nodeName=="OPTION"){
+                if (filtro_planta[i].selected==true){
+                    filtro_planta[i].selected=false;
+                }
+            }
+        }
+        filtro_planta[0].selected=true;
+        $('#espacios-filtro-planta').material_select();
+        document.getElementById("espacios-filtro-codigo").value="";//input
+        Materialize.updateTextFields();
+    }
 }
 function get_estadoEspacio(e){var estado="";if (e==true){estado = "Disponible";}else{estado = "Ocupado";}return estado;}
 function get_aireEspacio(e){var estado="";if (e==true){estado = "Sí";}else{estado = "No";}return estado;}
@@ -730,7 +744,6 @@ function displayActivos(activos, b){
         $( "#solicitar-activos-lista" ).append( option );
     }
     $('#solicitar-activos-lista').material_select();
-    
     document.getElementById("displayActivos").innerHTML="";
     var displayActivos="";
     var espacio="";
@@ -754,6 +767,34 @@ function displayActivos(activos, b){
         c++;
     }
     $('.tooltipped').tooltip({delay: 50});
+    
+    if (b==true){
+        var filtro_tipo=document.getElementById("activos-filtro-tipo").childNodes;
+        for (var i=0; i<filtro_tipo.length; i++){
+            if (filtro_tipo[i].nodeName=="OPTION"){
+                if (filtro_tipo[i].selected==true){
+                    filtro_tipo[i].selected=false;
+                }
+            }
+        }
+        filtro_tipo[0].selected=true;
+        $('#activos-filtro-tipo').material_select();
+        
+        
+        var filtro_espacio=document.getElementById("activos-filtro-espacio").childNodes;
+        for (var i=0; i<filtro_espacio.length; i++){
+            if (filtro_espacio[i].nodeName=="OPTION"){
+                if (filtro_espacio[i].selected==true){
+                    filtro_espacio[i].selected=false;
+                }
+            }
+        }
+        filtro_espacio[0].selected=true;
+        $('#activos-filtro-espacio').material_select();
+        document.getElementById("activos-filtro-codigo").value="";//input
+        document.getElementById("activos-filtro-ci").value="";//input
+        Materialize.updateTextFields();
+    }
 }
 // HEAD
 function updateActivos(){
@@ -927,6 +968,20 @@ function displayUsuarios(usuarios, b){
         var display=document.getElementById("displayUsuarios").innerHTML+usuario;
         document.getElementById("displayUsuarios").innerHTML=display;
     }
+    if (b==true){
+        var filtro_tipo=document.getElementById("usuarios-filtro-tipo").childNodes;
+        for (var i=0; i<filtro_tipo.length; i++){
+            if (filtro_tipo[i].nodeName=="OPTION"){
+                if (filtro_tipo[i].selected==true){
+                    filtro_tipo[i].selected=false;
+                }
+            }
+        }
+        filtro_tipo[0].selected=true;
+        $('#usuarios-filtro-tipo').material_select();
+        document.getElementById("usuarios-filtro-correo").value="";//input
+        Materialize.updateTextFields();
+    }
 }
 function cancelar_alert(){document.getElementById("aux_modals").innerHTML="";}
 function eliminar_alert(elm){
@@ -976,7 +1031,14 @@ function eliminarX(id){
     messenger.tipo = id;
     messenger.user=_user.correo;
     for (var i=0; i<checked.length; i++){
-        messenger.elementos.push(checked[i].id);
+        if (checked[i].id==_user.id){
+            $('#loading').modal('close');
+            var $toastContent = $('<span><i class="material-icons left">error</i> Error fatal no es posible completar está acción</span>');
+            Materialize.toast($toastContent, 5000, "red");
+            $('#loading').modal('open');
+        }else{
+            messenger.elementos.push(checked[i].id); 
+        }
     }
     var item="";
     if (id=="activos"){
@@ -987,44 +1049,49 @@ function eliminarX(id){
     }
     if (id=="usuarios"){
         item="Usuarios";
+        
     }
-    $.ajax({
-        type: "POST",
-        url: ruta+"/eliminar"+item,
-        dataType: "json",   
-        data: JSON.stringify(messenger),
-        timeout: 5000,
-        success: function(res){
-            $('#loading').modal('close');
-            if (res.resultado=="ok"){
-                if (res.tipo=="Activo"){
-                    verActivos();
+    if (messenger.elementos.length>0){
+        $.ajax({
+            type: "POST",
+            url: ruta+"/eliminar"+item,
+            dataType: "json",   
+            data: JSON.stringify(messenger),
+            timeout: 5000,
+            success: function(res){
+                $('#loading').modal('close');
+                if (res.resultado=="ok"){
+                    if (res.tipo=="Activo"){
+                        verActivos();
+                    }
+                    if (res.tipo=="Espacio"){
+                        verEspacios();
+                    }
+                    if (res.tipo=="Usuario"){
+                        verUsuarios();
+                    }
+                    var mensaje="";
+                    var plural="";
+                    if (res.elementos>1){
+                        plural="s";
+                    }
+                    mensaje='<span><i class="material-icons left">check</i> '+res.tipo+plural+' Eliminado'+plural+'<span>';
+                    var $toastContent = $(mensaje);
+                    Materialize.toast($toastContent, 5000, "green");
+                }else{
+                    var $toastContent = $('<span><i class="material-icons left">error</i> Error de conexión intente más     tarde</span>');
+                    Materialize.toast($toastContent, 5000, "red");
                 }
-                if (res.tipo=="Espacio"){
-                    verEspacios();
-                }
-                if (res.tipo=="Usuario"){
-                    verUsuarios();
-                }
-                var mensaje="";
-                var plural="";
-                if (res.elementos>1){
-                    plural="s";
-                }
-                mensaje='<span><i class="material-icons left">check</i> '+res.tipo+plural+' Eliminado'+plural+'<span>';
-                var $toastContent = $(mensaje);
-                Materialize.toast($toastContent, 5000, "green");
-            }else{
-                var $toastContent = $('<span><i class="material-icons left">error</i> Error de conexión intente más     tarde</span>');
+            },
+            error: function(){
+                $('#loading').modal('close');
+                var $toastContent = $('<span><i class="material-icons left">error</i> Error de conexión</span>');
                 Materialize.toast($toastContent, 5000, "red");
             }
-        },
-        error: function(){
-            $('#loading').modal('close');
-            var $toastContent = $('<span><i class="material-icons left">error</i> Error de conexión</span>');
-            Materialize.toast($toastContent, 5000, "red");
-        }
-    });
+        });
+    }else{
+          $('#loading').modal('close');  
+    }
 }
 function nuevoEditarActivos(elm){
     document.getElementById("activos-editar-tabs-headers").innerHTML="";
@@ -2371,6 +2438,32 @@ function displayMyActivity(actividad, b){
         var display='<div class="col s12"><div class="card"><!--ID y CHECK--><div style="padding-top:0px; padding-bottom:0px; padding-left:10px; padding-right:0px;" class="card-action grey lighten-2"><div class="row" style="margin-bottom:0px;"><div class="col s12"><p style="margin-bottom:10px;"><i style="margin-right:10px;" class="material-icons left">timeline</i>'+actividad[i]._id+'</p></div></div></div><!--Titulo y Estado--><div style="padding-top:0px; padding-bottom:0px; margin-bottom:0px; padding-left:10px; padding-right:15px;" class="card-action row"><div class="col s9"><h5><i style="margin-right:10px; cursor:pointer;" class="material-icons left">'+mainIcon+'</i>'+actividad[i].categoria+'</h5><p><i style="margin-right:5px;" class="material-icons left">'+secondIcon+'</i>'+actividad[i].tipo+'</p></div><div class="col s3"><p><i style="margin-right:10px; cursor:pointer;" class="material-icons left">date_range</i>'+actividad[i].fecha+'</p></div></div><!--Descripción--><div style="padding-top:5px; padding-bottom:10px; padding-left:15px; padding-right:15px;" class="card-action">'+table+'</div></div></div>';
         $( "#displayMyActivity" ).append( display );
     }
+    if (b==true){
+        var filtro_accion=document.getElementById("myActividad-filtro-accion").childNodes;
+        for (var i=0; i<filtro_accion.length; i++){
+            if (filtro_accion[i].nodeName=="OPTION"){
+                if (filtro_accion[i].selected==true){
+                    filtro_accion[i].selected=false;
+                }
+            }
+        }
+        filtro_accion[0].selected=true;
+        $('#myActividad-filtro-accion').material_select();
+        
+        var filtro_elemento=document.getElementById("myActividad-filtro-elemento").childNodes;
+        for (var i=0; i<filtro_elemento.length; i++){
+            if (filtro_elemento[i].nodeName=="OPTION"){
+                if (filtro_elemento[i].selected==true){
+                    filtro_elemento[i].selected=false;
+                }
+            }
+        }
+        filtro_elemento[0].selected=true;
+        $('#myActividad-filtro-elemento').material_select();
+        
+        document.getElementById("myActividad-filtro-id").value="";//input
+        Materialize.updateTextFields();
+    }
 }
 function verAgenda(id, codigo){
     document.getElementById("displayAgenda").innerHTML="";
@@ -2502,6 +2595,33 @@ function displayActivity(actividad, b){
         table+=tbody+"</table>";
         var display='<div class="col s12"><div class="card"><!--ID y CHECK--><div style="padding-top:0px; padding-bottom:0px; padding-left:10px; padding-right:0px;" class="card-action grey lighten-2"><div class="row" style="margin-bottom:0px;"><div class="col s12"><p style="margin-bottom:10px;"><i style="margin-right:10px;" class="material-icons left">timeline</i>'+actividad[i]._id+'</p></div></div></div><!--Titulo y Estado--><div style="padding-top:0px; padding-bottom:0px; margin-bottom:0px; padding-left:10px; padding-right:15px;" class="card-action row"><div class="col s9"><h5><i style="margin-right:10px; cursor:pointer;" class="material-icons left">'+mainIcon+'</i>'+actividad[i].categoria+'</h5><p><i style="margin-right:5px;" class="material-icons left">person</i>'+userName+'</p><p><i style="margin-right:5px;" class="material-icons left">'+secondIcon+'</i>'+actividad[i].tipo+'</p></div><div class="col s3"><p><i style="margin-right:10px; cursor:pointer;" class="material-icons left">date_range</i>'+actividad[i].fecha+'</p></div></div><!--Descripción--><div style="padding-top:5px; padding-bottom:10px; padding-left:15px; padding-right:15px;" class="card-action">'+table+'</div></div></div>';
         $( "#displayActivity" ).append( display );
+    }
+    if (b==true){
+        var filtro_accion=document.getElementById("actividad-filtro-accion").childNodes;
+        for (var i=0; i<filtro_accion.length; i++){
+            if (filtro_accion[i].nodeName=="OPTION"){
+                if (filtro_accion[i].selected==true){
+                    filtro_accion[i].selected=false;
+                }
+            }
+        }
+        filtro_accion[0].selected=true;
+        $('#actividad-filtro-accion').material_select();
+        
+        var filtro_elemento=document.getElementById("actividad-filtro-elemento").childNodes;
+        for (var i=0; i<filtro_elemento.length; i++){
+            if (filtro_elemento[i].nodeName=="OPTION"){
+                if (filtro_elemento[i].selected==true){
+                    filtro_elemento[i].selected=false;
+                }
+            }
+        }
+        filtro_elemento[0].selected=true;
+        $('#actividad-filtro-elemento').material_select();
+        
+        document.getElementById("actividad-filtro-id").value="";//input
+        document.getElementById("actividad-filtro-correo").value="";//input
+        Materialize.updateTextFields();
     }
 }
 function myHistorySolicitudes(){

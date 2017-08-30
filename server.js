@@ -127,6 +127,7 @@ app.post("/_", function(req, res){
             }else{
                 respuesta.resultado=true;
                 respuesta.u={
+                  id: results._id,
                   correo : results.correo,
                   nombre : results.nombre,
                   primer_apellido : results.primer_apellido,
