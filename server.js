@@ -439,6 +439,94 @@ app.post("/editarActivo", function(req, res){
         });    
     }); 
 });
+app.post("/editarUsuario", function(req, res){
+    var store = {};var binario;var datos;  
+    req.on('data', function(data){store = data;binario=(store.toString('utf8'));datos=JSON.parse(binario);});
+    req.on('end', function(){ 
+        Usuario.findOne({ 'correo': datos.id, 'contrasena' : datos.contrasena }, function(err, predoc){
+            if (predoc!=null){
+                if (datos.ncontrasena==""){
+                   
+                    Usuario.update({ 'correo': datos.id }, 
+                                  { $set: { 
+                                      'nombre': datos.nombre,
+                                      'primer_apellido':datos.primer_apellido,
+                                      'segundo_apellido':datos.segundo_apellido,
+                                      'tipo':datos.tipo
+                                    }
+                                  }, 
+                    function(err){
+                       var respuesta=new Object(); 
+                        if (err){
+                            respuesta.resultado="error";
+                             res.setHeader("Content-Type", "text/json", "Access-Control-Allow-Origin", "*");
+                             res.send(respuesta);
+                             res.end();
+                        }else{
+                            Usuario.findOne({ 'correo': datos.id }, function(err, doc){
+                                respuesta.id=doc._id;
+                                if (err){
+                                    respuesta.resultado="error";
+                                }else{
+                                    respuesta.resultado="ok";
+                                    var arr=new Array();
+                                    arr[0]= doc;
+                                    arr[1]= predoc;
+                                    newActivity('Usuario', 'Editado', datos.user, arr);
+                                }
+                                res.setHeader("Content-Type", "text/json", "Access-Control-Allow-Origin", "*");
+                                res.send(respuesta);
+                                res.end();
+                            });
+                        }
+                    });
+                }else{
+                   
+                    Usuario.update({ 'correo': datos.id }, 
+                                  { $set: { 
+                                      'nombre': datos.nombre,
+                                      'primer_apellido':datos.primer_apellido,
+                                      'segundo_apellido':datos.segundo_apellido,
+                                      'tipo':datos.tipo,
+                                      'contrasena':datos.ncontrasena
+                                    }
+                                  }, 
+                    function(err){
+                       var respuesta=new Object(); 
+                        if (err){
+                            respuesta.resultado="error";
+                             res.setHeader("Content-Type", "text/json", "Access-Control-Allow-Origin", "*");
+                             res.send(respuesta);
+                             res.end();
+                        }else{
+                            Usuario.findOne({ 'correo': datos.id }, function(err, doc){
+                                respuesta.id=doc._id;
+                                if (err){
+                                    respuesta.resultado="error";
+                                }else{
+                                    respuesta.resultado="ok";
+                                    var arr=new Array();
+                                    arr[0]= doc;
+                                    arr[1]= predoc;
+                                    newActivity('Usuario', 'Editado', datos.user, arr);
+                                }
+                                res.setHeader("Content-Type", "text/json", "Access-Control-Allow-Origin", "*");
+                                res.send(respuesta);
+                                res.end();
+                            });
+                        }
+                    });
+                } 
+            }else{
+              var respuesta=new Object();
+              respuesta.resultado="ec";
+              res.setHeader("Content-Type", "text/json", "Access-Control-Allow-Origin", "*");
+              res.send(respuesta);
+              res.end(); 
+            }    
+        });    
+    }); 
+});
 app.post("/eliminarActivos", function(req, res){
     var store = {};var binario;var datos;  
     req.on('data', function(data){store = data;binario=(store.toString('utf8'));datos=JSON.parse(binario);});

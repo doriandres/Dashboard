@@ -1070,58 +1070,145 @@ function editarElemento(item, tipo){
             messenger.descripcion=document.getElementById('activos-editar-'+id+'-descripcion').value;
             messenger.espacio=document.getElementById('activos-editar-'+id+'-espacio').value;
             messenger.user=_user.correo;
-            $.ajax({
-                type: "POST",
-                url: ruta+"/editarActivo",
-                dataType: "json",   
-                data: JSON.stringify(messenger),
-                timeout: 5000,
-                success: function(res){
-                   $('#loading').modal('close');
-                   if (res.resultado=="ok"){
-                        editClose({id:"a-"+res.id}, "activos")
-                        var $toastContent = $('<span><i class="material-icons left">check</i> Activo Editado<span>');
-                        Materialize.toast($toastContent, 5000, "green"); 
-                   }else{
-                       var $toastContent = $('<span><i class="material-icons left">error</i> Error de conexión intente más tarde</span>');
-                       Materialize.toast($toastContent, 5000, "red");
-                   }
-                },
-                error: function(){
-                   $('#loading').modal('close');
-                   var $toastContent = $('<span><i class="material-icons left">error</i> Error de conexión</span>');
-                   Materialize.toast($toastContent, 5000, "red");
+            var keys = [];
+            for(var k in messenger) keys.push(k);
+            var valid= true;
+            for (i = 0; i< keys.length; i++){
+                if (messenger[keys[i]]==""){
+                     valid=false;
                 }
-            });
+            }            
+            if ( valid==true){
+                $.ajax({
+                    type: "POST",
+                    url: ruta+"/editarActivo",
+                    dataType: "json",   
+                    data: JSON.stringify(messenger),
+                    timeout: 5000,
+                    success: function(res){
+                       $('#loading').modal('close');
+                       if (res.resultado=="ok"){
+                            editClose({id:"a-"+res.id}, "activos");
+                            var $toastContent = $('<span><i class="material-icons left">check</i> Activo Editado<span>');
+                            Materialize.toast($toastContent, 5000, "green"); 
+                       }else{
+                           var $toastContent = $('<span><i class="material-icons left">error</i> Error de conexión intente más tarde</span>');
+                           Materialize.toast($toastContent, 5000, "red");
+                       }
+                    },
+                    error: function(){
+                       $('#loading').modal('close');
+                       var $toastContent = $('<span><i class="material-icons left">error</i> Error de conexión</span>');
+                       Materialize.toast($toastContent, 5000, "red");
+                    }
+                });
+            }else{
+                $('#loading').modal('close');
+                var $toastContent = $('<span><i class="material-icons left">warning</i> Debe llenar todos los campos</span>');
+                Materialize.toast($toastContent, 5000, "orange");
+            }
+            
         break;
         case "espacios":
             messenger.descripcion=document.getElementById('espacios-editar-'+id+'-descripcion').value;
             messenger.planta=document.getElementById('espacios-editar-'+id+'-planta').value;   
             messenger.aireAcondicionado = document.getElementById('espacios-editar-'+id+'-aire').checked;
             messenger.user=_user.correo;
-            $.ajax({
-                type: "POST",
-                url: ruta+"/editarEspacio",
-                dataType: "json",   
-                data: JSON.stringify(messenger),
-                timeout: 5000,
-                success: function(res){
-                   $('#loading').modal('close');
-                   if (res.resultado=="ok"){
-                        editClose({id:"e-"+res.id}, "espacios");
-                        var $toastContent = $('<span><i class="material-icons left">check</i> Espacio Editado<span>');
-                        Materialize.toast($toastContent, 5000, "green"); 
-                   }else{
-                       var $toastContent = $('<span><i class="material-icons left">error</i> Error de conexión intente más tarde</span>');
-                       Materialize.toast($toastContent, 5000, "red");
-                   }
-                },
-                error: function(){
-                   $('#loading').modal('close');
-                   var $toastContent = $('<span><i class="material-icons left">error</i> Error de conexión</span>');
-                   Materialize.toast($toastContent, 5000, "red");
+            var keys = [];
+            for(var k in messenger) keys.push(k);
+            var valid= true;
+            for (i = 0; i< keys.length; i++){
+                if (keys[i]!="aireAcondicionado"){   
+                    if (messenger[keys[i]]==""){
+                         valid=false;
+                    }
                 }
-            });
+            }            
+            if ( valid==true){
+                $.ajax({
+                    type: "POST",
+                    url: ruta+"/editarEspacio",
+                    dataType: "json",   
+                    data: JSON.stringify(messenger),
+                    timeout: 5000,
+                    success: function(res){
+                       $('#loading').modal('close');
+                       if (res.resultado=="ok"){
+                            editClose({id:"e-"+res.id}, "espacios");
+                            var $toastContent = $('<span><i class="material-icons left">check</i> Espacio Editado<span>');
+                            Materialize.toast($toastContent, 5000, "green"); 
+                       }else{
+                           var $toastContent = $('<span><i class="material-icons left">error</i> Error de conexión intente más tarde</span>');
+                           Materialize.toast($toastContent, 5000, "red");
+                       }
+                    },
+                    error: function(){
+                       $('#loading').modal('close');
+                       var $toastContent = $('<span><i class="material-icons left">error</i> Error de conexión</span>');
+                       Materialize.toast($toastContent, 5000, "red");
+                    }
+                });
+            }else{
+                $('#loading').modal('close');
+                var $toastContent = $('<span><i class="material-icons left">warning</i> Debe llenar todos los campos</span>');
+                Materialize.toast($toastContent, 5000, "orange"); 
+            }
+            
+        break;
+         case "usuarios":
+            messenger.nombre=document.getElementById('usuarios-editar-'+id+'-nombre').value;
+            messenger.primer_apellido=document.getElementById('usuarios-editar-'+id+'-apellido1').value;
+            messenger.segundo_apellido=document.getElementById('usuarios-editar-'+id+'-apellido2').value;
+            messenger.contrasena=document.getElementById('usuarios-editar-'+id+'-pass').value;
+            messenger.ncontrasena=document.getElementById('usuarios-editar-'+id+'-npass').value;
+            messenger.user=_user.correo;
+            messenger.tipo=document.getElementById('usuarios-editar-'+id+'-tipo').value;
+            
+            var keys = [];
+            for(var k in messenger) keys.push(k);
+            var valid= true;
+            for (i = 0; i< keys.length; i++){
+                if (messenger[keys[i]]==""){
+                    if (keys[i]!="ncontrasena"){
+                        valid=false;
+                    }
+                }
+            }            
+            if ( valid==true){
+                $.ajax({
+                    type: "POST",
+                    url: ruta+"/editarUsuario",
+                    dataType: "json",   
+                    data: JSON.stringify(messenger),
+                    timeout: 5000,
+                    success: function(res){
+                       $('#loading').modal('close');
+                       if (res.resultado=="ok"){
+                            editClose({id:"u-"+res.id}, "usuarios");
+                            var $toastContent = $('<span><i class="material-icons left">check</i> Usuario Editado<span>');
+                            Materialize.toast($toastContent, 5000, "green"); 
+                       }else{
+                           if (res.resultado=="ec"){
+                               var $toastContent = $('<span><i class="material-icons left">warning</i> Contraseña incorrecta</span>');
+                               Materialize.toast($toastContent, 5000, "orange");
+                           }else{
+                                var $toastContent = $('<span><i class="material-icons left">error</i> Error de conexión intente más tarde</span>');
+                                Materialize.toast($toastContent, 5000, "red");   
+                           }
+                       }
+                    },
+                    error: function(){
+                       $('#loading').modal('close');
+                       var $toastContent = $('<span><i class="material-icons left">error</i> Error de conexión</span>');
+                       Materialize.toast($toastContent, 5000, "red");
+                    }
+                });
+            }else{
+               $('#loading').modal('close');
+               var $toastContent = $('<span><i class="material-icons left">warning</i> Debe llenar todos los campos</span>');
+               Materialize.toast($toastContent, 5000, "orange"); 
+            }
+            
         break;
     }
 }
@@ -1143,7 +1230,7 @@ function nuevoEditarUsuarios(elm){
     }
     var tab_header= '<li class="tab col s3"><a class="'+active+'" href="#usuarios-editar-nuevo">Nuevo</a>';    
     $( "#usuarios-editar-tabs-headers" ).append( tab_header );
-    var tab_body='<div id="usuarios-editar-nuevo" class="col s12 m9 card"><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><input id="usuarios-editar-nuevo-correo" type="email" class="validate"><label for="usuarios-editar-nuevo-correo">Correo electrónico</label></div><div class="input-field col s12"><input id="usuarios-editar-nuevo-nombre" type="text" class="validate"><label for="usuarios-editar-nuevo-nombre">Nombre</label></div><div class="input-field col s6"><input id="usuarios-editar-nuevo-apellido1" type="text" class="validate"><label for="usuarios-editar-nuevo-apellido1">1° Apellido</label></div><div class="input-field col s6"><input id="usuarios-editar-nuevo-apellido2" type="text" class="validate"><label for="usuarios-editar-nuevo-apellido2">2° Apellido</label></div><div class="input-field col s12"><input id="usuarios-editar-nuevo-pass" type="password" class="validate"><label for="usuarios-editar-nuevo-pass">Contraseña Actual</label></div><div class="input-field col s12"><input id="usuarios-editar-nuevo-npass" type="password" class="validate"><label for="usuarios-editar-nuevo-npass">Contraseña Nueva</label></div><button id="usuarios-editar-nuevo-btn" onclick=" FUNCION " class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div>';
+    var tab_body='<div id="usuarios-editar-nuevo" class="col s12 m9 card"><div style="padding-bottom:30px;" class="container"><br><div><h5 class="center-align">Seleccione usuarios para editar</h5></div></div></div>';
     $( "#usuarios-editar-tabs" ).append( tab_body );
     if (checked.length>0){
         var nombreValue="";
@@ -1163,11 +1250,18 @@ function nuevoEditarUsuarios(elm){
                    nombreValue = _usuarios[u].nombre;
                    apellido1Value = _usuarios[u].primer_apellido;
                    apellido2Value= _usuarios[u].segundo_apellido;
+                   tipoValue = _usuarios[u].tipo;
                 }
             }
+            var type=new Object();
+            type.Administrador="";
+            type.Soporte="";
+            type.Docente="";
+            type.Estudiante="";
+            type[tipoValue]="selected";
             tab_header='<li class="tab col s3"><a class="'+active+'" href="#usuarios-editar-'+idValue+'">'+correoValue+'</a>';
            $( "#usuarios-editar-tabs-headers" ).append( tab_header );
-            tab_body='<div id="usuarios-editar-'+idValue+'" class="col s12 m9 card"><i onclick="editClose(this, '+"'usuarios'"+')" id="editX-'+idValue+'" style="margin-top:15px; cursor:pointer;" class="material-icons right">clear</i><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><input value="'+nombreValue+'" id="usuarios-editar-'+idValue+'-nombre" type="text" class="validate"><label for="usuarios-editar-'+idValue+'-nombre">Nombre</label></div><div class="input-field col s6"><input value="'+apellido1Value+'" id="usuarios-editar-'+idValue+'-apellido1" type="text" class="validate"><label for="usuarios-editar-'+idValue+'-apellido1">1° Apellido</label></div><div class="input-field col s6"><input value="'+apellido2Value+'" id="usuarios-editar-'+idValue+'-apellido2" type="text" class="validate"><label for="usuarios-editar-'+idValue+'-apellido2">2° Apellido</label></div><div class="input-field col s12"><input id="usuarios-editar-'+idValue+'-pass" type="password" class="validate"><label for="usuarios-editar-'+idValue+'-pass">Contraseña Actual</label></div><div class="input-field col s12"><input id="usuarios-editar-'+idValue+'-npass" type="password" class="validate"><label for="usuarios-editar-'+idValue+'-npass">Contraseña Nueva</label></div><button name="'+correoValue+'" id="usuarios-editar-'+idValue+'-btn" onclick=" FUNCION " class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div>';
+            tab_body='<div id="usuarios-editar-'+idValue+'" class="col s12 m9 card"><i onclick="editClose(this, '+"'usuarios'"+')" id="editX-'+idValue+'" style="margin-top:15px; cursor:pointer;" class="material-icons right">clear</i><div style="padding-bottom:30px;" class="container"><br><div class="input-field col s12"><input value="'+nombreValue+'" id="usuarios-editar-'+idValue+'-nombre" type="text" class="validate"><label for="usuarios-editar-'+idValue+'-nombre">Nombre</label></div><div class="input-field col s6"><input value="'+apellido1Value+'" id="usuarios-editar-'+idValue+'-apellido1" type="text" class="validate"><label for="usuarios-editar-'+idValue+'-apellido1">1° Apellido</label></div><div class="input-field col s6"><input value="'+apellido2Value+'" id="usuarios-editar-'+idValue+'-apellido2" type="text" class="validate"><label for="usuarios-editar-'+idValue+'-apellido2">2° Apellido</label></div><div class="input-field col s12"><select id="usuarios-editar-'+idValue+'-tipo"><option value="" disabled>Elija una opción</option><option value="Administrador" '+type.Administrador+'>Administrador</option><option value="Soporte" '+type.Soporte+'>Soporte</option><option value="Docente" '+type.Docente+'> Docente</option><option value="Estudiante" '+ type.Estudiante+'>Estudiante</option></select><label>Tipo</label></div><div class="input-field col s6"><input id="usuarios-editar-'+idValue+'-pass" type="password" class="validate"><label for="usuarios-editar-'+idValue+'-pass">Contraseña</label></div><div class="input-field col s6"><input id="usuarios-editar-'+idValue+'-npass" type="password" class="validate"><label for="usuarios-editar-'+idValue+'-npass">Contraseña nueva <small>(Opcional)</small></label></div><button name="'+correoValue+'" id="usuarios-editar-'+idValue+'-btn" onclick="editarElemento(this,'+"'usuarios'"+')" class="btn waves-effect blue darken-2" type="button"><i style="margin-right:5px;" class="material-icons left">save</i>Guardar</button></div></div>';
             $( "#usuarios-editar-tabs" ).append( tab_body );
         }   
     }
