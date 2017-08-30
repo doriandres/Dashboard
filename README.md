@@ -1,5 +1,5 @@
 # TICs Dashboard
------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 **Pendientes**
 
 - [ ] Filtros -> Chito 
@@ -11,8 +11,8 @@
 
 **Colaboradores**
 
--  @[Dorian A. Cortés](https://github.com/doriandres)
--  @[Jorge A. Vargas](https://github.com/rikumax25)
+-  @doriandres [Dorian A. Cortés](https://github.com/doriandres)
+-  @rikumax25 [Jorge A. Vargas](https://github.com/rikumax25)
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
