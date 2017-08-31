@@ -30,44 +30,7 @@
                 <div class="nav-wrapper">
                 <!-- Side Nav -->    
                   <ul id="slide-out" class="side-nav">
-                    <li>
-                      <div class="user-view">
-                          <div class="background">
-                            <img width="300px" src="img/logoblack.png">
-                          </div>
-                      </div>
-                    </li>
-                    <li class="no-padding">
-                        <ul class="collapsible collapsible-accordion">
-                          <li>
-                            <a class="collapsible-header">Dorian Cortés Gonzalez<i class="material-icons">account_circle</i><i class="material-icons right">arrow_drop_down</i></a>
-                            <div class="collapsible-body">
-                              <ul>
-                                <li>
-                                    <a onclick="display_Panel(this)" class="actividad" href="#!">
-                                        <i class="material-icons left">timeline</i> Mi Actividad
-                                    </a>
-                                </li>
-                                <li>
-                                    <a onclick="display_Panel(this)" class="actividad configuraciones" href="#!">
-                                        <i class="material-icons left">settings</i> Configuraciónes
-                                    </a>  
-                                </li>
-                                <li>
-                                    <a href="#!">
-                                        <i class="material-icons left">exit_to_app</i> Cerrar sesión
-                                    </a>  
-                                </li>
-                                <li class="divider"></li>
-                              </ul>
-                            </div>
-                          </li>
-                        </ul>
-                    </li>
-                    <li><a href="#!"><i class="material-icons">announcement</i>Solicitudes<span class="badge gray-text">4</span></a></li>
-                    <li><a href="#!"><i class="material-icons">timeline</i>Actividad</a></li>
-                    <li><div class="divider"></div></li>
-                    <li><a class="subheader">Opciones</a></li>
+                    
                   </ul>
                   <a href="#" data-activates="slide-out" class="button-collapse">
                       <i class="material-icons">menu</i>
@@ -115,7 +78,7 @@
                 <div id="activosPanel" class="">
                         <div class="row">
                             <!-- Menu de la izquierda -->
-                            <div id="activosSideMenu" class="col s12 m3 hide-on-med-and-down">
+                            <div id="activosSideMenu" class="col s12 m3 ">
                                     <div class="collection">
                                         <a id="ver-activos-btn" href="#!" onclick="display_uPanel(this); verActivos();" class="activos-sideNav ver collection-item active"><i class="material-icons left">dashboard</i> Activos</a>
                                         <a id="solicitar-activos-btn" href="#!" onclick="display_uPanel(this)" class="activos-sideNav solicitar collection-item"><i class="material-icons left">announcement</i> Solicitar Activos</a>
@@ -130,6 +93,7 @@
                                         <div class="row">
                                             <div class="col s4">
                                                 <h4>Activos</h4>
+                                                <span id="boton_imprimir" style="display:none;" onclick="fnExcelReport()" style="cursor:pointer;"><i class="material-icons tooltipped" data-position="right" data-delay="50" data-tooltip="Descargar inventario">print</i></span>
                                             </div>
                                             <div class="col s8">
                                                 <div class="input-field col s12 m3">
@@ -212,7 +176,7 @@
                 <div id="espaciosPanel" class="">
                         <div class="row">
                             <!-- Menu de la izquierda -->
-                            <div id="espaciosSideMenu" class="col s12 m3 hide-on-med-and-down">
+                            <div id="espaciosSideMenu" class="col s12 m3 ">
                                 <div class="collection">
                                     <a id="ver-espacios-btn" href="#!" onclick="display_uPanel(this); verEspacios();" class="espacios-sideNav ver collection-item active"><i class="material-icons left">place</i> Espacios</a>
                                     <a id="solicitar-espacios-btn" href="#!" onclick="display_uPanel(this)" class="espacios-sideNav solicitar collection-item"><i class="material-icons left">announcement</i> Solicitar Espacios</a>
@@ -301,7 +265,7 @@
                 <div id="soportePanel" class="">
                         <div class="row">
                             <!-- Menu de la izquierda -->
-                            <div class="col s12 m3 hide-on-med-and-down">
+                            <div class="col s12 m3 ">
                                 <div class="collection">
                                     <a href="#!" class="collection-item active"><i class="material-icons left">announcement</i> Solicitar Soporte</a>
                                 </div>
@@ -450,6 +414,22 @@
                 <div class="modal-footer">
                   <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">Cerrar</a>
                 </div>
+            </div>
+            <div style="display:none;">
+                <table id="inventario">
+                    <thead>
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Codigo Institucional</th>
+                            <th>Tipo</th>
+                            <th>Descripcion</th>
+                            <th>Espacio</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventarioBody">
+                        
+                    </tbody>
+                </table>
             </div>
             
         </main>

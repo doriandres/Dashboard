@@ -4,8 +4,38 @@ var mongoose= require("mongoose"); //Mongoose se de las conexiones con la base d
 var dotenv = require('dotenv');//Permite leer datos sensibles desde el archivo .env, estos se leen desde el objeto process.env
 dotenv.load();
 //Aun no voy a usar estos
-//var nodemailer = require('nodemailer');//NodeMailer se encarga del envio de correos electronicos
-//var xoauth2 = require('xoauth2'); //XOAuth2 se encarga de las credenciales del servicio de la api de Gmail
+var nodemailer = require('nodemailer');//NodeMailer se encarga del envio de correos electronicos
+var xoauth2 = require('xoauth2'); //XOAuth2 se encarga de las credenciales del servicio de la api de Gmail
+
+var transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+                type: 'OAuth2',
+                user: 'ticsdashboard@gmail.com',
+                clientId: '486115464812-grlhc2eu9ngvbfnkd2aehk045irok168.apps.googleusercontent.com',
+                clientSecret: 'oihPbg4LiejI_rOUojQO4iIi',
+                refreshToken: '1/ztudaEcsp3NtnyNrQGdCxB09vnxb0Ltnvd55TNRAFuU'
+              }
+})
+
+function send_email(correo, contrasena){
+    var mailOptions = {
+        from: 'TICs Dashboard <ticsdashboard@gmail.com>',
+        to: correo,
+        subject: 'Bienvenido a TICs Dashboard',
+        text: 'El equipo de TICs Dashboard le da la bienvenida',
+        html: '<h3>El equipo de TICs Dashboard le da la bienvenida</h3>'+'<p>Su cuenta ha sido registrada exitosamente.<p><p>Utilice la siguiente contraseña para acceder a su cuenta <b>'+contrasena+'</b></p><p>Recuerde que puede cambiar la contraseña cuando lo desee.<p>'
+    }
+    transporter.sendMail(mailOptions, function (err, res) {
+        if(err){
+            console.log(err);
+        }else{
+            console.log("email sent");
+        }
+    })
+}
+
+
 //Creacion del servidor
 var app = new express();
 
@@ -150,10 +180,15 @@ app.post("/nuevoUsuario", function(req, res){
             respuesta.resultado="";
             if (results==null){
                 var usuarioData =  new Usuario(datos);
-                usuarioData.save(function(err){
+                usuarioData.save(function(err, doc){
                     respuesta.resultado="ok";    
                     if (err){
                         respuesta.resultado="errB";  
+                    }else{
+                        var arr=new Array();
+                        arr[0]= doc;
+                        newActivity('Usuario', 'Creado', datos.user, arr);
+                        send_email(doc.correo, doc.contrasena);
                     }
                     res.setHeader("Content-Type", "text/json", "Access-Control-Allow-Origin", "*");
                     res.send(respuesta);
@@ -195,18 +230,26 @@ app.post("/eliminarUsuarios", function(req, res){
     var store = {};var binario;var datos;  
     req.on('data', function(data){store = data;binario=(store.toString('utf8'));datos=JSON.parse(binario);});
     req.on('end', function(){
-        Usuario.remove({_id:{ $in: datos.elementos }}, function(err){
-            var respuesta=new Object();
-            respuesta.resultado="ok";
-            if (err){
-                respuesta.resultado="err";
-            }
-            respuesta.elementos=datos.elementos.length;
-            respuesta.tipo="Usuario";
-            res.setHeader("Content-Type", "text/json", "Access-Control-Allow-Origin", "*");
-            res.send(respuesta);
-            res.end();
-        });
+        Usuario.find({_id:{ $in: datos.elementos }}, function(err, docs){
+            Usuario.remove({_id:{ $in: datos.elementos }}, function(err){
+                var respuesta=new Object();
+                respuesta.resultado="ok";
+                if (err){
+                    respuesta.resultado="err";
+                }else{
+                    var doc=new Object();
+                    doc.deletedList=docs;
+                    var arr=new Array();
+                    arr[0]= doc;
+                    newActivity('Usuario', 'Eliminado', datos.user, arr);
+                }
+                respuesta.elementos=datos.elementos.length;
+                respuesta.tipo="Usuario";
+                res.setHeader("Content-Type", "text/json", "Access-Control-Allow-Origin", "*");
+                res.send(respuesta);
+                res.end();
+            });
+         });    
     });
 });
 //espacios
